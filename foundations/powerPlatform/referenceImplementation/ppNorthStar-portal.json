@@ -255,7 +255,7 @@
                             "constraints": {
                                 "required": false
                             },
-                            "visible": "[not(equals(steps('gov').ppTenantIsolationSetting, 'none'))]"
+                            "visible": false
                         },
                         {
                             "name": "tenantGuestsAndSharing",
