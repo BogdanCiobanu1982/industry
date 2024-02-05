@@ -613,6 +613,7 @@
                 {
                     "name": "mgmt",
                     "label": "Management and Monitoring",		    
+		    "visible": false,
                     "elements": [
                         {
                             "name": "infoBox1",
