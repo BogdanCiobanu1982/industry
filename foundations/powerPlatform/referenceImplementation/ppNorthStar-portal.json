@@ -4492,7 +4492,7 @@
                             "placeholder": "",
                             "defaultValue": "",
                             "toolTip": "",
-                            "visible": false
+                            "visible": false,
                             "constraints": {
                                 "allowedValues": [
                                     {
