@@ -4645,7 +4645,7 @@
 			    "label": "Install D365 Apps",
 			    "defaultValue": "No",
 			    "multiSelect": false,
-			    "toolTip": "If 'Yes' is selected, the setup will install th eselected D365 Apps to the environments",
+			    "toolTip": "If 'Yes' is selected, the setup will install the selected D365 Apps to the environments",
 			    "constraints": {
 				"allowedValues": [
 				    {
@@ -4665,7 +4665,7 @@
 			    "type": "Microsoft.Common.DropDown",
 			    "label": "Select Microsoft Dynamics 365 Applications",
 			    "defaultValue": "None",
-			    "multiSelect": true,
+			    "multiselect": true,
 			    "constraints": {
 				"allowedValues": [
 				    {
