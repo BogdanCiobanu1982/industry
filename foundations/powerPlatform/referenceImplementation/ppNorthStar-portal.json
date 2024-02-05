@@ -612,13 +612,12 @@
                 },
                 {
                     "name": "mgmt",
-                    "label": "Management and Monitoring",
-		    "visible": false,
+                    "label": "Management and Monitoring",		    
                     "elements": [
                         {
                             "name": "infoBox1",
                             "type": "Microsoft.Common.InfoBox",
-                            "visible": true,
+                            "visible": false,
                             "options": {
                                 "icon": "Info",
                                 "text": "Configure management and monitoring services for your Power Platform tenant, using recommended Azure services.",
@@ -630,12 +629,12 @@
                             "type": "Microsoft.Common.Section",
                             "label": "Tenant observability, security, and logging",
                             "elements": [],
-                            "visible": true
+                            "visible": false
                         },
                         {
                             "name": "tenantMonitoringText",
                             "type": "Microsoft.Common.TextBlock",
-                            "visible": true,
+                            "visible": false,
                             "options": {
                                 "text": "Configure critical security and observability options for the Power Platform tenant. These options requires an Azure subscription and Azure services.",
                                 "link": {
@@ -804,12 +803,12 @@
                             "type": "Microsoft.Common.Section",
                             "label": "Tenant analytics and usage",
                             "elements": [],
-                            "visible": true
+                            "visible": false
                         },
                         {
                             "name": "tenantAnalyticsText",
                             "type": "Microsoft.Common.TextBlock",
-                            "visible": true,
+                            "visible": false,
                             "options": {
                                 "text": "Configure tenant level analytics to track all-up usage and adoption within the organization across all Environments for Power Apps and Power Automate. For long-term retention, extensibility and richer analysis, you can create a Data Lake Sorage V2 into an Azure subscription and configure Data Export post deployment.",
                                 "link": {
@@ -836,7 +835,7 @@
                                     }
                                 ]
                             },
-                            "visible": true
+                            "visible": false
                         },
                         {
                             "name": "ppEnableDataLake",
