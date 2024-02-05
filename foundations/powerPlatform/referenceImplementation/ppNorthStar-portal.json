@@ -423,7 +423,7 @@
                             "type": "Microsoft.Common.Section",
                             "label": "Admin Environment configuration",
                             "elements": [],
-                            "visible": true
+                            "visible": false
                         },
                         {
                             "name": "adminEnvText",
