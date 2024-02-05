@@ -428,7 +428,7 @@
                         {
                             "name": "adminEnvText",
                             "type": "Microsoft.Common.TextBlock",
-                            "visible": true,
+                            "visible": false,
                             "options": {
                                 "text": "Create new dedicated Admin Environments that should be used to operate and manage the overall Power Platform tenant, such as Environment creation, DLP management, Identity and Access, and analytics.",
                                 "link": {
@@ -456,7 +456,7 @@
                                     }
                                 ]
                             },
-                            "visible": true
+                            "visible": false
                         },
                         {
                             "name": "ppAdminEnvNaming",
