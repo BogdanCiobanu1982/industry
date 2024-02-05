@@ -4628,7 +4628,7 @@
 			    "visible": true
 			},
 			{
-			    "name": "industryText",
+			    "name": "d365AppsText",
 			    "type": "Microsoft.Common.TextBlock",
 			    "visible": true,
 			    "options": {
@@ -4662,7 +4662,7 @@
 			},
 			{
 			    "name": "ppSelectD365Apps",
-			    "type": "Microsoft.Common.OptionsGroup",
+			    "type": "Microsoft.Common.DropDown",
 			    "label": "Select Microsoft Dynamics 365 Applications",
 			    "defaultValue": "None",
 			    "multiSelect": true,
