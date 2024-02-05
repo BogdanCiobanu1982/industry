@@ -4328,7 +4328,7 @@
                                     }
                                 ]
                             },
-                            "visible": "[not(equals(steps('landingZones').ppPro, 'no'))]"
+                            "visible": false
                         },
 						{
                             "name": "ppProManagedText",
@@ -4361,7 +4361,7 @@
                                 ],
                                 "required": true
                             },
-                            "visible": "[not(equals(steps('landingZones').ppPro, 'no'))]"
+                            "visible": false
                         },
                         {
                             "name": "ppProAlm",
@@ -4381,7 +4381,7 @@
                                     }
                                 ]
                             },
-                            "visible": "[not(equals(steps('landingZones').ppPro, 'no'))]"
+                            "visible": false
                         },
                         {
                             "name": "ppProBilling",
@@ -4401,7 +4401,7 @@
                                     }
                                 ]
                             },
-                            "visible": "[not(equals(steps('landingZones').ppPro, 'no'))]"
+                            "visible": false
                         },
                         {
                             "name": "industrySection",
@@ -4469,7 +4469,7 @@
                                     }
                                 ]
                             },
-                            "visible": "[not(equals(steps('landingZones').ppIndustry, 'no'))]"
+                            "visible": false
                         },
                         {
                             "name": "ppIndustryNaming",
@@ -4483,7 +4483,7 @@
                                 "regex": "^[a-z0-9A-Z]{1,30}$",
                                 "validationMessage": "Only alphanumeric characters are allowed, and the value must be 1-30 characters long."
                             },
-                            "visible": "[not(equals(steps('landingZones').ppIndustry, 'no'))]"
+                            "visible": false
                         },
                         {
                             "name": "ppIndustryRegion",
@@ -4492,7 +4492,7 @@
                             "placeholder": "",
                             "defaultValue": "",
                             "toolTip": "",
-                            "visible": "[equals(steps('landingZones').ppIndustry, 'yes')]",
+                            "visible": false
                             "constraints": {
                                 "allowedValues": [
                                     {
@@ -4578,7 +4578,7 @@
                                 ],
                                 "required": true
                             },
-                            "visible": "[not(equals(steps('landingZones').ppIndustry, 'no'))]"
+                            "visible": false
                         },
                         {
                             "name": "ppIndustryAlm",
@@ -4598,7 +4598,7 @@
                                     }
                                 ]
                             },
-                            "visible": "[equals(steps('landingZones').ppIndustry, 'yes')]"
+                            "visible": false
                         },
                         {
                             "name": "ppIndustryBilling",
@@ -4618,7 +4618,7 @@
                                     }
                                 ]
                             },
-                            "visible": "[equals(steps('landingZones').ppIndustry, 'yes')]"
+                            "visible": false
                         }
                     ]
                 }
