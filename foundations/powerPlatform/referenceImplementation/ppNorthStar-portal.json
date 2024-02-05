@@ -2716,7 +2716,7 @@
                             "type": "Microsoft.Common.Section",
                             "label": "Landing Zones for professional developers",
                             "elements": [],
-                            "visible": true
+                            "visible": false
                         },
                         {
                             "name": "proText",
@@ -4408,7 +4408,7 @@
                             "type": "Microsoft.Common.Section",
                             "label": "Landing Zones for Industry Clouds",
                             "elements": [],
-                            "visible": true
+                            "visible": false
                         },
                         {
                             "name": "industryText",
