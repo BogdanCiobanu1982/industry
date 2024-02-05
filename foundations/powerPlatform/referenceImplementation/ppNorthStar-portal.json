@@ -220,7 +220,7 @@
                             "name": "ppTenantIsolationSetting",
                             "type": "Microsoft.Common.OptionsGroup",
                             "label": "Enable tenant isolation",
-                            "defaultValue": "Do not enable tenant isolation",
+                            "defaultValue": "Block both inbound and outbound",
                             "toolTip": "Select the preferred tenant isolation method by selecting either inbound, outbound, or both.",
                             "constraints": {
                                 "allowedValues": [
@@ -441,7 +441,7 @@
                             "name": "ppAdminEnvEnablement",
                             "type": "Microsoft.Common.OptionsGroup",
                             "label": "Create dedicated Admin environments",
-                            "defaultValue": "Yes (recommended)",
+                            "defaultValue": "No",
                             "multiSelect": true,
                             "toolTip": "If 'Yes' is selected, the setup will configure this option.",
                             "constraints": {
@@ -647,7 +647,7 @@
                             "name": "ppEnableAzureMonitor",
                             "type": "Microsoft.Common.OptionsGroup",
                             "label": "Enable recommended observability and security integration using Azure services",
-                            "defaultValue": "Yes (recommended)",
+                            "defaultValue": "No",
                             "toolTip": "",
                             "constraints": {
                                 "allowedValues": [
@@ -661,7 +661,7 @@
                                     }
                                 ]
                             },
-                            "visible": true
+                            "visible": false
                         },
                         {
                             "name": "ppRetentionInDays",
@@ -821,7 +821,7 @@
                             "name": "ppEnableTenantAnalytics",
                             "type": "Microsoft.Common.OptionsGroup",
                             "label": "Enable Tenant level analytics for Power Platform",
-                            "defaultValue": "Yes (recommended)",
+                            "defaultValue": "No",
                             "toolTip": "",
                             "constraints": {
                                 "allowedValues": [
@@ -919,8 +919,8 @@
                             "name": "ppDefaultRenameText",
                             "type": "Microsoft.Common.TextBox",
                             "label": "Provide a new name for the default environment",
-                            "placeholder": "Personal",
-                            "defaultValue": "Personal",
+                            "placeholder": "PersonalProductivity",
+                            "defaultValue": "PersonalProductivity",
                             "toolTip": "Use only allowed characters",
                             "constraints": {
                                 "required": true,
@@ -1102,8 +1102,7 @@
                                             "constraints": {
                                                 "required": true,
                                                 "validations": [
-                                                    {
-                                                        "regex": "^[a-z0-9A-Z]{1,30}$",
+                                                    {                                                        
                                                         "message": "Only alphanumeric characters are allowed, and the value must be 1-30 characters long."
                                                     }
                                                 ]
@@ -1124,7 +1123,7 @@
                                                     {
                                                         "label": "Europe",
                                                         "value": "europe"
-                                                    },
+                                                    },						    
                                                     {
                                                         "label": "United States",
                                                         "value": "unitedstates"
@@ -1888,8 +1887,7 @@
                             "defaultValue": "",
                             "toolTip": "Provide general description for these Environments",
                             "constraints": {
-                                "required": false,
-                                "regex": "^[a-z0-9A-Z]{1,30}$"
+                                "required": false                                
                             },
                             "visible": "[equals(steps('landingZones').ppCitizen, 'yes')]"
                         },
@@ -1898,7 +1896,7 @@
                             "type": "Microsoft.Common.DropDown",
                             "label": "Select region for the new Environments for citizen developers",
                             "placeholder": "",
-                            "defaultValue": "",
+                            "defaultValue": "unitedkingdom",
                             "toolTip": "",
                             "filter": true,
                             "visible": "[equals(steps('landingZones').ppCitizen, 'yes')]",
@@ -1907,6 +1905,10 @@
                                     {
                                         "label": "Europe",
                                         "value": "europe"
+                                    },
+				    {
+                                        "label": "United Kingdom",
+                                        "value": "unitedkingdom"
                                     },
                                     {
                                         "label": "United States",
@@ -1961,7 +1963,7 @@
                             "type": "Microsoft.Common.DropDown",
                             "label": "Select language for the new Environments for citizen developers",
                             "placeholder": "",
-                            "defaultValue": "",
+                            "defaultValue": "1033",
                             "toolTip": "",
                             "filter": true,
                             "visible": "[equals(steps('landingZones').ppCitizen, 'yes')]",
@@ -2156,7 +2158,7 @@
                             "type": "Microsoft.Common.DropDown",
                             "label": "Select currency for the new Environments for citizen developers",
                             "placeholder": "",
-                            "defaultValue": "",
+                            "defaultValue": "gbp",
                             "toolTip": "",
                             "filter": true,
                             "visible": "[equals(steps('landingZones').ppCitizen, 'yes')]",
@@ -2692,7 +2694,7 @@
                             "name": "ppCitizenBilling",
                             "type": "Microsoft.Common.OptionsGroup",
                             "label": "Create Billing Policy and Use Azure Subscription for pay-as-you-go for the citizen developer Environments",
-                            "defaultValue": "Yes (recommended)",
+                            "defaultValue": "No",
                             "toolTip": "If 'Yes' is selected, the setup will enable it",
                             "constraints": {
                                 "allowedValues": [
@@ -2731,7 +2733,7 @@
                             "name": "ppPro",
                             "type": "Microsoft.Common.OptionsGroup",
                             "label": "Create Environments for professional developer scenarios",
-                            "defaultValue": "Yes",
+                            "defaultValue": "No",
                             "multiSelect": true,
                             "toolTip": "If 'Yes' is selected, the setup will create new environments for professional developer scenarios",
                             "constraints": {
@@ -4423,7 +4425,7 @@
                             "name": "ppIndustry",
                             "type": "Microsoft.Common.OptionsGroup",
                             "label": "Create Environments for Industry Clouds",
-                            "defaultValue": "Yes",
+                            "defaultValue": "No",
                             "multiSelect": false,
                             "toolTip": "If 'Yes' is selected, the setup will create new environments for Industry scenarios (requires Dataverse)",
                             "constraints": {
