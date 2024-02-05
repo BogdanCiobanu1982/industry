@@ -3,7 +3,7 @@
     "view": {
         "kind": "Form",
         "properties": {
-            "title": "ANS Power Platform Landing Zones",
+            "title": "Power Platform Landing Zones",
             "steps": [
                 {
                     "name": "powerp",
@@ -140,13 +140,13 @@
                                     }
                                 ]
                             },
-                            "visible": false
+                            "visible": true
                         }
                     ]
                 },
                 {
                     "name": "gov",
-                    "label": "Security, Governance, and Compliance",
+                    "label": "Tenant Setup",
                     "elements": [
                         {
                             "name": "govInfo",
@@ -183,15 +183,30 @@
                             "multiSelect": false,
                             "multiLine": true,
                             "label": "Assign recommended Data-loss prevention policies to the tenant by selecting the preferred starting baseline.",
-                            "defaultValue": "ANS Default DLP Policy",
+                            "defaultValue": "None",
                             "toolTip": "By select a tenant DLP policy, all existing and new Environments will be governed regarding what connectors can be used, and used together.",
                             "constraints": {
                                 "allowedValues": [
                                     {
-                                        "label": "ANS Default DLP Policy",
+                                        "label": "High",
                                         "description": "A highly restrictive tenant DLP policy that only allows certain Microsoft connectors in the business group. All other connectors are categorized as non-business.",
                                         "value": "high"
-                                    }                                    
+                                    },
+                                    {
+                                        "label": "Medium",
+                                        "description": "A medium restrictive tenant DLP policy that allows common Microsoft connectors in the business group. All other connectors are categorized as non-business.",
+                                        "value": "medium"
+                                    },
+                                    {
+                                        "label": "Low",
+                                        "description": "A low restrictive tenant DLP policy that allows most Microsoft connectors in the business group. All other connectors are categorized as non-business.",
+                                        "value": "low"
+                                    },
+                                    {
+                                        "label": "None",
+                                        "description": "Do not assign tenant DLP policy.",
+                                        "value": "none"
+                                    }
                                 ],
                                 "required": true
                             },
@@ -220,7 +235,7 @@
                             "name": "ppTenantIsolationSetting",
                             "type": "Microsoft.Common.OptionsGroup",
                             "label": "Enable tenant isolation",
-                            "defaultValue": "Block both inbound and outbound",
+                            "defaultValue": "Do not enable tenant isolation",
                             "toolTip": "Select the preferred tenant isolation method by selecting either inbound, outbound, or both.",
                             "constraints": {
                                 "allowedValues": [
@@ -255,7 +270,7 @@
                             "constraints": {
                                 "required": false
                             },
-                            "visible": false
+                            "visible": "[not(equals(steps('gov').ppTenantIsolationSetting, 'none'))]"
                         },
                         {
                             "name": "tenantGuestsAndSharing",
@@ -317,13 +332,7 @@
                                 ]
                             },
                             "visible": true
-                        }
-                    ]
-                },
-                {
-                    "name": "environments",
-                    "label": "Admin Environment and Settings",
-                    "elements": [
+                        },
                         {
                             "name": "envBox",
                             "type": "Microsoft.Common.InfoBox",
@@ -423,12 +432,12 @@
                             "type": "Microsoft.Common.Section",
                             "label": "Admin Environment configuration",
                             "elements": [],
-                            "visible": false
+                            "visible": true
                         },
                         {
                             "name": "adminEnvText",
                             "type": "Microsoft.Common.TextBlock",
-                            "visible": false,
+                            "visible": true,
                             "options": {
                                 "text": "Create new dedicated Admin Environments that should be used to operate and manage the overall Power Platform tenant, such as Environment creation, DLP management, Identity and Access, and analytics.",
                                 "link": {
@@ -441,7 +450,7 @@
                             "name": "ppAdminEnvEnablement",
                             "type": "Microsoft.Common.OptionsGroup",
                             "label": "Create dedicated Admin environments",
-                            "defaultValue": "No",
+                            "defaultValue": "Yes (recommended)",
                             "multiSelect": true,
                             "toolTip": "If 'Yes' is selected, the setup will configure this option.",
                             "constraints": {
@@ -456,7 +465,7 @@
                                     }
                                 ]
                             },
-                            "visible": false
+                            "visible": true
                         },
                         {
                             "name": "ppAdminEnvNaming",
@@ -609,16 +618,15 @@
                             "visible": "[equals(steps('environments').ppAdminEnvEnablement, 'yes')]"
                         }
                     ]
-                },
+                },                                
                 {
                     "name": "mgmt",
-                    "label": "Management and Monitoring",		    
-		    "visible": false,
+                    "label": "Management and Monitoring",
                     "elements": [
                         {
                             "name": "infoBox1",
                             "type": "Microsoft.Common.InfoBox",
-                            "visible": false,
+                            "visible": true,
                             "options": {
                                 "icon": "Info",
                                 "text": "Configure management and monitoring services for your Power Platform tenant, using recommended Azure services.",
@@ -630,12 +638,12 @@
                             "type": "Microsoft.Common.Section",
                             "label": "Tenant observability, security, and logging",
                             "elements": [],
-                            "visible": false
+                            "visible": true
                         },
                         {
                             "name": "tenantMonitoringText",
                             "type": "Microsoft.Common.TextBlock",
-                            "visible": false,
+                            "visible": true,
                             "options": {
                                 "text": "Configure critical security and observability options for the Power Platform tenant. These options requires an Azure subscription and Azure services.",
                                 "link": {
@@ -648,7 +656,7 @@
                             "name": "ppEnableAzureMonitor",
                             "type": "Microsoft.Common.OptionsGroup",
                             "label": "Enable recommended observability and security integration using Azure services",
-                            "defaultValue": "No",
+                            "defaultValue": "Yes (recommended)",
                             "toolTip": "",
                             "constraints": {
                                 "allowedValues": [
@@ -662,7 +670,7 @@
                                     }
                                 ]
                             },
-                            "visible": false
+                            "visible": true
                         },
                         {
                             "name": "ppRetentionInDays",
@@ -804,12 +812,12 @@
                             "type": "Microsoft.Common.Section",
                             "label": "Tenant analytics and usage",
                             "elements": [],
-                            "visible": false
+                            "visible": true
                         },
                         {
                             "name": "tenantAnalyticsText",
                             "type": "Microsoft.Common.TextBlock",
-                            "visible": false,
+                            "visible": true,
                             "options": {
                                 "text": "Configure tenant level analytics to track all-up usage and adoption within the organization across all Environments for Power Apps and Power Automate. For long-term retention, extensibility and richer analysis, you can create a Data Lake Sorage V2 into an Azure subscription and configure Data Export post deployment.",
                                 "link": {
@@ -822,7 +830,7 @@
                             "name": "ppEnableTenantAnalytics",
                             "type": "Microsoft.Common.OptionsGroup",
                             "label": "Enable Tenant level analytics for Power Platform",
-                            "defaultValue": "No",
+                            "defaultValue": "Yes (recommended)",
                             "toolTip": "",
                             "constraints": {
                                 "allowedValues": [
@@ -836,7 +844,7 @@
                                     }
                                 ]
                             },
-                            "visible": false
+                            "visible": true
                         },
                         {
                             "name": "ppEnableDataLake",
@@ -920,8 +928,8 @@
                             "name": "ppDefaultRenameText",
                             "type": "Microsoft.Common.TextBox",
                             "label": "Provide a new name for the default environment",
-                            "placeholder": "PersonalProductivity",
-                            "defaultValue": "PersonalProductivity",
+                            "placeholder": "Personal",
+                            "defaultValue": "Personal",
                             "toolTip": "Use only allowed characters",
                             "constraints": {
                                 "required": true,
@@ -1103,7 +1111,8 @@
                                             "constraints": {
                                                 "required": true,
                                                 "validations": [
-                                                    {                                                        
+                                                    {
+                                                        "regex": "^[a-z0-9A-Z]{1,30}$",
                                                         "message": "Only alphanumeric characters are allowed, and the value must be 1-30 characters long."
                                                     }
                                                 ]
@@ -1124,7 +1133,7 @@
                                                     {
                                                         "label": "Europe",
                                                         "value": "europe"
-                                                    },						    
+                                                    },
                                                     {
                                                         "label": "United States",
                                                         "value": "unitedstates"
@@ -1888,7 +1897,8 @@
                             "defaultValue": "",
                             "toolTip": "Provide general description for these Environments",
                             "constraints": {
-                                "required": false                                
+                                "required": false,
+                                "regex": "^[a-z0-9A-Z]{1,30}$"
                             },
                             "visible": "[equals(steps('landingZones').ppCitizen, 'yes')]"
                         },
@@ -1897,7 +1907,7 @@
                             "type": "Microsoft.Common.DropDown",
                             "label": "Select region for the new Environments for citizen developers",
                             "placeholder": "",
-                            "defaultValue": "United Kingdom",
+                            "defaultValue": "",
                             "toolTip": "",
                             "filter": true,
                             "visible": "[equals(steps('landingZones').ppCitizen, 'yes')]",
@@ -1906,10 +1916,6 @@
                                     {
                                         "label": "Europe",
                                         "value": "europe"
-                                    },
-				    {
-                                        "label": "United Kingdom",
-                                        "value": "unitedkingdom"
                                     },
                                     {
                                         "label": "United States",
@@ -1964,7 +1970,7 @@
                             "type": "Microsoft.Common.DropDown",
                             "label": "Select language for the new Environments for citizen developers",
                             "placeholder": "",
-                            "defaultValue": "English (United States)",
+                            "defaultValue": "",
                             "toolTip": "",
                             "filter": true,
                             "visible": "[equals(steps('landingZones').ppCitizen, 'yes')]",
@@ -2159,7 +2165,7 @@
                             "type": "Microsoft.Common.DropDown",
                             "label": "Select currency for the new Environments for citizen developers",
                             "placeholder": "",
-                            "defaultValue": "GBP",
+                            "defaultValue": "",
                             "toolTip": "",
                             "filter": true,
                             "visible": "[equals(steps('landingZones').ppCitizen, 'yes')]",
@@ -2695,7 +2701,7 @@
                             "name": "ppCitizenBilling",
                             "type": "Microsoft.Common.OptionsGroup",
                             "label": "Create Billing Policy and Use Azure Subscription for pay-as-you-go for the citizen developer Environments",
-                            "defaultValue": "No",
+                            "defaultValue": "Yes (recommended)",
                             "toolTip": "If 'Yes' is selected, the setup will enable it",
                             "constraints": {
                                 "allowedValues": [
@@ -2716,12 +2722,12 @@
                             "type": "Microsoft.Common.Section",
                             "label": "Landing Zones for professional developers",
                             "elements": [],
-                            "visible": false
+                            "visible": true
                         },
                         {
                             "name": "proText",
                             "type": "Microsoft.Common.TextBlock",
-                            "visible": false,
+                            "visible": true,
                             "options": {
                                 "text": "The Landing Zones for professional developers will be optimized for enterprise application scenarios, and provide them with the required agility and simplicity to rapidly build robust enterprise applications with mature application lifecycle management. You can grant business units or indivuduals access to the Environments post creation.",
                                 "link": {
@@ -2734,7 +2740,7 @@
                             "name": "ppPro",
                             "type": "Microsoft.Common.OptionsGroup",
                             "label": "Create Environments for professional developer scenarios",
-                            "defaultValue": "No",
+                            "defaultValue": "Yes",
                             "multiSelect": true,
                             "toolTip": "If 'Yes' is selected, the setup will create new environments for professional developer scenarios",
                             "constraints": {
@@ -2753,7 +2759,7 @@
                                     }
                                 ]
                             },
-                            "visible": false
+                            "visible": true
                         },
                         {
                             "name": "ppProConfiguration",
@@ -4328,12 +4334,12 @@
                                     }
                                 ]
                             },
-                            "visible": false
+                            "visible": "[not(equals(steps('landingZones').ppPro, 'no'))]"
                         },
 						{
                             "name": "ppProManagedText",
                             "type": "Microsoft.Common.TextBlock",
-                            "visible": false,
+                            "visible": true,
                             "options": {
                                 "text": "Enabling Managed Environment in this step will opt-in to weekly digest, and allow you to continue the configuration in Power Platform Admin Center for sharing restrictions, DLPs and more post deployment.",
                                 "link": {
@@ -4361,7 +4367,7 @@
                                 ],
                                 "required": true
                             },
-                            "visible": false
+                            "visible": "[not(equals(steps('landingZones').ppPro, 'no'))]"
                         },
                         {
                             "name": "ppProAlm",
@@ -4381,7 +4387,7 @@
                                     }
                                 ]
                             },
-                            "visible": false
+                            "visible": "[not(equals(steps('landingZones').ppPro, 'no'))]"
                         },
                         {
                             "name": "ppProBilling",
@@ -4401,19 +4407,19 @@
                                     }
                                 ]
                             },
-                            "visible": false
+                            "visible": "[not(equals(steps('landingZones').ppPro, 'no'))]"
                         },
                         {
                             "name": "industrySection",
                             "type": "Microsoft.Common.Section",
                             "label": "Landing Zones for Industry Clouds",
                             "elements": [],
-                            "visible": false
+                            "visible": true
                         },
                         {
                             "name": "industryText",
                             "type": "Microsoft.Common.TextBlock",
-                            "visible": false,
+                            "visible": true,
                             "options": {
                                 "text": "The Landing Zones for Industry Clouds are intended to host your D365 applications and Industry Solutions. Once created, you can add the Industry Clouds using 'Microsoft Cloud Solution Center'",
                                 "link": {
@@ -4426,7 +4432,7 @@
                             "name": "ppIndustry",
                             "type": "Microsoft.Common.OptionsGroup",
                             "label": "Create Environments for Industry Clouds",
-                            "defaultValue": "No",
+                            "defaultValue": "Yes",
                             "multiSelect": false,
                             "toolTip": "If 'Yes' is selected, the setup will create new environments for Industry scenarios (requires Dataverse)",
                             "constraints": {
@@ -4441,7 +4447,7 @@
                                     }
                                 ]
                             },
-                            "visible": false
+                            "visible": true
                         },
                         {
                             "name": "ppSelectIndustry",
@@ -4469,7 +4475,7 @@
                                     }
                                 ]
                             },
-                            "visible": false
+                            "visible": "[not(equals(steps('landingZones').ppIndustry, 'no'))]"
                         },
                         {
                             "name": "ppIndustryNaming",
@@ -4483,7 +4489,7 @@
                                 "regex": "^[a-z0-9A-Z]{1,30}$",
                                 "validationMessage": "Only alphanumeric characters are allowed, and the value must be 1-30 characters long."
                             },
-                            "visible": false
+                            "visible": "[not(equals(steps('landingZones').ppIndustry, 'no'))]"
                         },
                         {
                             "name": "ppIndustryRegion",
@@ -4492,7 +4498,7 @@
                             "placeholder": "",
                             "defaultValue": "",
                             "toolTip": "",
-                            "visible": false,
+                            "visible": "[equals(steps('landingZones').ppIndustry, 'yes')]",
                             "constraints": {
                                 "allowedValues": [
                                     {
@@ -4550,7 +4556,7 @@
 						{
                             "name": "ppIndustryManagedText",
                             "type": "Microsoft.Common.TextBlock",
-                            "visible": false,
+                            "visible": true,
                             "options": {
                                 "text": "Enabling Managed Environment in this step will opt-in to weekly digest, and allow you to continue the configuration in Power Platform Admin Center for sharing restrictions, DLPs and more post deployment.",
                                 "link": {
@@ -4578,7 +4584,7 @@
                                 ],
                                 "required": true
                             },
-                            "visible": false
+                            "visible": "[not(equals(steps('landingZones').ppIndustry, 'no'))]"
                         },
                         {
                             "name": "ppIndustryAlm",
@@ -4598,7 +4604,7 @@
                                     }
                                 ]
                             },
-                            "visible": false
+                            "visible": "[equals(steps('landingZones').ppIndustry, 'yes')]"
                         },
                         {
                             "name": "ppIndustryBilling",
@@ -4618,76 +4624,8 @@
                                     }
                                 ]
                             },
-                            "visible": false
-                        },
-			{
-			    "name": "D365Section",
-			    "type": "Microsoft.Common.Section",
-			    "label": "Dynamics 365 Applications",
-			    "elements": [],
-			    "visible": true
-			},
-			{
-			    "name": "d365AppsText",
-			    "type": "Microsoft.Common.TextBlock",
-			    "visible": true,
-			    "options": {
-				"text": "The section for Dynamics 365 Apps are intended to select and install the D365 applications.",
-				"link": {
-				    "label": "Microsoft Cloud Solution Center",
-				    "uri": "https://solutions.microsoft.com/"
-				}
-			    }
-			},
-			{
-			    "name": "ppD365Apps",
-			    "type": "Microsoft.Common.OptionsGroup",
-			    "label": "Install D365 Apps",
-			    "defaultValue": "No",
-			    "multiSelect": false,
-			    "toolTip": "If 'Yes' is selected, the setup will install the selected D365 Apps to the environments",
-			    "constraints": {
-				"allowedValues": [
-				    {
-					"label": "Yes",
-					"value": "yes"
-				    },
-				    {
-					"label": "No",
-					"value": "no"
-				    }
-				]
-			    },
-			    "visible": true
-			},
-			{
-			    "name": "ppSelectD365Apps",
-			    "type": "Microsoft.Common.DropDown",
-			    "label": "Select Microsoft Dynamics 365 Applications",
-			    "defaultValue": "None",
-			    "multiselect": true,
-			    "constraints": {
-				"allowedValues": [
-				    {
-					"label": "Dynamics 365 for Sales",
-					"value": "D365_Sales"
-				    },
-				    {
-					"label": "Dynamics 365 for Field Service",
-					"value": "D365_FieldService"
-				    },
-				    {
-					"label": "Dynamics 365 for Customer Service",
-					"value": "D365_CustomerService"
-				    },
-				    {
-					"label": "Dynamics 365 for PSA",
-					"value": "D365_PSA"
-				    }
-				]
-			    },
-			    "visible": "[not(equals(steps('landingZones').ppD365Apps, 'no'))]"
-			}
+                            "visible": "[equals(steps('landingZones').ppIndustry, 'yes')]"
+                        }
                     ]
                 }
             ]
