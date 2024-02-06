@@ -1611,7 +1611,7 @@
                                 "regex": "^[a-z0-9A-Z]{1,30}$",
                                 "validationMessage": "Only alphanumeric characters are allowed, and the value must be 1-30 characters long."
                             },
-                            "visible": "[equals(steps('landingZones').ppCitizen, 'yes')]"
+                            "visible": true
                         },
                         {
                             "name": "ppCitizenDescription",
@@ -1634,7 +1634,7 @@
                             "defaultValue": "United Kingdom",
                             "toolTip": "",
                             "filter": true,
-                            "visible": "[equals(steps('landingZones').ppCitizen, 'yes')]",
+                            "visible": true,
                             "constraints": {
                                 "allowedValues": [
                                     {
@@ -1701,7 +1701,7 @@
                             "defaultValue": "English (United States)",
                             "toolTip": "",
                             "filter": true,
-                            "visible": "[equals(steps('landingZones').ppCitizen, 'yes')]",
+                            "visible": true,
                             "constraints": {
                                 "allowedValues": [
                                     {
@@ -1896,7 +1896,7 @@
                             "defaultValue": "GBP",
                             "toolTip": "",
                             "filter": true,
-                            "visible": "[equals(steps('landingZones').ppCitizen, 'yes')]",
+                            "visible": true,
                             "constraints": {
                                 "allowedValues": [
                                     {
