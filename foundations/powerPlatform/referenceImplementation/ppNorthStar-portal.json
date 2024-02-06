@@ -244,7 +244,19 @@
                                 "required": true
                             },
                             "visible": true
-                        },                        
+                        },  
+                        {
+                            "name": "ppTenantIsolationDomains",
+                            "type": "Microsoft.Common.TextBox",
+                            "label": "Explicit allow list (enter Tenant Domain, ID, or * for all tenants)",
+                            "placeholder": "",
+                            "defaultValue": "",
+                            "toolTip": "Use only allowed characters",
+                            "constraints": {
+                                "required": false
+                            },
+                            "visible": false
+                        },                      
                         {
                             "name": "tenantGuestsAndSharing",
                             "type": "Microsoft.Common.Section",
