@@ -779,7 +779,7 @@
                                     }
                                 ]
                             },
-                            "visible": false
+                            "visible": true
                         },
                         {
                             "name": "callGraph",
