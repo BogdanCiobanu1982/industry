@@ -594,7 +594,7 @@
                 },                                               
                 {
                     "name": "landingZones",
-                    "label": "Landing Zones",
+                    "label": "Landing Zones Setup",
                     "elements": [
                         {
                             "name": "EnvBox",
@@ -652,8 +652,8 @@
                             "name": "ppDefaultRenameText",
                             "type": "Microsoft.Common.TextBox",
                             "label": "Provide a new name for the default environment",
-                            "placeholder": "Personal",
-                            "defaultValue": "Personal",
+                            "placeholder": "PersonalProductivity",
+                            "defaultValue": "PersonalProductivity",
                             "toolTip": "Use only allowed characters",
                             "constraints": {
                                 "required": true,
@@ -2446,12 +2446,12 @@
                             "type": "Microsoft.Common.Section",
                             "label": "Landing Zones for professional developers",
                             "elements": [],
-                            "visible": true
+                            "visible": false
                         },
                         {
                             "name": "proText",
                             "type": "Microsoft.Common.TextBlock",
-                            "visible": true,
+                            "visible": false,
                             "options": {
                                 "text": "The Landing Zones for professional developers will be optimized for enterprise application scenarios, and provide them with the required agility and simplicity to rapidly build robust enterprise applications with mature application lifecycle management. You can grant business units or indivuduals access to the Environments post creation.",
                                 "link": {
@@ -2464,7 +2464,7 @@
                             "name": "ppPro",
                             "type": "Microsoft.Common.OptionsGroup",
                             "label": "Create Environments for professional developer scenarios",
-                            "defaultValue": "Yes",
+                            "defaultValue": "No",
                             "multiSelect": true,
                             "toolTip": "If 'Yes' is selected, the setup will create new environments for professional developer scenarios",
                             "constraints": {
@@ -2483,7 +2483,7 @@
                                     }
                                 ]
                             },
-                            "visible": true
+                            "visible": false
                         },
                         {
                             "name": "ppProConfiguration",
@@ -4063,7 +4063,7 @@
 						{
                             "name": "ppProManagedText",
                             "type": "Microsoft.Common.TextBlock",
-                            "visible": true,
+                            "visible": false,
                             "options": {
                                 "text": "Enabling Managed Environment in this step will opt-in to weekly digest, and allow you to continue the configuration in Power Platform Admin Center for sharing restrictions, DLPs and more post deployment.",
                                 "link": {
@@ -4138,12 +4138,12 @@
                             "type": "Microsoft.Common.Section",
                             "label": "Landing Zones for Industry Clouds",
                             "elements": [],
-                            "visible": true
+                            "visible": false
                         },
                         {
                             "name": "industryText",
                             "type": "Microsoft.Common.TextBlock",
-                            "visible": true,
+                            "visible": false,
                             "options": {
                                 "text": "The Landing Zones for Industry Clouds are intended to host your D365 applications and Industry Solutions. Once created, you can add the Industry Clouds using 'Microsoft Cloud Solution Center'",
                                 "link": {
@@ -4156,7 +4156,7 @@
                             "name": "ppIndustry",
                             "type": "Microsoft.Common.OptionsGroup",
                             "label": "Create Environments for Industry Clouds",
-                            "defaultValue": "Yes",
+                            "defaultValue": "No",
                             "multiSelect": false,
                             "toolTip": "If 'Yes' is selected, the setup will create new environments for Industry scenarios (requires Dataverse)",
                             "constraints": {
@@ -4171,7 +4171,7 @@
                                     }
                                 ]
                             },
-                            "visible": true
+                            "visible": false
                         },
                         {
                             "name": "ppSelectIndustry",
@@ -4280,7 +4280,7 @@
 						{
                             "name": "ppIndustryManagedText",
                             "type": "Microsoft.Common.TextBlock",
-                            "visible": true,
+                            "visible": false,
                             "options": {
                                 "text": "Enabling Managed Environment in this step will opt-in to weekly digest, and allow you to continue the configuration in Power Platform Admin Center for sharing restrictions, DLPs and more post deployment.",
                                 "link": {
@@ -4314,7 +4314,7 @@
                             "name": "ppIndustryAlm",
                             "type": "Microsoft.Common.OptionsGroup",
                             "label": "Create Development, Test, and Production environments for each landing zone",
-                            "defaultValue": "Yes (recommended)",
+                            "defaultValue": "No",
                             "toolTip": "If 'Yes' is selected, the setup will enable it",
                             "constraints": {
                                 "allowedValues": [
@@ -4334,7 +4334,7 @@
                             "name": "ppIndustryBilling",
                             "type": "Microsoft.Common.OptionsGroup",
                             "label": "Create Billing Policy and Use Azure Subscription for pay-as-you-go for the Industry Environments",
-                            "defaultValue": "Yes (recommended)",
+                            "defaultValue": "No",
                             "toolTip": "If 'Yes' is selected, the setup will enable it",
                             "constraints": {
                                 "allowedValues": [
