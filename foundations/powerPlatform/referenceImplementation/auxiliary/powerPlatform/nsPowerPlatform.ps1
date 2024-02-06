@@ -379,8 +379,7 @@ if ($PPCitizen -in "yes", "half" -and $PPCitizenCount -ge 1 -or $PPCitizen -eq '
                 envCurrency    = $PPCitizenCurrency
                 envDescription = $PPCitizenDescription
                 EnvALM         = $PPCitizenAlm -eq 'Yes'
-                EnvDataverse   = $PPCitizen -eq 'Yes'
-                Templates      = 'D365_Sales'
+                EnvDataverse   = $PPCitizen -eq 'Yes'            
             }
             $environmentsToCreate = New-EnvironmentCreationObject @envHt
         }
@@ -398,7 +397,8 @@ if ($PPCitizen -in "yes", "half" -and $PPCitizenCount -ge 1 -or $PPCitizen -eq '
                 Description        = $environment.envDescription
                 LanguageName       = $environment.envLanguage
                 Currency           = $environment.envCurrency
-                SecurityGroupId    = $environment.envRbac            
+                SecurityGroupId    = $environment.envRbac 
+                Templates          = 'D365_Sales'
             }
             $null = New-PowerOpsEnvironment @envCreationHt
             Write-Output "Created citizen environment $($environment.envName) in $($environment.envRegion)"
