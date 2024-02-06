@@ -779,7 +779,7 @@
                                     }
                                 ]
                             },
-                            "visible": true
+                            "visible": false
                         },
                         {
                             "name": "callGraph",
@@ -1597,7 +1597,7 @@
                             "constraints": {
                                 "required": false
                             },
-                            "visible": "[equals(steps('landingZones').ppCitizen, 'yes')]"
+                            "visible": false
                         },
                         {
                             "name": "ppCitizenNaming",
@@ -1624,7 +1624,7 @@
                                 "required": false,
                                 "regex": "^[a-z0-9A-Z]{1,30}$"
                             },
-                            "visible": "[equals(steps('landingZones').ppCitizen, 'yes')]"
+                            "visible": false
                         },
                         {
                             "name": "ppCitizenRegion",
