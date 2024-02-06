@@ -140,7 +140,7 @@
                                     }
                                 ]
                             },
-                            "visible": true
+                            "visible": false
                         }
                     ]
                 },
@@ -405,7 +405,7 @@
                             "type": "Microsoft.Common.Section",
                             "label": "Admin Environment configuration",
                             "elements": [],
-                            "visible": true
+                            "visible": false
                         },
                         {
                             "name": "adminEnvText",
@@ -599,7 +599,7 @@
                         {
                             "name": "infoBox1",
                             "type": "Microsoft.Common.InfoBox",
-                            "visible": true,
+                            "visible": false,
                             "options": {
                                 "icon": "Info",
                                 "text": "Configure management and monitoring services for your Power Platform tenant, using recommended Azure services.",
@@ -611,12 +611,12 @@
                             "type": "Microsoft.Common.Section",
                             "label": "Tenant observability, security, and logging",
                             "elements": [],
-                            "visible": true
+                            "visible": false
                         },
                         {
                             "name": "tenantMonitoringText",
                             "type": "Microsoft.Common.TextBlock",
-                            "visible": true,
+                            "visible": false,
                             "options": {
                                 "text": "Configure critical security and observability options for the Power Platform tenant. These options requires an Azure subscription and Azure services.",
                                 "link": {
@@ -629,7 +629,7 @@
                             "name": "ppEnableAzureMonitor",
                             "type": "Microsoft.Common.OptionsGroup",
                             "label": "Enable recommended observability and security integration using Azure services",
-                            "defaultValue": "Yes (recommended)",
+                            "defaultValue": "No",
                             "toolTip": "",
                             "constraints": {
                                 "allowedValues": [
@@ -643,7 +643,7 @@
                                     }
                                 ]
                             },
-                            "visible": true
+                            "visible": false
                         },
                         {
                             "name": "ppRetentionInDays",
@@ -703,7 +703,7 @@
                             "name": "ppEnableAadLogs",
                             "type": "Microsoft.Common.OptionsGroup",
                             "label": "Enable Monitoring of Azure AD logs",
-                            "defaultValue": "Yes (recommended)",
+                            "defaultValue": "No",
                             "toolTip": "",
                             "constraints": {
                                 "required": false,
@@ -724,7 +724,7 @@
                             "name": "ppEnableAzureSecurity",
                             "type": "Microsoft.Common.OptionsGroup",
                             "label": "Enable integration with Microsoft Sentinel",
-                            "defaultValue": "Yes (recommended)",
+                            "defaultValue": "No",
                             "visible": "[equals(steps('mgmt').ppEnableAzureMonitor, 'yes')]",
                             "toolTip": "",
                             "constraints": {
@@ -744,7 +744,7 @@
                             "name": "ppEnableD365Connector",
                             "type": "Microsoft.Common.OptionsGroup",
                             "label": "Enable Sentinel Data Connector for Dynamics 365",
-                            "defaultValue": "Yes (recommended)",
+                            "defaultValue": "No",
                             "visible": "[and(equals(steps('mgmt').ppEnableAzureMonitor, 'yes'), equals(steps('mgmt').ppEnableAzureSecurity, 'yes'))]",
                             "toolTip": "",
                             "constraints": {
@@ -764,7 +764,7 @@
                             "name": "ppEnableAppInsights",
                             "type": "Microsoft.Common.OptionsGroup",
                             "label": "Enable integration with Azure Application Insights",
-                            "defaultValue": "Yes (recommended)",
+                            "defaultValue": "No",
                             "visible": "[equals(steps('mgmt').ppEnableAzureMonitor, 'yes')]",
                             "toolTip": "",
                             "constraints": {
@@ -785,12 +785,12 @@
                             "type": "Microsoft.Common.Section",
                             "label": "Tenant analytics and usage",
                             "elements": [],
-                            "visible": true
+                            "visible": false
                         },
                         {
                             "name": "tenantAnalyticsText",
                             "type": "Microsoft.Common.TextBlock",
-                            "visible": true,
+                            "visible": false,
                             "options": {
                                 "text": "Configure tenant level analytics to track all-up usage and adoption within the organization across all Environments for Power Apps and Power Automate. For long-term retention, extensibility and richer analysis, you can create a Data Lake Sorage V2 into an Azure subscription and configure Data Export post deployment.",
                                 "link": {
@@ -803,7 +803,7 @@
                             "name": "ppEnableTenantAnalytics",
                             "type": "Microsoft.Common.OptionsGroup",
                             "label": "Enable Tenant level analytics for Power Platform",
-                            "defaultValue": "Yes (recommended)",
+                            "defaultValue": "No",
                             "toolTip": "",
                             "constraints": {
                                 "allowedValues": [
@@ -817,13 +817,13 @@
                                     }
                                 ]
                             },
-                            "visible": true
+                            "visible": false
                         },
                         {
                             "name": "ppEnableDataLake",
                             "type": "Microsoft.Common.OptionsGroup",
                             "label": "Enable Data Lake Storage V2 to store captured data for operational and exploratory analytics",
-                            "defaultValue": "Yes (recommended)",
+                            "defaultValue": "No",
                             "toolTip": "",
                             "constraints": {
                                 "allowedValues": [
