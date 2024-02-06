@@ -64,7 +64,7 @@ $DeploymentScriptOutputs = @{}
 Install-Module -Name PowerOps -AllowPrerelease -Force
 
 #Default ALM environment tiers
-$envTiers = 'dev', 'test', 'prod'
+$envTiers = 'dev', 'test', 'prod', 'admim'
 
 #region supporting functions
 function New-EnvironmentCreationObject {
@@ -145,7 +145,7 @@ function New-DLPAssignmentFromEnv {
     )
     #DLP Template references
     $dlpPolicies = @{
-        baseUri          = 'https://raw.githubusercontent.com/microsoft/industry/main/foundations/powerPlatform/referenceImplementation/auxiliary/powerPlatform/'
+        baseUri          = 'https://raw.githubusercontent.com/BogdanCiobanu1982/industry/main/foundations/powerPlatform/referenceImplementation/auxiliary/powerPlatform/'
         tenant           = @{
             low    = 'lowTenantDlpPolicy.json'
             medium = 'mediumTenantDlpPolicy.json'
