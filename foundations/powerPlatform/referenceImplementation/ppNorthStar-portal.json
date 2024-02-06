@@ -1631,7 +1631,7 @@
                             "type": "Microsoft.Common.DropDown",
                             "label": "Select region for the new Environments for citizen developers",
                             "placeholder": "",
-                            "defaultValue": "",
+                            "defaultValue": "United Kingdom",
                             "toolTip": "",
                             "filter": true,
                             "visible": "[equals(steps('landingZones').ppCitizen, 'yes')]",
@@ -1640,6 +1640,10 @@
                                     {
                                         "label": "Europe",
                                         "value": "europe"
+                                    },
+                                    {
+                                        "label": "United Kingdom",
+                                        "value": "unitedkingdom"
                                     },
                                     {
                                         "label": "United States",
@@ -1694,7 +1698,7 @@
                             "type": "Microsoft.Common.DropDown",
                             "label": "Select language for the new Environments for citizen developers",
                             "placeholder": "",
-                            "defaultValue": "",
+                            "defaultValue": "English (United States)",
                             "toolTip": "",
                             "filter": true,
                             "visible": "[equals(steps('landingZones').ppCitizen, 'yes')]",
@@ -1889,7 +1893,7 @@
                             "type": "Microsoft.Common.DropDown",
                             "label": "Select currency for the new Environments for citizen developers",
                             "placeholder": "",
-                            "defaultValue": "",
+                            "defaultValue": "GBP",
                             "toolTip": "",
                             "filter": true,
                             "visible": "[equals(steps('landingZones').ppCitizen, 'yes')]",
@@ -2425,7 +2429,7 @@
                             "name": "ppCitizenBilling",
                             "type": "Microsoft.Common.OptionsGroup",
                             "label": "Create Billing Policy and Use Azure Subscription for pay-as-you-go for the citizen developer Environments",
-                            "defaultValue": "Yes (recommended)",
+                            "defaultValue": "No",
                             "toolTip": "If 'Yes' is selected, the setup will enable it",
                             "constraints": {
                                 "allowedValues": [
@@ -2439,7 +2443,7 @@
                                     }
                                 ]
                             },
-                            "visible": "[not(equals(steps('landingZones').ppCitizen, 'no'))]"
+                            "visible": false
                         },
                         {
                             "name": "proSection",
@@ -3290,7 +3294,7 @@
                             "constraints": {
                                 "required": false
                             },
-                            "visible": "[equals(steps('landingZones').ppPro, 'yes')]"
+                            "visible": false
                         },
                         {
                             "name": "ppProNaming",
@@ -3304,7 +3308,7 @@
                                 "regex": "^[a-z0-9A-Z]{1,30}$",
                                 "validationMessage": "Only alphanumeric characters are allowed, and the value must be 1-30 characters long."
                             },
-                            "visible": "[equals(steps('landingZones').ppPro, 'yes')]"
+                            "visible": false
                         },
                         {
                             "name": "ppProDescription",
@@ -4058,7 +4062,7 @@
                                     }
                                 ]
                             },
-                            "visible": "[not(equals(steps('landingZones').ppPro, 'no'))]"
+                            "visible": false
                         },
 						{
                             "name": "ppProManagedText",
@@ -4091,7 +4095,7 @@
                                 ],
                                 "required": true
                             },
-                            "visible": "[not(equals(steps('landingZones').ppPro, 'no'))]"
+                            "visible": false
                         },
                         {
                             "name": "ppProAlm",
@@ -4111,7 +4115,7 @@
                                     }
                                 ]
                             },
-                            "visible": "[not(equals(steps('landingZones').ppPro, 'no'))]"
+                            "visible": false
                         },
                         {
                             "name": "ppProBilling",
@@ -4131,7 +4135,7 @@
                                     }
                                 ]
                             },
-                            "visible": "[not(equals(steps('landingZones').ppPro, 'no'))]"
+                            "visible": false
                         },
                         {
                             "name": "industrySection",
@@ -4199,7 +4203,7 @@
                                     }
                                 ]
                             },
-                            "visible": "[not(equals(steps('landingZones').ppIndustry, 'no'))]"
+                            "visible": false
                         },
                         {
                             "name": "ppIndustryNaming",
@@ -4213,7 +4217,7 @@
                                 "regex": "^[a-z0-9A-Z]{1,30}$",
                                 "validationMessage": "Only alphanumeric characters are allowed, and the value must be 1-30 characters long."
                             },
-                            "visible": "[not(equals(steps('landingZones').ppIndustry, 'no'))]"
+                            "visible": false
                         },
                         {
                             "name": "ppIndustryRegion",
@@ -4222,7 +4226,7 @@
                             "placeholder": "",
                             "defaultValue": "",
                             "toolTip": "",
-                            "visible": "[equals(steps('landingZones').ppIndustry, 'yes')]",
+                            "visible": false,
                             "constraints": {
                                 "allowedValues": [
                                     {
@@ -4308,7 +4312,7 @@
                                 ],
                                 "required": true
                             },
-                            "visible": "[not(equals(steps('landingZones').ppIndustry, 'no'))]"
+                            "visible": false
                         },
                         {
                             "name": "ppIndustryAlm",
@@ -4328,7 +4332,7 @@
                                     }
                                 ]
                             },
-                            "visible": "[equals(steps('landingZones').ppIndustry, 'yes')]"
+                            "visible": false
                         },
                         {
                             "name": "ppIndustryBilling",
@@ -4348,7 +4352,76 @@
                                     }
                                 ]
                             },
-                            "visible": "[equals(steps('landingZones').ppIndustry, 'yes')]"
+                            "visible": false
+                        },
+
+                        {
+                            "name": "D365Section",
+                            "type": "Microsoft.Common.Section",
+                            "label": "Dynamics 365 Applications",
+                            "elements": [],
+                            "visible": true
+                        },
+                        {
+                            "name": "industryText",
+                            "type": "Microsoft.Common.TextBlock",
+                            "visible": true,
+                            "options": {
+                                "text": "The section for Dynamics 365 Apps are intended to select and install the D365 applications.",
+                                "link": {
+                                    "label": "Microsoft Dynamics 365",
+                                    "uri": "https://www.microsoft.com/en-us/dynamics-365"
+                                }
+                            }
+                        },
+                        {
+                            "name": "ppD365Apps",
+                            "type": "Microsoft.Common.OptionsGroup",
+                            "label": "Install D365 Apps",
+                            "defaultValue": "No",
+                            "multiSelect": false,
+                            "toolTip": "If 'Yes' is selected, the setup will install the selected D365 Apps",
+                            "constraints": {
+                                "allowedValues": [
+                                    {
+                                        "label": "Yes",
+                                        "value": "yes"
+                                    },
+                                    {
+                                        "label": "No",
+                                        "value": "no"
+                                    }
+                                ]
+                            },
+                            "visible": true
+                        },
+                        {
+                            "name": "ppSelectD365Apps",
+                            "type": "Microsoft.Common.DropDown",
+                            "label": "Select Microsoft Dynamics 365 Applications",
+                            "defaultValue": "None",
+                            "multiSelect": true,
+                            "constraints": {
+                                "allowedValues": [
+                                    {
+                                        "label": "Dynamics 365 for Sales",
+                                        "value": "D365_Sales"
+                                    },
+                                    {
+                                        "label": "Dynamics 365 for Field Service",
+                                        "value": "D365_FieldService"
+                                    },
+                                    {
+                                        "label": "Dynamics 365 for Customer Service",
+                                        "value": "D365_CustomerService"
+                                    },
+                                    {
+                                        "label": "Dynamics 365 for PSA",
+                                        "value": "D365_PSA"
+                                    }
+                                ]
+                            },
+                            "visible": "[not(equals(steps('landingZones').ppD365Apps, 'no'))]"
                         }
                     ]
                 }
