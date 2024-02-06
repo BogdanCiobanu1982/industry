@@ -145,7 +145,7 @@
                     ]
                 },
                 {
-                    "name": "gov",
+                    "name": "tenant",
                     "label": "Tenant Setup",
                     "elements": [
                         {
@@ -183,30 +183,15 @@
                             "multiSelect": false,
                             "multiLine": true,
                             "label": "Assign recommended Data-loss prevention policies to the tenant by selecting the preferred starting baseline.",
-                            "defaultValue": "None",
+                            "defaultValue": "ANS Default DLP Policy",
                             "toolTip": "By select a tenant DLP policy, all existing and new Environments will be governed regarding what connectors can be used, and used together.",
                             "constraints": {
                                 "allowedValues": [
                                     {
-                                        "label": "High",
+                                        "label": "ANS Default DLP Policy",
                                         "description": "A highly restrictive tenant DLP policy that only allows certain Microsoft connectors in the business group. All other connectors are categorized as non-business.",
                                         "value": "high"
-                                    },
-                                    {
-                                        "label": "Medium",
-                                        "description": "A medium restrictive tenant DLP policy that allows common Microsoft connectors in the business group. All other connectors are categorized as non-business.",
-                                        "value": "medium"
-                                    },
-                                    {
-                                        "label": "Low",
-                                        "description": "A low restrictive tenant DLP policy that allows most Microsoft connectors in the business group. All other connectors are categorized as non-business.",
-                                        "value": "low"
-                                    },
-                                    {
-                                        "label": "None",
-                                        "description": "Do not assign tenant DLP policy.",
-                                        "value": "none"
-                                    }
+                                    }                                    
                                 ],
                                 "required": true
                             },
@@ -235,7 +220,7 @@
                             "name": "ppTenantIsolationSetting",
                             "type": "Microsoft.Common.OptionsGroup",
                             "label": "Enable tenant isolation",
-                            "defaultValue": "Do not enable tenant isolation",
+                            "defaultValue": "Block both inbound and outbound",
                             "toolTip": "Select the preferred tenant isolation method by selecting either inbound, outbound, or both.",
                             "constraints": {
                                 "allowedValues": [
@@ -259,19 +244,7 @@
                                 "required": true
                             },
                             "visible": true
-                        },
-                        {
-                            "name": "ppTenantIsolationDomains",
-                            "type": "Microsoft.Common.TextBox",
-                            "label": "Explicit allow list (enter Tenant Domain, ID, or * for all tenants)",
-                            "placeholder": "",
-                            "defaultValue": "",
-                            "toolTip": "Use only allowed characters",
-                            "constraints": {
-                                "required": false
-                            },
-                            "visible": "[not(equals(steps('gov').ppTenantIsolationSetting, 'none'))]"
-                        },
+                        },                        
                         {
                             "name": "tenantGuestsAndSharing",
                             "type": "Microsoft.Common.Section",
@@ -332,19 +305,7 @@
                                 ]
                             },
                             "visible": true
-                        },
-                        {
-                            "name": "envBox",
-                            "type": "Microsoft.Common.InfoBox",
-                            "visible": true,
-                            "options": {
-                                "text": "It is highly recommended to have dedicated Admin Environments in Power Platform to manage and administer the platform as you scale. When creating dedicated Admin Environments, you can optionally deploy the 'Center of Excellence Starter-Kit' post deployement which provides additional capabilities to scale, manage, and operate your Power Platform tenant. The setup creates dedicated Admin Environments for Development, Test, and Production in order to support maintenance, testing, development, and validation before deploying to production.",
-                                "link": {
-                                    "label": "Learn more about Center of Excellence Starter-kit",
-                                    "uri": "https://docs.microsoft.com/power-platform/guidance/coe/starter-kit"
-                                }
-                            }
-                        },
+                        },                        
                         {
                             "name": "tenantEnv",
                             "type": "Microsoft.Common.Section",
@@ -437,7 +398,7 @@
                         {
                             "name": "adminEnvText",
                             "type": "Microsoft.Common.TextBlock",
-                            "visible": true,
+                            "visible": false,
                             "options": {
                                 "text": "Create new dedicated Admin Environments that should be used to operate and manage the overall Power Platform tenant, such as Environment creation, DLP management, Identity and Access, and analytics.",
                                 "link": {
@@ -465,7 +426,7 @@
                                     }
                                 ]
                             },
-                            "visible": true
+                            "visible": false
                         },
                         {
                             "name": "ppAdminEnvNaming",
@@ -479,7 +440,7 @@
                                 "regex": "^[a-z0-9A-Z]{1,30}$",
                                 "validationMessage": "Only alphanumeric characters are allowed, and the value must be 1-30 characters long."
                             },
-                            "visible": "[equals(steps('environments').ppAdminEnvEnablement, 'yes')]"
+                            "visible": false
                         },
                         {
                             "name": "ppAdminRegion",
@@ -488,7 +449,7 @@
                             "placeholder": "",
                             "defaultValue": "",
                             "toolTip": "",
-                            "visible": "[equals(steps('environments').ppAdminEnvEnablement, 'yes')]",
+                            "visible": false,
                             "constraints": {
                                 "allowedValues": [
                                     {
@@ -561,7 +522,7 @@
                                     }
                                 ]
                             },
-                            "visible": "[equals(steps('environments').ppAdminEnvEnablement, 'yes')]"
+                            "visible": false
                         },
                         {
                             "name": "ppAdminDlp",
@@ -582,12 +543,12 @@
                                     }
                                 ]
                             },
-                            "visible": "[equals(steps('environments').ppAdminEnvEnablement, 'yes')]"
+                            "visible": false
                         },
 						{
                             "name": "ppAdminManagedText",
                             "type": "Microsoft.Common.TextBlock",
-                            "visible": "[equals(steps('environments').ppAdminEnvEnablement, 'yes')]",
+                            "visible": false,
                             "options": {
                                 "text": "Enabling Managed Environment in this step will opt-in to weekly digest, and allow you to continue the configuration in Power Platform Admin Center for sharing restrictions, DLPs and more post deployment.",
                                 "link": {
@@ -615,7 +576,7 @@
                                 ],
                                 "required": true
                             },
-                            "visible": "[equals(steps('environments').ppAdminEnvEnablement, 'yes')]"
+                            "visible": false
                         }
                     ]
                 },                                
@@ -4633,20 +4594,20 @@
         "outputs": {
             "parameters": {
                 "ppIdentity": "[steps('powerp').ppIdentity.id]",
-                "ppTenantDlp": "[steps('gov').ppTenantDlp]",
-                "ppTenantIsolationDomains": "[steps('gov').ppTenantIsolationDomains]",
-                "ppTenantIsolationSetting": "[steps('gov').ppTenantIsolationSetting]",
-                "ppGuestMakerSetting": "[steps('gov').ppGuestMakerSetting]",
-                "ppAppSharingSetting": "[steps('gov').ppAppSharingSetting]",
-                "ppEnvCreationSetting": "[steps('gov').ppEnvCreationSetting]",
-                "ppTrialEnvCreationSetting": "[steps('gov').ppTrialEnvCreationSetting]",
-                "ppEnvCapacitySetting": "[steps('gov').ppEnvCapacitySetting]",
-                "ppAdminEnvEnablement": "[steps('gov').ppAdminEnvEnablement]",
-                "ppAdminEnvNaming": "[steps('gov').ppAdminEnvNaming]",
-                "ppAdminRegion": "[steps('gov').ppAdminRegion]",
-                "ppAdminDlp": "[steps('gov').ppAdminDlp]",
-                "ppAdminManagedEnv": "[steps('gov').ppAdminManagedEnv]",
-                "ppAdminBilling": "[steps('gov').ppAdminBilling]",
+                "ppTenantDlp": "[steps('tenant').ppTenantDlp]",
+                "ppTenantIsolationDomains": "[steps('tenant').ppTenantIsolationDomains]",
+                "ppTenantIsolationSetting": "[steps('tenant').ppTenantIsolationSetting]",
+                "ppGuestMakerSetting": "[steps('tenant').ppGuestMakerSetting]",
+                "ppAppSharingSetting": "[steps('tenant').ppAppSharingSetting]",
+                "ppEnvCreationSetting": "[steps('tenant').ppEnvCreationSetting]",
+                "ppTrialEnvCreationSetting": "[steps('tenant').ppTrialEnvCreationSetting]",
+                "ppEnvCapacitySetting": "[steps('tenant').ppEnvCapacitySetting]",
+                "ppAdminEnvEnablement": "[steps('tenant').ppAdminEnvEnablement]",
+                "ppAdminEnvNaming": "[steps('tenant').ppAdminEnvNaming]",
+                "ppAdminRegion": "[steps('tenant').ppAdminRegion]",
+                "ppAdminDlp": "[steps('tenant').ppAdminDlp]",
+                "ppAdminManagedEnv": "[steps('tenant').ppAdminManagedEnv]",
+                "ppAdminBilling": "[steps('tenant').ppAdminBilling]",
                 "ppDefaultRenameText": "[steps('landingZones').ppDefaultRenameText]",
                 "ppDefaultDlp": "[steps('landingZones').ppDefaultDlp]",
                 "ppDefaultManagedEnv": "[steps('landingZones').ppDefaultManagedEnv]",
