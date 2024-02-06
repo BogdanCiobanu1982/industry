@@ -4400,7 +4400,7 @@
                             "type": "Microsoft.Common.DropDown",
                             "label": "Select Microsoft Dynamics 365 Applications",
                             "defaultValue": "None",
-                            "multiSelect": true,
+                            "multiselect": true,
                             "constraints": {
                                 "allowedValues": [
                                     {
