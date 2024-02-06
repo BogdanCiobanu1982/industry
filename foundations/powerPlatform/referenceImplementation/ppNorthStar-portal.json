@@ -4363,7 +4363,7 @@
                             "visible": true
                         },
                         {
-                            "name": "industryText",
+                            "name": "d365AppsText",
                             "type": "Microsoft.Common.TextBlock",
                             "visible": true,
                             "options": {
