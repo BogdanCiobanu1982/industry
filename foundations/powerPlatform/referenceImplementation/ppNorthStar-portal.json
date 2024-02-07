@@ -141,6 +141,7 @@
                             "type": "Microsoft.Common.OptionsGroup",
                             "label": "Enable tenant isolation",
                             "defaultValue": "Block both inbound and outbound",
+                            "readonly": true,
                             "toolTip": "Select the preferred tenant isolation method by selecting either inbound, outbound, or both.",
                             "constraints": {
                                 "allowedValues": [
@@ -161,8 +162,7 @@
                                         "value": "none"
                                     }
                                 ],
-                                "required": true,
-                                "readonly": true
+                                "required": true                                
                             },
                             "visible": true
                         },                                               
