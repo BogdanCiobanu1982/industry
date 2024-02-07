@@ -234,15 +234,7 @@
             "metadata": {
                 "description": "Select environment type. Yes will enable with Dataverse, Half will create without Dataverse."
             }
-        },
-        "ppCitizenCount": {
-            "type": "int",
-            "maxValue": 200,
-            "defaultValue": 1,
-            "metadata": {
-                "description": "Select how many environments for citizen dev to be created."
-            }
-        },
+        },      
         "ppCitizenNaming": {
             "type": "string",
             "defaultValue": "",
@@ -743,9 +735,7 @@
                     "ppCitizen": {
                         "value": "[parameters('ppCitizen')]"
                     },
-                    "ppCitizenCount": {
-                        "value": "[parameters('ppCitizenCount')]"
-                    },
+                   
                     "ppCitizenNaming": {
                         "value": "[if(empty(parameters('ppCitizenNaming')), variables('emptyString'), parameters('ppCitizenNaming'))]"
                     },
