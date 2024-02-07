@@ -402,8 +402,6 @@ if ($PPCitizen -in "yes", "half" -and $PPCitizenCount -ge 1 -or $PPCitizen -eq '
 }
 #endregion create landing zones for citizen devs
 
-$PPIndustryNaming = 'D365'
-
 #region create industry landing zones
 if (-not[string]::IsNullOrEmpty($PPIndustryNaming)) {
     #TODO Add template support for the different industries
