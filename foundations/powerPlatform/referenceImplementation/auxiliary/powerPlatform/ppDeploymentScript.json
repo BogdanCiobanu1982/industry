@@ -504,14 +504,7 @@
             "metadata": {
                 "description": "Select the currency for the environments."
             }
-        },
-        "ppCitizenDescription": {
-            "type": "string",
-            "defaultValue": "",
-            "metadata": {
-                "description": "Provide description for the environments."
-            }
-        },
+        },       
         "ppProLanguage": {
             "type": "string",
             "defaultValue": "",
@@ -598,8 +591,7 @@
                                                     '-PPDefaultManagedSharing', ' ', parameters('ppDefaultManagedSharing'), ' ',
                                                     '-PPCitizen', ' ', parameters('ppCitizen'), ' ',
                                                     '-PPCitizenConfiguration', ' ', parameters('ppCitizenConfiguration'), ' ',                                                    
-                                                    '-PPCitizenNaming', ' ', parameters('ppCitizenNaming'), ' ',
-                                                    '-PPCitizenDescription', ' ', parameters('ppCitizenDescription'), ' ',
+                                                    '-PPCitizenNaming', ' ', parameters('ppCitizenNaming'), ' ',                                                    
                                                     '-PPCitizenLanguage', ' ', parameters('ppCitizenLanguage'), ' ',
                                                     '-PPCitizenCurrency', ' ', parameters('ppCitizenCurrency'), ' ',
                                                     '-PPCitizenRegion', ' ', parameters('ppCitizenRegion'), ' ',
