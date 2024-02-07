@@ -54,7 +54,7 @@
                             "type": "Microsoft.Common.TextBlock",
                             "visible": true,
                             "options": {
-                                "text": "The setup requires an existing Azure subscription to provision the required infrastructure and components, both in Azure and in Power Platform. Select a subscription and a region where the deployment should be placed, and also specify if you want to use this subscription for all Azure services and required configuration.",
+                                "text": "The setup requires an existing Azure subscription to provision the required infrastructure and components, both in Azure and in Power Platform. Select a subscription and a region where the deployment should be placed.",
                                 "link": {
                                     "label": "Learn more",
                                     "uri": "https://docs.microsoft.com/azure/azure-resource-manager/templates/deploy-to-subscription?tabs=azure-cli"
@@ -446,7 +446,7 @@
                         {
                             "name": "citizenSection",
                             "type": "Microsoft.Common.Section",
-                            "label": "Landing Zones for citizen developers",
+                            "label": "Landing Zones (Environments)",
                             "elements": [],
                             "visible": true
                         },
@@ -455,10 +455,10 @@
                             "type": "Microsoft.Common.TextBlock",
                             "visible": true,
                             "options": {
-                                "text": "The Landing Zones for citizen developers will be optimized for no code/low code scenarios, and provide them with the required agility and simplicity to rapidly build modern business applications. You can grant business units or indivuduals access to the Environments post creation.",
+                                "text": "The Landing Zones (Environments) will be created and provide them with the required agility and simplicity to rapidly build modern business applications. You can grant business units or indivuduals access to the Environments post creation.",
                                 "link": {
                                     "label": "Learn more",
-                                    "uri": "https://www.microsoft.com"
+                                    "uri": "https://learn.microsoft.com/en-us/power-platform/admin/environments-overview"
                                 }
                             }
                         },
@@ -468,7 +468,7 @@
                             "label": "Create Environments for citizen developer scenarios",
                             "defaultValue": "Yes",
                             "multiSelect": true,
-                            "toolTip": "If 'Yes' is selected, the setup will create new environments for citizen developer scenarios",
+                            "toolTip": "If 'Yes' is selected, the setup will create new environments",
                             "constraints": {
                                 "allowedValues": [
                                     {
@@ -497,7 +497,7 @@
                         {
                             "name": "ppCitizenNaming",
                             "type": "Microsoft.Common.TextBox",
-                            "label": "Provide naming convention for the citizen developers environments",
+                            "label": "Provide naming convention for the environments.",
                             "placeholder": "",
                             "defaultValue": "",
                             "toolTip": "Use only allowed characters",
@@ -511,7 +511,7 @@
                         {
                             "name": "ppCitizenRegion",
                             "type": "Microsoft.Common.DropDown",
-                            "label": "Select region for the new Environments for citizen developers",
+                            "label": "Select region for the new Environments.",
                             "placeholder": "",
                             "defaultValue": "United Kingdom",
                             "toolTip": "",
@@ -578,7 +578,7 @@
                         {
                             "name": "ppCitizenLanguage",
                             "type": "Microsoft.Common.DropDown",
-                            "label": "Select language for the new Environments for citizen developers",
+                            "label": "Select language for the new Environments.",
                             "placeholder": "",
                             "defaultValue": "English (United States)",
                             "toolTip": "",
@@ -773,7 +773,7 @@
                         {
                             "name": "ppCitizenCurrency",
                             "type": "Microsoft.Common.DropDown",
-                            "label": "Select currency for the new Environments for citizen developers",
+                            "label": "Select currency for the new Environments.",
                             "placeholder": "",
                             "defaultValue": "GBP",
                             "toolTip": "",
@@ -1236,7 +1236,7 @@
                         {
                             "name": "ppCitizenDlp",
                             "type": "Microsoft.Common.OptionsGroup",
-                            "label": "Assign recommended Data-loss prevention policies to the Environments for citizen development",
+                            "label": "Assign recommended Data-loss prevention policies to the Environments.",
                             "defaultValue": "Yes (recommended)",
                             "multiSelect": true,
                             "toolTip": "If 'Yes' is selected, the setup will enable this",
@@ -1269,7 +1269,7 @@
                         {
                             "name": "ppCitizenManagedEnv",
                             "type": "Microsoft.Common.OptionsGroup",
-                            "label": "Enable Managed Environments (Preview) for the Environments for citizen development",
+                            "label": "Enable Managed Environments (Preview) for the Environments.",
                             "defaultValue": "Yes (recommended)",
                             "toolTip": "Managed Environments is a suite of capabilities that allows admins to manage Power Platform at scale with more control, less effort, and more insights",
                             "constraints": {
@@ -1290,7 +1290,7 @@
                         {
                             "name": "ppCitizenAlm",
                             "type": "Microsoft.Common.OptionsGroup",
-                            "label": "Create Development, Test, and Production environments for each landing zone",
+                            "label": "Create Development, Test, and Production environments.",
                             "defaultValue": "Yes (recommended)",
                             "toolTip": "If 'Yes' is selected, the setup adhere to best practices and create dedicated environments for sustainable application life-cycle management",
                             "constraints": {
