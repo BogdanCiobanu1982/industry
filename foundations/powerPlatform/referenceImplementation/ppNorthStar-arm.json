@@ -583,14 +583,7 @@
             "metadata": {
                 "description": "Select the currency for the environments."
             }
-        },
-        "ppCitizenDescription": {
-            "type": "string",
-            "defaultValue": "",
-            "metadata": {
-                "description": "Provide description for the environments."
-            }
-        },
+        },       
         "ppProLanguage": {
             "type": "string",
             "defaultValue": "",
@@ -798,10 +791,7 @@
                     },
                     "ppProConfiguration": {
                         "value": "[if(empty(parameters('ppProConfiguration')), variables('emptyString'), parameters('ppProConfiguration'))]"
-                    },
-                    "ppCitizenDescription": {
-                        "value": "[if(empty(parameters('ppCitizenDescription')), variables('emptyString'), parameters('ppCitizenDescription'))]"
-                    },
+                    },                   
                     "ppCitizenLanguage": {
                         "value": "[if(empty(parameters('ppCitizenLanguage')), variables('emptyString'), parameters('ppCitizenLanguage'))]"
                     },
