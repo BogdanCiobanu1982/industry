@@ -14,14 +14,8 @@ param (
     [Parameter(Mandatory = $false)][string][AllowEmptyString()][AllowNull()]$PPEnvCapacitySetting,
     [Parameter(Mandatory = $false)][string][AllowEmptyString()][AllowNull()]$PPTenantIsolationSetting,
     [Parameter(Mandatory = $false)][string][AllowEmptyString()][AllowNull()]$PPTenantDLP,
-    [Parameter(Mandatory = $false)][string][AllowEmptyString()][AllowNull()]$PPTenantIsolationDomains,
-    [Parameter(Mandatory = $false)][string][AllowEmptyString()][AllowNull()]$PPAdminEnvNaming,
-    [ValidateSet('unitedstates', 'europe', 'asia', 'australia', 'india', 'japan', 'canada', 'unitedkingdom', 'unitedstatesfirstrelease', 'southamerica', 'france', 'switzerland', 'germany', 'unitedarabemirates', 'norway')][Parameter(Mandatory = $false)][string]$PPAdminRegion,
-    [Parameter(Mandatory = $false)][string]$PPAdminBilling,
-    [Parameter(Mandatory = $false)][string][AllowEmptyString()][AllowNull()]$PPAdminCoeSetting,
-    [Parameter(Mandatory = $false)][string][AllowEmptyString()][AllowNull()]$PPAdminDlp,
-    [Parameter(Mandatory = $false)][string][AllowEmptyString()][AllowNull()]$PPAdminEnvEnablement,
-    [Parameter(Mandatory = $false)][string][AllowEmptyString()][AllowNull()]$PPAdminManagedEnv,
+    [Parameter(Mandatory = $false)][string][AllowEmptyString()][AllowNull()]$PPTenantIsolationDomains,        
+
     #Landing Zones
     [Parameter(Mandatory = $false)][string][AllowEmptyString()][AllowNull()]$PPDefaultRenameText,
     [Parameter(Mandatory = $false)][string][AllowEmptyString()][AllowNull()]$PPDefaultDLP,
@@ -38,25 +32,7 @@ param (
     [Parameter(Mandatory = $false)][string][AllowEmptyString()][AllowNull()]$PPCitizenDescription,
     [Parameter(Mandatory = $false)][string][AllowEmptyString()][AllowNull()]$PPCitizenCurrency,
     [Parameter(Mandatory = $false)][string][AllowEmptyString()][AllowNull()]$PPCitizenLanguage,
-    [Parameter(Mandatory = $false)]$PPCitizenConfiguration,
-    [Parameter(Mandatory = $false)][string][AllowEmptyString()][AllowNull()]$PPPro,
-    [Parameter(Mandatory = $false)][string][AllowEmptyString()][AllowNull()]$PPProCount,
-    [Parameter(Mandatory = $false)][string][AllowEmptyString()][AllowNull()]$PPProNaming,
-    [Parameter(Mandatory = $false)][string][AllowEmptyString()][AllowNull()]$PPProRegion,
-    [Parameter(Mandatory = $false)][string][AllowEmptyString()][AllowNull()]$PPProDlp,
-    [Parameter(Mandatory = $false)][string][AllowEmptyString()][AllowNull()]$PPProBilling,
-    [Parameter(Mandatory = $false)][string][AllowEmptyString()][AllowNull()]$PPProManagedEnv,
-    [Parameter(Mandatory = $false)][string][AllowEmptyString()][AllowNull()]$PPProAlm,
-    [Parameter(Mandatory = $false)][string][AllowEmptyString()][AllowNull()]$PPProDescription,
-    [Parameter(Mandatory = $false)][string][AllowEmptyString()][AllowNull()]$PPProCurrency,
-    [Parameter(Mandatory = $false)][string][AllowEmptyString()][AllowNull()]$PPProLanguage,
-    [Parameter(Mandatory = $false)]$PPProConfiguration,
-    [Parameter(Mandatory = $false)][string][AllowEmptyString()][AllowNull()]$PPSelectIndustry,
-    [Parameter(Mandatory = $false)][string][AllowEmptyString()][AllowNull()]$PPIndustryNaming,
-    [Parameter(Mandatory = $false)][string][AllowEmptyString()][AllowNull()]$PPIndustryRegion,
-    [Parameter(Mandatory = $false)][string][AllowEmptyString()][AllowNull()]$PPIndustryBilling,
-    [Parameter(Mandatory = $false)][string][AllowEmptyString()][AllowNull()]$PPIndustryAlm,
-    [Parameter(Mandatory = $false)][string][AllowEmptyString()][AllowNull()]$PPIndustryManagedEnv
+    [Parameter(Mandatory = $false)]$PPCitizenConfiguration
 )
 
 $DeploymentScriptOutputs = @{}
@@ -401,36 +377,5 @@ if ($PPCitizen -in "yes", "half" -and $PPCitizenCount -ge 1 -or $PPCitizen -eq '
     }
 }
 #endregion create landing zones for citizen devs
-
-#region create industry landing zones
-if (-not[string]::IsNullOrEmpty($PPIndustryNaming)) {
-    #TODO Add template support for the different industries
-    $environmentName = $PPIndustryNaming
-    $PPIndustryRegion = $defaultEnvironment.location
-    $indEnvHt = @{
-        # Location always need to be set to default for environments with D365 templates
-        Location           = $PPIndustryRegion
-        Dataverse          = $true
-        ManagedEnvironment = $PPIndustryManagedEnv -eq 'Yes'
-        Templates          = 'D365_Sales'
-    }
-    try {
-        if ($PPIndustryAlm -eq 'Yes') {
-            foreach ($envTier in $envTiers) {
-                $almEnvironmentName = "{0}-{1}" -f $environmentName, $envTier
-                $null = New-PowerOpsEnvironment -Name $almEnvironmentName @indEnvHt
-                Write-Output "Created industry environment $almEnvironmentName in $PPIndustryRegion"
-            }
-        }
-        else {
-            $null = New-PowerOpsEnvironment -Name $environmentName @indEnvHt
-            Write-Output "Created industry environment $environmentName in $PPIndustryRegion"
-        }
-    }
-    catch {
-        throw "Failed to deploy industry environment $environmentName`r`n$_"
-    }
-}
-#endregion create industry landing zones
 
 $DeploymentScriptOutputs['Deployment'] = 'Successful'
