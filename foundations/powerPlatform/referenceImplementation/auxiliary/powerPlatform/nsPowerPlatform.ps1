@@ -419,9 +419,10 @@ if ($PPCitizen -in "yes", "half" -and $PPCitizenCount -ge 1 -or $PPCitizen -eq '
                 Description        = $environment.envDescription
                 LanguageName       = $environment.envLanguage
                 Currency           = $environment.envCurrency
-                SecurityGroupId    = $environment.envRbac                            
+                SecurityGroupId    = $environment.envRbac  
+                Templates          = 'D365_Sales'                          
             }
-            $null = New-PowerOpsEnvironment @envCreationHt -Templates 'D365_Sales'
+            $null = New-PowerOpsEnvironment @envCreationHt 
             Write-Output "Created citizen environment $($environment.envName) in $($environment.envRegion)"
             if (-not [string]::IsNullOrEmpty($environment.envRbac) -and $environment.envDataverse -eq $false) {
                 Write-Output "Assigning RBAC for principalId $($environment.envRbac) in citizen environment $($environment.envName)"
