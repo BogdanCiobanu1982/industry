@@ -27,8 +27,7 @@ param (
     [Parameter(Mandatory = $false)][string][AllowEmptyString()][AllowNull()]$PPCitizenDlp,
     [Parameter(Mandatory = $false)][string][AllowEmptyString()][AllowNull()]$PPCitizenBilling,
     [Parameter(Mandatory = $false)][string][AllowEmptyString()][AllowNull()]$PPCitizenManagedEnv,
-    [Parameter(Mandatory = $false)][string][AllowEmptyString()][AllowNull()]$PPCitizenAlm,
-    [Parameter(Mandatory = $false)][string][AllowEmptyString()][AllowNull()]$PPCitizenDescription,
+    [Parameter(Mandatory = $false)][string][AllowEmptyString()][AllowNull()]$PPCitizenAlm,    
     [Parameter(Mandatory = $false)][string][AllowEmptyString()][AllowNull()]$PPCitizenCurrency,
     [Parameter(Mandatory = $false)][string][AllowEmptyString()][AllowNull()]$PPCitizenLanguage,
     [Parameter(Mandatory = $false)]$PPCitizenConfiguration
@@ -337,7 +336,7 @@ if ($PPCitizen -in "yes", "half" -and $PPCitizenCount -ge 1 -or $PPCitizen -eq '
                 EnvRegion      = $PPCitizenRegion
                 envLanguage    = $PPCitizenLanguage
                 envCurrency    = $PPCitizenCurrency
-                envDescription = $PPCitizenDescription
+                envDescription = ''
                 EnvALM         = $PPCitizenAlm -eq 'Yes'
                 EnvDataverse   = $PPCitizen -eq 'Yes'
             }
