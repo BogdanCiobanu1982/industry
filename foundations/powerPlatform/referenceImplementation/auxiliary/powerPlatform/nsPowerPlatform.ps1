@@ -66,6 +66,8 @@ Install-Module -Name PowerOps -AllowPrerelease -Force
 #Get the created groups IDs
 $devSecurityGroupId = '2f178b09-3e99-4f68-b3dc-177daa6d662f'
 $testSecurityGroupId = 'eae9814e-26cf-43f5-a7be-f08c5b5b0a50'
+$prodSecurityGroupId = ''
+$adminSecurityGroupId = ''
 
 #Default ALM environment tiers
 $envTiers = 'dev', 'test'
@@ -125,6 +127,12 @@ function New-EnvironmentCreationObject {
                     }
                     if ( $envTier -eq 'test' ){
                         $securityGroupId = $testSecurityGroupId
+                    }
+                    if ( $envTier -eq 'prod' ){
+                        $securityGroupId = $prodSecurityGroupId
+                    }
+                    if ( $envTier -eq 'admin' ){
+                        $securityGroupId = $adminSecurityGroupId
                     }
 
                     [PSCustomObject]@{
@@ -413,7 +421,7 @@ if ($PPCitizen -in "yes", "half" -and $PPCitizenCount -ge 1 -or $PPCitizen -eq '
                 Currency           = $environment.envCurrency
                 SecurityGroupId    = $environment.envRbac                            
             }
-            $null = New-PowerOpsEnvironment @envCreationHt
+            $null = New-PowerOpsEnvironment @envCreationHt -Templates 'D365_Sales'
             Write-Output "Created citizen environment $($environment.envName) in $($environment.envRegion)"
             if (-not [string]::IsNullOrEmpty($environment.envRbac) -and $environment.envDataverse -eq $false) {
                 Write-Output "Assigning RBAC for principalId $($environment.envRbac) in citizen environment $($environment.envName)"
