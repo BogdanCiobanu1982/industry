@@ -236,6 +236,19 @@
             "metadata": {
                 "description": "Select the currency for the environments."
             }
+        },
+        "ppSelectD365Apps": {
+            "type": "string",
+             "allowedValues": [
+                "D365_Sales",
+                "D365_FieldService",
+                "D365_CustomerService",
+                "none"
+            ],
+            "defaultValue": "none",
+            "metadata": {
+                "description": "Select Dynamics 365 Applications to be installed on the Landing Zones (Environments)."
+            }
         }        
     },
     "variables": {
@@ -299,7 +312,8 @@
                                                     '-PPCitizenRegion', ' ', parameters('ppCitizenRegion'), ' ',
                                                     '-PPCitizenDlp', ' ', parameters('ppCitizenDlp'), ' ',
                                                     '-PPCitizenManagedEnv', ' ', parameters('ppCitizenManagedEnv'), ' ',
-                                                    '-PPCitizenAlm', ' ', parameters('ppCitizenAlm'), ' '                                                    
+                                                    '-PPCitizenAlm', ' ', parameters('ppCitizenAlm'), ' ',
+                                                    '-ppSelectD365Apps', ' ', parameters('ppSelectD365Apps'), ' '                                                    
                                                     )]",
                                 "azPowerShellVersion": "7.2",
                                 "timeout": "PT120M",
