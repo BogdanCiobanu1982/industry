@@ -34,7 +34,6 @@ param (
 $DeploymentScriptOutputs = @{}
 #Install required modules
 Install-Module -Name PowerOps -AllowPrerelease -Force
-Install-Module -Name Microsoft.PowerApps.Administration.PowerShell -Identity -ClientId "5d09226d-8c9e-41b4-893e-231e0f7d285a"
 
 #Get the created groups IDs
 $devSecurityGroupId = '2f178b09-3e99-4f68-b3dc-177daa6d662f'
