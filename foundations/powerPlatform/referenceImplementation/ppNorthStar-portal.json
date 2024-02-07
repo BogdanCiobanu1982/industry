@@ -3016,8 +3016,7 @@
                 "ppCitizenRegion": "[steps('landingZones').ppCitizenRegion]",
                 "ppCitizenDlp": "[steps('landingZones').ppCitizenDlp]",
                 "ppCitizenManagedEnv": "[steps('landingZones').ppCitizenManagedEnv]",
-                "ppCitizenAlm": "[steps('landingZones').ppCitizenAlm]",
-                "ppCitizenBilling": "[steps('landingZones').ppCitizenBilling]"               
+                "ppCitizenAlm": "[steps('landingZones').ppCitizenAlm]"                    
             },
             "kind": "Subscription",
             "location": "[steps('powerp').locationName]",
