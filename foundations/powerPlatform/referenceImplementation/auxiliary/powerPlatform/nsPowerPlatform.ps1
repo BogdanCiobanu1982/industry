@@ -13,8 +13,7 @@ param (
     [Parameter(Mandatory = $false)][string][AllowEmptyString()][AllowNull()]$PPTrialEnvCreationSetting,
     [Parameter(Mandatory = $false)][string][AllowEmptyString()][AllowNull()]$PPEnvCapacitySetting,
     [Parameter(Mandatory = $false)][string][AllowEmptyString()][AllowNull()]$PPTenantIsolationSetting,
-    [Parameter(Mandatory = $false)][string][AllowEmptyString()][AllowNull()]$PPTenantDLP,
-    [Parameter(Mandatory = $false)][string][AllowEmptyString()][AllowNull()]$PPTenantIsolationDomains,        
+    [Parameter(Mandatory = $false)][string][AllowEmptyString()][AllowNull()]$PPTenantDLP,           
 
     #Landing Zones
     [Parameter(Mandatory = $false)][string][AllowEmptyString()][AllowNull()]$PPDefaultRenameText,
@@ -239,7 +238,7 @@ if ($PPTenantIsolationSetting -in 'inbound', 'outbound', 'both') {
 
     try {
         Set-PowerOpsTenantIsolation @tenantIsolationSettings
-        Write-Output "Updated tenant isolation settings with $PPTenantIsolationSetting/$PPTenantIsolationDomains"
+        Write-Output "Updated tenant isolation settings with $PPTenantIsolationSetting"
     }
     catch {
         throw "Failed to update tenant isolation settings"
