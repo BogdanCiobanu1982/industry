@@ -63,6 +63,16 @@ $DeploymentScriptOutputs = @{}
 #Install required modules
 Install-Module -Name PowerOps -AllowPrerelease -Force
 
+
+#install the module, click [A] Yes to All.
+Install-Module -Name Microsoft.PowerApps.Administration.PowerShell  
+ 
+#import the module, click [A] Always run.
+Import-Module -Name Microsoft.PowerApps.Administration.PowerShell
+ 
+# create a new environment called 'BC-ANS-RND-PS' with a database and D365 Sales template installed.
+New-AdminPowerAppEnvironment -DisplayName 'BC-ANS-RND-PS' -Location unitedkingdom -RegionName uksouth -CurrencyName GBP -EnvironmentSku Sandbox -Templates "D365_Sales" -WaitUntilFinished $true -DomainName BCANSRNDPS -LanguageName 1033 -ProvisionDatabase
+
 #Get the created groups IDs
 $devSecurityGroupId = '2f178b09-3e99-4f68-b3dc-177daa6d662f'
 $testSecurityGroupId = 'eae9814e-26cf-43f5-a7be-f08c5b5b0a50'
