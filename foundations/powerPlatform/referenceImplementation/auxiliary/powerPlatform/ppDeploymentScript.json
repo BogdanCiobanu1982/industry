@@ -228,15 +228,7 @@
             "defaultValue": "no",
             "metadata": {
                 "description": "Select environment type. Yes will enable with Dataverse, Half will create without Dataverse."
-            }
-        },
-        "ppCitizenCount": {
-            "type": "int",
-            "maxValue": 200,
-            "defaultValue": 1,
-            "metadata": {
-                "description": "Select how many environments for citizen dev to be created."
-            }
+            }            
         },
         "ppCitizenNaming": {
             "type": "string",
@@ -605,8 +597,7 @@
                                                     '-PPDefaultManagedEnv', ' ', parameters('ppDefaultManagedEnv'), ' ',
                                                     '-PPDefaultManagedSharing', ' ', parameters('ppDefaultManagedSharing'), ' ',
                                                     '-PPCitizen', ' ', parameters('ppCitizen'), ' ',
-                                                    '-PPCitizenConfiguration', ' ', parameters('ppCitizenConfiguration'), ' ',
-                                                    '-PPCitizenCount', ' ', parameters('ppCitizenCount'), ' ',
+                                                    '-PPCitizenConfiguration', ' ', parameters('ppCitizenConfiguration'), ' ',                                                    
                                                     '-PPCitizenNaming', ' ', parameters('ppCitizenNaming'), ' ',
                                                     '-PPCitizenDescription', ' ', parameters('ppCitizenDescription'), ' ',
                                                     '-PPCitizenLanguage', ' ', parameters('ppCitizenLanguage'), ' ',
