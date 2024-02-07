@@ -1352,7 +1352,7 @@
                             "name": "ppSelectD365Apps",
                             "type": "Microsoft.Common.DropDown",
                             "label": "Select Microsoft Dynamics 365 Applications",
-                            "defaultValue": "None",
+                            "defaultValue": "",
                             "multiselect": true,
                             "constraints": {
                                 "allowedValues": [
@@ -1367,11 +1367,7 @@
                                     {
                                         "label": "Dynamics 365 for Customer Service",
                                         "value": "D365_CustomerService"
-                                    },
-                                    {
-                                        "label": "None",
-                                        "value": "none"
-                                    }                                      
+                                    }                                                                       
                                 ]
                             },
                             "visible": "[not(equals(steps('landingZones').ppD365Apps, 'no'))]"
