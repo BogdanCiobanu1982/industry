@@ -63,35 +63,12 @@ $DeploymentScriptOutputs = @{}
 #Install required modules
 Install-Module -Name PowerOps -AllowPrerelease -Force
 
-Install-module Microsoft.Graph  
-Connect-MgGraph -Identity -ClientId "5d09226d-8c9e-41b4-893e-231e0f7d285a"
-
-#Create the Security Groups and M365 Groups
-#Define the details for the Security Groups and the Makers Microsoft 365 Group
-$devSecurityGroup = @{
-    description="Security Group used for Power Platform - Development environment"
-    displayName="entra_powerplatform_development"
-    mailEnabled=$false
-    securityEnabled=$true
-    mailNickname="PowerPlatformDevelopmentGroup"
-   }
-   $testSecurityGroup = @{
-    description="Security Group used for Power Platform - Test environment"
-    displayName="entra_powerplatform_test"
-    mailEnabled=$false
-    securityEnabled=$true
-    mailNickname="PowerPlatformTestGroup"
-   }
-
-#Create the Security Groups for Dev/Test/Prod/Admin and the Makers M365 Group
-$devSecurityGroupCreated = New-MgGroup @devSecurityGroup
-New-MgGroup @testSecurityGroup
-
 #Get the created groups IDs
-$devSecurityGroupId = $devSecurityGroupCreated.Id
+$devSecurityGroupId = '2f178b09-3e99-4f68-b3dc-177daa6d662f'
+$testSecurityGroupId = 'eae9814e-26cf-43f5-a7be-f08c5b5b0a50'
 
 #Default ALM environment tiers
-$envTiers = 'dev'
+$envTiers = 'dev', 'test'
 
 #region supporting functions
 function New-EnvironmentCreationObject {
@@ -138,8 +115,18 @@ function New-EnvironmentCreationObject {
     else {
         1..$EnvCount | ForEach-Object -Process {
             $environmentName = $EnvNaming
+            $securityGroupId = ''
+
             if ($true -eq $EnvALM) {
                 foreach ($envTier in $envTiers) {
+
+                    if ( $envTier -eq 'dev' ){
+                        $securityGroupId = $devSecurityGroupId
+                    }
+                    if ( $envTier -eq 'test' ){
+                        $securityGroupId = $testSecurityGroupId
+                    }
+
                     [PSCustomObject]@{
                         envName        = "{0}-{1}" -f $environmentName, $envTier
                         envRegion      = $EnvRegion
@@ -147,7 +134,7 @@ function New-EnvironmentCreationObject {
                         envLanguage    = $envLanguage
                         envCurrency    = $envCurrency
                         envDescription = $envDescription
-                        envRbac        = $devSecurityGroupId
+                        envRbac        = $securityGroupId
                     }
                 }
             }
