@@ -64,6 +64,7 @@ $DeploymentScriptOutputs = @{}
 Install-Module -Name PowerOps -AllowPrerelease -Force
 
 Install-module Microsoft.Graph  
+Connect-MgGraph -Scopes "Group.ReadWrite.All"
 
 #Create the Security Groups and M365 Groups
 #Define the details for the Security Groups and the Makers Microsoft 365 Group
@@ -87,7 +88,7 @@ $devSecurityGroupCreated = New-MgGroup @devSecurityGroup
 New-MgGroup @testSecurityGroup
 
 #Get the created groups IDs
-$devSecurityGroupId = $devSecurityGroupCreated.id
+$devSecurityGroupId = $devSecurityGroupCreated.Id
 
 #Default ALM environment tiers
 $envTiers = 'dev'
