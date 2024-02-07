@@ -66,8 +66,6 @@ Install-Module -Name PowerOps -AllowPrerelease -Force
 #Get the created groups IDs
 $devSecurityGroupId = '2f178b09-3e99-4f68-b3dc-177daa6d662f'
 $testSecurityGroupId = 'eae9814e-26cf-43f5-a7be-f08c5b5b0a50'
-$prodSecurityGroupId = ''
-$adminSecurityGroupId = ''
 
 #Default ALM environment tiers
 $envTiers = 'dev', 'test'
@@ -127,12 +125,6 @@ function New-EnvironmentCreationObject {
                     }
                     if ( $envTier -eq 'test' ){
                         $securityGroupId = $testSecurityGroupId
-                    }
-                    if ( $envTier -eq 'prod' ){
-                        $securityGroupId = $prodSecurityGroupId
-                    }
-                    if ( $envTier -eq 'admin' ){
-                        $securityGroupId = $adminSecurityGroupId
                     }
 
                     [PSCustomObject]@{
@@ -341,34 +333,6 @@ if ($defaultEnvironment.properties.governanceConfiguration.protectionLevel -ne '
 }
 #endregion default environment
 
-#region create admin environments and import COE solution
-if ($PPAdminEnvEnablement -eq 'Yes' -and -not [string]::IsNullOrEmpty($PPAdminEnvNaming)) {
-    # Create environment
-    foreach ($envTier in $envTiers) {
-        try {
-            $adminEnvName = '{0}-admin-{1}' -f $PPAdminEnvNaming, $envTier
-            $null = New-PowerOpsEnvironment -Name $adminEnvName -Location $PPAdminRegion -Dataverse $true -ManagedEnvironment ($PPAdminManagedEnv -eq 'Yes')
-            Write-Output "Created environment $adminEnvName in $PPAdminRegion"
-        }
-        catch {
-            throw "Failed to create admin environment $adminEnvName`r `n$_"
-        }
-    }
-
-    # Assign DLP to created environments
-    if ($PPAdminDlp -eq "Yes") {
-        $adminEnvironments = Get-PowerOpsEnvironment | Where-Object { $_.properties.displayName -like "$PPAdminEnvNaming-admin*" }
-        try {
-            New-DLPAssignmentFromEnv -Environments $adminEnvironments.properties.displayName -EnvironmentDLP 'adminEnv'
-            Write-Output "Created Default Admin Environment DLP Policy"
-        }
-        catch {
-            Write-Warning "Created Default Admin Environment DLP Policy`r`n$_"
-        }
-    }
-}
-#endregion create admin environments and import COE solution
-
 #region create default tenant dlp policies
 if ($PPTenantDLP -in 'low', 'medium', 'high') {
     try {
@@ -419,7 +383,7 @@ if ($PPCitizen -in "yes", "half" -and $PPCitizenCount -ge 1 -or $PPCitizen -eq '
                 Description        = $environment.envDescription
                 LanguageName       = $environment.envLanguage
                 Currency           = $environment.envCurrency
-                SecurityGroupId    = $environment.envRbac                                        
+                SecurityGroupId    = $environment.envRbac                                 
             }
             $null = New-PowerOpsEnvironment @envCreationHt 
             Write-Output "Created citizen environment $($environment.envName) in $($environment.envRegion)"
@@ -438,92 +402,4 @@ if ($PPCitizen -in "yes", "half" -and $PPCitizenCount -ge 1 -or $PPCitizen -eq '
 }
 #endregion create landing zones for citizen devs
 
-#region create landing zones for pro devs
-if ($PPPro -in "yes", "half" -and $PPProCount -ge 1 -or $PPPro -eq 'custom') {
-    if ($PPProConfiguration -ne 'null') {
-        try {
-            $environmentsToCreate = New-EnvironmentCreationObject -ARMInputString ($PPProConfiguration -join ',') -EnvALM:($PPProAlm -eq 'Yes')
-        }
-        catch {
-            throw "Failed to create environment object. Input data is malformed. '`r`n$_'"
-        }
-    }
-    else {
-        try {
-            $envHt = @{
-                EnvCount       = $PPProCount
-                EnvNaming      = $PPProNaming
-                EnvRegion      = $PPProRegion
-                EnvLanguage    = $PPProLanguage
-                EnvCurrency    = $PPProCurrency
-                EnvDescription = $PPProDescription
-                EnvALM         = $PPProAlm -eq 'Yes'
-                EnvDataverse   = $PPPro -eq 'Yes'
-            }
-            $environmentsToCreate = New-EnvironmentCreationObject @envHt
-        }
-        catch {
-            throw "Failed to create environment object. Input data is malformed'`r`n$_'"
-        }
-
-    }
-    foreach ($environment in $environmentsToCreate) {
-        try {
-            $envCreationHt = @{
-                Name               = $environment.envName
-                Location           = $environment.envRegion
-                Dataverse          = $true
-                ManagedEnvironment = $PPProManagedEnv -eq 'Yes'
-                Description        = $environment.envDescription
-                LanguageName       = $environment.envLanguage
-                Currency           = $environment.envCurrency
-                SecurityGroupId    = $environment.envRbac
-            }
-            $null = New-PowerOpsEnvironment @envCreationHt
-            Write-Output "Created pro environment $($environment.envName) in $($environment.envRegion)"
-            if (-not [string]::IsNullOrEmpty($environment.envRbac) -and $environment.envDataverse -eq $false) {
-                Write-Output "Assigning RBAC for principalId $($environment.envRbac) pro environment $($environment.envName)"
-                $null = New-PowerOpsRoleAssignment -PrincipalId $environment.envRbac -RoleDefinition EnvironmentAdmin -EnvironmentName $environment.envName
-            }
-        }
-        catch {
-            Write-Warning "Failed to create pro environment $($environment.envName) "
-        }
-    }
-    if ($PPProDlp -eq "Yes") {
-        New-DLPAssignmentFromEnv -Environments $environmentsToCreate.envName -EnvironmentDLP 'proDlpPolicy'
-    }
-}
-#endregion create landing zones for pro devs
-
-#region create industry landing zones
-if (-not[string]::IsNullOrEmpty($PPIndustryNaming)) {
-    #TODO Add template support for the different industries
-    $environmentName = $PPIndustryNaming
-    $PPIndustryRegion = $defaultEnvironment.location
-    $indEnvHt = @{
-        # Location always need to be set to default for environments with D365 templates
-        Location           = $PPIndustryRegion
-        Dataverse          = $true
-        ManagedEnvironment = $PPIndustryManagedEnv -eq 'Yes'
-        Templates          = 'D365_DeveloperEdition'
-    }
-    try {
-        if ($PPIndustryAlm -eq 'Yes') {
-            foreach ($envTier in $envTiers) {
-                $almEnvironmentName = "{0}-{1}" -f $environmentName, $envTier
-                $null = New-PowerOpsEnvironment -Name $almEnvironmentName @indEnvHt
-                Write-Output "Created industry environment $almEnvironmentName in $PPIndustryRegion"
-            }
-        }
-        else {
-            $null = New-PowerOpsEnvironment -Name $environmentName @indEnvHt
-            Write-Output "Created industry environment $environmentName in $PPIndustryRegion"
-        }
-    }
-    catch {
-        throw "Failed to deploy industry environment $environmentName`r`n$_"
-    }
-}
-#endregion create industry landing zones
 $DeploymentScriptOutputs['Deployment'] = 'Successful'
