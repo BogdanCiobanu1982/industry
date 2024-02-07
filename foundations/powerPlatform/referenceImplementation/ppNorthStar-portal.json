@@ -1367,7 +1367,11 @@
                                     {
                                         "label": "Dynamics 365 for Customer Service",
                                         "value": "D365_CustomerService"
-                                    }                                    
+                                    },
+                                    {
+                                        "label": "None",
+                                        "value": "none"
+                                    }                                      
                                 ]
                             },
                             "visible": "[not(equals(steps('landingZones').ppD365Apps, 'no'))]"
@@ -1396,7 +1400,8 @@
                 "ppCitizenRegion": "[steps('landingZones').ppCitizenRegion]",
                 "ppCitizenDlp": "[steps('landingZones').ppCitizenDlp]",
                 "ppCitizenManagedEnv": "[steps('landingZones').ppCitizenManagedEnv]",
-                "ppCitizenAlm": "[steps('landingZones').ppCitizenAlm]"                    
+                "ppCitizenAlm": "[steps('landingZones').ppCitizenAlm]",
+                "ppSelectD365Apps": "[steps('landingZones').ppSelectD365Apps]"                  
             },
             "kind": "Subscription",
             "location": "[steps('powerp').locationName]",
