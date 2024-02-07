@@ -24,13 +24,11 @@ param (
     [Parameter(Mandatory = $false)][string][AllowEmptyString()][AllowNull()]$PPCitizen,    
     [Parameter(Mandatory = $false)][string][AllowEmptyString()][AllowNull()]$PPCitizenNaming,
     [Parameter(Mandatory = $false)][string][AllowEmptyString()][AllowNull()]$PPCitizenRegion,
-    [Parameter(Mandatory = $false)][string][AllowEmptyString()][AllowNull()]$PPCitizenDlp,
-    [Parameter(Mandatory = $false)][string][AllowEmptyString()][AllowNull()]$PPCitizenBilling,
+    [Parameter(Mandatory = $false)][string][AllowEmptyString()][AllowNull()]$PPCitizenDlp,    
     [Parameter(Mandatory = $false)][string][AllowEmptyString()][AllowNull()]$PPCitizenManagedEnv,
     [Parameter(Mandatory = $false)][string][AllowEmptyString()][AllowNull()]$PPCitizenAlm,    
     [Parameter(Mandatory = $false)][string][AllowEmptyString()][AllowNull()]$PPCitizenCurrency,
-    [Parameter(Mandatory = $false)][string][AllowEmptyString()][AllowNull()]$PPCitizenLanguage,
-    [Parameter(Mandatory = $false)]$PPCitizenConfiguration
+    [Parameter(Mandatory = $false)][string][AllowEmptyString()][AllowNull()]$PPCitizenLanguage    
 )
 
 $DeploymentScriptOutputs = @{}
@@ -301,7 +299,6 @@ if ($defaultEnvironment.properties.governanceConfiguration.protectionLevel -ne '
     catch {
         Write-Warning "Failed to enable managed environment for default environment"
     }
-
 }
 #endregion default environment
 
@@ -319,8 +316,9 @@ if ($PPTenantDLP -in 'low', 'medium', 'high') {
 
 #region create landing zones for citizen devs
 $PPCitizenCount = 1
+$PPCitizenConfiguration = '';
 if ($PPCitizen -in "yes", "half" -and $PPCitizenCount -ge 1 -or $PPCitizen -eq 'custom') {
-    if ($PPCitizenConfiguration -ne 'null') {
+    if ($PPCitizenConfiguration -ne '') {
         try {
             $environmentsToCreate = New-EnvironmentCreationObject -ARMInputString ($PPCitizenConfiguration -join ',') -EnvALM:($PPCitizenAlm -eq 'Yes')
         }
