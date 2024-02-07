@@ -4142,12 +4142,12 @@
                             "type": "Microsoft.Common.Section",
                             "label": "Landing Zones for Industry Clouds",
                             "elements": [],
-                            "visible": false
+                            "visible": true
                         },
                         {
                             "name": "industryText",
                             "type": "Microsoft.Common.TextBlock",
-                            "visible": false,
+                            "visible": true,
                             "options": {
                                 "text": "The Landing Zones for Industry Clouds are intended to host your D365 applications and Industry Solutions. Once created, you can add the Industry Clouds using 'Microsoft Cloud Solution Center'",
                                 "link": {
@@ -4175,35 +4175,31 @@
                                     }
                                 ]
                             },
-                            "visible": false
+                            "visible": true
                         },
                         {
                             "name": "ppSelectIndustry",
                             "type": "Microsoft.Common.OptionsGroup",
                             "label": "Select Microsoft Cloud for Industry",
-                            "defaultValue": "None",
+                            "defaultValue": "Dynamics 365 for Sales",
                             "multiSelect": false,
                             "constraints": {
                                 "allowedValues": [
                                     {
-                                        "label": "None",
-                                        "value": "none"
+                                        "label": "Dynamics 365 for Sales",
+                                        "value": "D365_Sales"
                                     },
                                     {
-                                        "label": "Healthcare",
-                                        "value": "healthcare"
+                                        "label": "Dynamics 365 for Field Service",
+                                        "value": "D365_FieldService"
                                     },
                                     {
-                                        "label": "Financial Services",
-                                        "value": "fsi"
-                                    },
-                                    {
-                                        "label": "Retail",
-                                        "value": "retail"
-                                    }
+                                        "label": "Dynamics 365 for Customer Service",
+                                        "value": "D365_CustomerService"
+                                    }                   
                                 ]
                             },
-                            "visible": false
+                            "visible": true
                         },
                         {
                             "name": "ppIndustryNaming",
@@ -4217,7 +4213,7 @@
                                 "regex": "^[a-z0-9A-Z]{1,30}$",
                                 "validationMessage": "Only alphanumeric characters are allowed, and the value must be 1-30 characters long."
                             },
-                            "visible": false
+                            "visible": true
                         },
                         {
                             "name": "ppIndustryRegion",
@@ -4226,7 +4222,7 @@
                             "placeholder": "",
                             "defaultValue": "",
                             "toolTip": "",
-                            "visible": false,
+                            "visible": true,
                             "constraints": {
                                 "allowedValues": [
                                     {
@@ -4284,7 +4280,7 @@
 						{
                             "name": "ppIndustryManagedText",
                             "type": "Microsoft.Common.TextBlock",
-                            "visible": false,
+                            "visible": true,
                             "options": {
                                 "text": "Enabling Managed Environment in this step will opt-in to weekly digest, and allow you to continue the configuration in Power Platform Admin Center for sharing restrictions, DLPs and more post deployment.",
                                 "link": {
@@ -4312,7 +4308,7 @@
                                 ],
                                 "required": true
                             },
-                            "visible": false
+                            "visible": true
                         },
                         {
                             "name": "ppIndustryAlm",
@@ -4332,7 +4328,7 @@
                                     }
                                 ]
                             },
-                            "visible": false
+                            "visible": true
                         },
                         {
                             "name": "ppIndustryBilling",
@@ -4352,7 +4348,7 @@
                                     }
                                 ]
                             },
-                            "visible": false
+                            "visible": true
                         },
 
                         {
