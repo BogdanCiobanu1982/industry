@@ -161,7 +161,8 @@
                                         "value": "none"
                                     }
                                 ],
-                                "required": true
+                                "required": true,
+                                "readonly": true
                             },
                             "visible": true
                         },                                               
