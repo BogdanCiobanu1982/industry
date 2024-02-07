@@ -402,4 +402,37 @@ if ($PPCitizen -in "yes", "half" -and $PPCitizenCount -ge 1 -or $PPCitizen -eq '
 }
 #endregion create landing zones for citizen devs
 
+$PPIndustryNaming = 'D365'
+
+#region create industry landing zones
+if (-not[string]::IsNullOrEmpty($PPIndustryNaming)) {
+    #TODO Add template support for the different industries
+    $environmentName = $PPIndustryNaming
+    $PPIndustryRegion = $defaultEnvironment.location
+    $indEnvHt = @{
+        # Location always need to be set to default for environments with D365 templates
+        Location           = $PPIndustryRegion
+        Dataverse          = $true
+        ManagedEnvironment = $PPIndustryManagedEnv -eq 'Yes'
+        Templates          = 'D365_Sales'
+    }
+    try {
+        if ($PPIndustryAlm -eq 'Yes') {
+            foreach ($envTier in $envTiers) {
+                $almEnvironmentName = "{0}-{1}" -f $environmentName, $envTier
+                $null = New-PowerOpsEnvironment -Name $almEnvironmentName @indEnvHt
+                Write-Output "Created industry environment $almEnvironmentName in $PPIndustryRegion"
+            }
+        }
+        else {
+            $null = New-PowerOpsEnvironment -Name $environmentName @indEnvHt
+            Write-Output "Created industry environment $environmentName in $PPIndustryRegion"
+        }
+    }
+    catch {
+        throw "Failed to deploy industry environment $environmentName`r`n$_"
+    }
+}
+#endregion create industry landing zones
+
 $DeploymentScriptOutputs['Deployment'] = 'Successful'
