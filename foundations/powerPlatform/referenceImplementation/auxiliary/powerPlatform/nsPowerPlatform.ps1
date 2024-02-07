@@ -64,7 +64,7 @@ $DeploymentScriptOutputs = @{}
 Install-Module -Name PowerOps -AllowPrerelease -Force
 
 Install-module Microsoft.Graph  
-Connect-MgGraph -Scopes "Group.ReadWrite.All"
+Connect-MgGraph -Identity -ClientId "5d09226d-8c9e-41b4-893e-231e0f7d285a"
 
 #Create the Security Groups and M365 Groups
 #Define the details for the Security Groups and the Makers Microsoft 365 Group
