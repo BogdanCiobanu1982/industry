@@ -10,17 +10,7 @@
                     "label": "Deployment Setup",
                     "subLabel": {},
                     "bladeTitle": "powerp",
-                    "elements": [
-                        {
-                            "name": "infoBox1",
-                            "type": "Microsoft.Common.InfoBox",
-                            "visible": true,
-                            "options": {
-                                "icon": "Info",
-                                "text": "Power Platform Landing Zones will deploy and configure the foundation for your Power Platform tenant including all best practices and recommendations from Microsoft, and create the initial landing zones for citizen and professional developers. The deployment requires that the user is a Global Admin or Power Platform Admin in the Azure Active Directory.",
-                                "uri": "https://aka.ms/NorthStarPowerPlatform"
-                            }
-                        },
+                    "elements": [                        
                         {
                             "name": "spn",
                             "type": "Microsoft.Common.Section",
@@ -126,17 +116,7 @@
                 {
                     "name": "tenant",
                     "label": "Tenant Setup",
-                    "elements": [
-                        {
-                            "name": "govInfo",
-                            "type": "Microsoft.Common.InfoBox",
-                            "visible": true,
-                            "options": {
-                                "icon": "Info",
-                                "text": "Configure tenant security settings for Power Platform to meet your overall security requirements. These settings will apply to all existing and new environments in your tenant, and additional restrictions can be configured later in the deployment experience.",
-                                "uri": "https://aka.ms/NorthStarPowerPlatform"
-                            }
-                        },                                                
+                    "elements": [                                                                 
                         {
                             "name": "tenantIsolationSetting",
                             "type": "Microsoft.Common.Section",
@@ -333,19 +313,7 @@
                 {
                     "name": "landingZones",
                     "label": "Landing Zones Setup",
-                    "elements": [
-                        {
-                            "name": "EnvBox",
-                            "type": "Microsoft.Common.InfoBox",
-                            "visible": true,
-                            "options": {
-                                "text": "Prepare and create Landing Zones (Environments for business and Dynamics 365 Apps) in Power Platform. When creating these environments, the setup will instantiate dedicated Environments for Development, Test, and Production in order to support maintenance, testing, development, and validation before deploying to production. Lastly, recommended Data-loss prevention policies are provided to further govern the various scenarios.",
-                                "link": {
-                                    "label": "Learn more",
-                                    "uri": "https://www.microsoft.com"
-                                }
-                            }
-                        },
+                    "elements": [                       
                         {
                             "name": "default",
                             "type": "Microsoft.Common.Section",
