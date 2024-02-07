@@ -286,13 +286,7 @@
                 "description": "Select to enable/disable this setting."
             }
         },        
-        "ppCitizenBilling": {
-            "type": "string",
-            "defaultValue": "",
-            "metadata": {
-                "description": "AZURE-only, to provide subscriptionId for the subscription billing."
-            }
-        },
+       
         "ppPro": {
             "type": "string",
             "allowedValues": [
@@ -734,10 +728,7 @@
                     },
                     "ppCitizenRegion": {
                         "value": "[parameters('ppCitizenRegion')]"
-                    },
-                    "ppCitizenBilling": {
-                        "value": "[if(empty(parameters('ppCitizenBilling')), variables('emptyString'), parameters('ppCitizenBilling'))]"
-                    },
+                    },                   
                     "ppCitizenDlp": {
                         "value": "[parameters('ppCitizenDlp')]"
                     },
