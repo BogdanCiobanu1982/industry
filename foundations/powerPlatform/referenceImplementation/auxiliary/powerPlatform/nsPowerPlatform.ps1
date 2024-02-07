@@ -120,7 +120,7 @@ function New-EnvironmentCreationObject {
                         envLanguage    = $envLanguage
                         envCurrency    = $envCurrency
                         envDescription = $envDescription
-                        envRbac        = ''
+                        envRbac        = '20010111-d760-41a4-ac7d-538efaad051f'
                     }
                 }
             }
