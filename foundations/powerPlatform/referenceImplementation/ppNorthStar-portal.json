@@ -4414,11 +4414,7 @@
                                     {
                                         "label": "Dynamics 365 for Customer Service",
                                         "value": "D365_CustomerService"
-                                    },
-                                    {
-                                        "label": "Dynamics 365 for PSA",
-                                        "value": "D365_PSA"
-                                    }
+                                    }                                    
                                 ]
                             },
                             "visible": "[not(equals(steps('landingZones').ppD365Apps, 'no'))]"
