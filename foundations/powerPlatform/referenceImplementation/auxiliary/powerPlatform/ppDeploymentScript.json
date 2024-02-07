@@ -88,95 +88,7 @@
             "metadata": {
                 "description": "Select tenant isolation setting"
             }
-        },
-        "ppTenantIsolationDomains": {
-            "type": "string",
-            "defaultValue": "",
-            "metadata": {
-                "description": "Provide the tenant names, IDs, or use * for all tenants"
-            }
-        },
-        "ppAdminEnvEnablement": {
-            "type": "string",
-            "allowedValues": [
-                "yes",
-                "no"
-            ],
-            "defaultValue": "no",
-            "metadata": {
-                "description": "select to enable/disable this setting."
-            }
-        },
-        "ppAdminEnvNaming": {
-            "type": "string",
-            "maxLength": 15,
-            "defaultValue": "''",
-            "metadata": {
-                "description": "Provide naming convention for the Admin environments."
-            }
-        },
-        "ppAdminRegion": {
-            "type": "string",
-            "allowedValues": [
-                "europe",
-                "unitedstates",
-                "asia",
-                "japan",
-                "india",
-                "canada",
-                "southamerica",
-                "unitedkingdom",
-                "france",
-                "germany",
-                "unitedarabemirates",
-                "australia",
-                "norway"
-            ],
-            "defaultValue": "unitedstates",
-            "metadata": {
-                "description": "Provide location for the Admin environments."
-            }
-        },
-        "ppAdminBilling": {
-            "type": "string",
-            "defaultValue": "''",
-            "metadata": {
-                "description": "AZURE-only parameter. SubscriptionId for the billing subscription."
-            }
-        },
-        "ppAdminDlp": {
-            "type": "string",
-            "defaultValue": "no",
-            "allowedValues": [
-                "yes",
-                "no"
-            ],
-            "metadata": {
-                "description": "Select to enable/disable this setting."
-            }
-        },
-        "ppAdminManagedEnv": {
-            "type": "string",
-            "defaultValue": "no",
-            "allowedValues": [
-                "no",
-                "yes"
-            ],
-            "metadata": {
-                "description": "Select to enable/disable this setting."
-            }
-        },
-        "ppAdminCoeSetting": {
-            "type": "string",
-            "allowedValues": [
-                "yes",
-                "no"
-            ],
-            "defaultValue": "no",
-            "metadata": {
-                "description": "If yes is selcted, CoE will be bootstrapped in to the admin environments, ready for post-deployment configuration using https://aka.ms/ppac"
-            }
-        },
+        },       
         "ppDefaultRenameText": {
             "type": "string",
             "defaultValue": "''",
@@ -280,93 +192,7 @@
             "metadata": {
                 "description": "Select to enable/disable this setting."
             }
-        },
-        "ppCitizenBilling": {
-            "type": "string",
-            "defaultValue": "''",
-            "metadata": {
-                "description": "AZURE-only, to provide subscriptionId for the subscription billing."
-            }
-        },
-        "ppPro": {
-            "type": "string",
-            "allowedValues": [
-                "yes",
-                "half",
-                "no",
-                "custom"
-            ],
-            "defaultValue": "no",
-            "metadata": {
-                "description": "Select environment type. Yes will enable with Dataverse, Half will create without Dataverse."
-            }
-        },
-        "ppProCount": {
-            "type": "int",
-            "maxValue": 200,
-            "defaultValue": 1,
-            "metadata": {
-                "description": "Select how many environments for pro dev to be created."
-            }
-        },
-        "ppProNaming": {
-            "type": "string",
-            "defaultValue": "''",
-            "metadata": {
-                "description": "Provide naming convention for the pro dev environments."
-            }
-        },
-        "ppProRegion": {
-            "type": "string",
-            "allowedValues": [
-                "europe",
-                "unitedstates",
-                "asia",
-                "japan",
-                "india",
-                "canada",
-                "southamerica",
-                "unitedkingdom",
-                "france",
-                "germany",
-                "unitedarabemirates",
-                "australia",
-                "norway"
-            ],
-            "defaultValue": "unitedstates",
-            "metadata": {
-                "description": "Provide location for the pro dev environments."
-            }
-        },
-        "ppProDlp": {
-            "type": "string",
-            "allowedValues": [
-                "yes",
-                "no"
-            ],
-            "defaultValue": "no",
-            "metadata": {
-                "description": "Select to enable/disable recommended DLP policies for pro dev environments."
-            }
-        },
-        "ppProManagedEnv": {
-            "type": "string",
-            "defaultValue": "no",
-            "allowedValues": [
-                "no",
-                "yes"
-            ],
-            "metadata": {
-                "description": "Select to enable/disable this setting."
-            }
-        },
-        "ppProBilling": {
-            "type": "string",
-            "defaultValue": "''",
-            "metadata": {
-                "description": "AZURE-only, to provide subscriptionId for the subscription billing."
-            }
-        },
+        },           
         "ppCitizenAlm": {
             "type": "string",
             "allowedValues": [
@@ -377,87 +203,7 @@
             "metadata": {
                 "description": "Select if dedicated environments for Development, Test, and Production should be created for each landing zone"
             }
-        },
-        "ppProAlm": {
-            "type": "string",
-            "allowedValues": [
-                "yes",
-                "no"
-            ],
-            "defaultValue": "no",
-            "metadata": {
-                "description": "Select if dedicated environments for Development, Test, and Production should be created for each landing zone"
-            }
-        },
-        "ppIndustryAlm": {
-            "type": "string",
-            "allowedValues": [
-                "yes",
-                "no"
-            ],
-            "defaultValue": "no",
-            "metadata": {
-                "description": "Select if dedicated environments for Development, Test, and Production should be created for each landing zone"
-            }
-        },
-        "ppSelectIndustry": {
-            "type": "string",
-            "allowedValues": [
-                "healthcare",
-                "fsi",
-                "retail",
-                "none"                
-            ],
-            "defaultValue": "none",
-            "metadata": {
-                "description": "Select if your specific industry to enable in the industry environments."
-            }
-        },
-        "ppIndustryNaming": {
-            "type": "string",
-            "defaultValue": "''",
-            "metadata": {
-                "description": "Provide naming convention for the industry environments."
-            }
-        },
-        "ppIndustryRegion": {
-            "type": "string",
-            "allowedValues": [
-                "europe",
-                "unitedstates",
-                "asia",
-                "japan",
-                "india",
-                "canada",
-                "southamerica",
-                "unitedkingdom",
-                "france",
-                "germany",
-                "australia"
-            ],
-            "defaultValue": "unitedstates",
-            "metadata": {
-                "description": "Provide location for the pro dev environments."
-            }
-        },
-        "ppIndustryManagedEnv": {
-            "type": "string",
-            "defaultValue": "no",
-            "allowedValues": [
-                "no",
-                "yes"
-            ],
-            "metadata": {
-                "description": "Select to enable/disable this setting."
-            }
-        },
-        "ppIndustryBilling": {
-            "type": "string",
-            "defaultValue": "''",
-            "metadata": {
-                "description": "AZURE-only, to provide subscriptionId for the subscription billing."
-            }
-        },
+        },       
         "location": {
             "type": "string",
             "metadata": {
@@ -476,21 +222,7 @@
             "metadata": {
                 "description": "The uri pointing to the PowerShell script used in the deploymentScript"
             }
-        },
-        "ppCitizenConfiguration": {
-            "type": "string",
-            "defaultValue": "",
-            "metadata": {
-                "description": "Provide strings for custom citizen Environment creation."
-            }
-        },
-        "ppProConfiguration": {
-            "type": "string",
-            "defaultValue": "",
-            "metadata": {
-                "description": "Provide strings for pro citizen Environment creation."
-            }
-        },
+        },       
         "ppCitizenLanguage": {
             "type": "string",
             "defaultValue": "",
@@ -504,28 +236,7 @@
             "metadata": {
                 "description": "Select the currency for the environments."
             }
-        },       
-        "ppProLanguage": {
-            "type": "string",
-            "defaultValue": "",
-            "metadata": {
-                "description": "Select language for the environments."
-            }
-        },
-        "ppProCurrency": {
-            "type": "string",
-            "defaultValue": "",
-            "metadata": {
-                "description": "Select the currency for the environments."
-            }
-        },
-        "ppProDescription": {
-            "type": "string",
-            "defaultValue": "",
-            "metadata": {
-                "description": "Provide description for the environments."
-            }
-        }
+        }        
     },
     "variables": {
         "deploymentName": "[take(concat(parameters('rgName'), '-initialize', '-', parameters('location')), 64)]"
@@ -576,47 +287,19 @@
                                                     '-PPTrialEnvCreationSetting', ' ', parameters('ppTrialEnvCreationSetting'), ' ',
                                                     '-PPEnvCapacitySetting', ' ', parameters('ppEnvCapacitySetting'), ' ',
                                                     '-PPTenantDLP', ' ', parameters('ppTenantDlp'), ' ',
-                                                    '-PPTenantIsolationSetting', ' ', parameters('ppTenantIsolationSetting'), ' ',
-                                                    '-PPTenantIsolationDomains', ' ', parameters('ppTenantIsolationDomains'), ' ',
-                                                    '-PPAdminEnvEnablement', ' ', parameters('ppAdminEnvEnablement'), ' ',
-                                                    '-PPAdminEnvNaming', ' ', parameters('ppAdminEnvNaming'), ' ',
-                                                    '-PPAdminBilling', ' ', parameters('ppAdminBilling'), ' ',
-                                                    '-PPAdminRegion', ' ', parameters('ppAdminRegion'), ' ',
-                                                    '-PPAdminCoeSetting', ' ', parameters('ppAdminCoeSetting'), ' ',
-                                                    '-PPAdminDlp', ' ', parameters('ppAdminDlp'), ' ',
-                                                    '-PPAdminManagedEnv', ' ', parameters('ppAdminManagedEnv'), ' ',
+                                                    '-PPTenantIsolationSetting', ' ', parameters('ppTenantIsolationSetting'), ' ',                                                    
                                                     '-PPDefaultRenameText', ' ', parameters('ppDefaultRenameText'), ' ',
                                                     '-PPDefaultDLP', ' ', parameters('ppDefaultDlp'), ' ',
                                                     '-PPDefaultManagedEnv', ' ', parameters('ppDefaultManagedEnv'), ' ',
                                                     '-PPDefaultManagedSharing', ' ', parameters('ppDefaultManagedSharing'), ' ',
-                                                    '-PPCitizen', ' ', parameters('ppCitizen'), ' ',
-                                                    '-PPCitizenConfiguration', ' ', parameters('ppCitizenConfiguration'), ' ',                                                    
+                                                    '-PPCitizen', ' ', parameters('ppCitizen'), ' ',                                                                                            
                                                     '-PPCitizenNaming', ' ', parameters('ppCitizenNaming'), ' ',                                                    
                                                     '-PPCitizenLanguage', ' ', parameters('ppCitizenLanguage'), ' ',
                                                     '-PPCitizenCurrency', ' ', parameters('ppCitizenCurrency'), ' ',
                                                     '-PPCitizenRegion', ' ', parameters('ppCitizenRegion'), ' ',
                                                     '-PPCitizenDlp', ' ', parameters('ppCitizenDlp'), ' ',
                                                     '-PPCitizenManagedEnv', ' ', parameters('ppCitizenManagedEnv'), ' ',
-                                                    '-PPCitizenBilling', ' ', parameters('ppCitizenBilling'), ' ',
-                                                    '-PPCitizenAlm', ' ', parameters('ppCitizenAlm'), ' ',
-                                                    '-PPPro', ' ', parameters('ppPro'), ' ',
-                                                    '-PPProConfiguration', ' ', parameters('ppProConfiguration'), ' ',
-                                                    '-PPProCount', ' ', parameters('ppProCount'), ' ',
-                                                    '-PPProNaming', ' ', parameters('ppProNaming'), ' ',
-                                                    '-PPProDescription', ' ', parameters('ppProDescription'), ' ',
-                                                    '-PPProLanguage', ' ', parameters('ppProLanguage'), ' ',
-                                                    '-PPProCurrency', ' ', parameters('ppProCurrency'), ' ' ,
-                                                    '-PPProRegion', ' ', parameters('ppProRegion'), ' ',
-                                                    '-PPProDlp', ' ', parameters('ppProDlp'), ' ',
-                                                    '-PPProManagedEnv', ' ', parameters('ppProManagedEnv'), ' ',
-                                                    '-PPProBilling', ' ', parameters('ppProBilling'), ' ',
-                                                    '-PPProAlm', ' ', parameters('ppProAlm'), ' ',
-                                                    '-PPSelectIndustry', ' ', parameters('ppSelectIndustry'), ' ',
-                                                    '-PPIndustryNaming', ' ', parameters('ppIndustryNaming'), ' ',
-                                                    '-PPIndustryRegion', ' ', parameters('ppIndustryRegion'), ' ',
-                                                    '-PPIndustryManagedEnv', ' ', parameters('ppIndustryManagedEnv'), ' ',
-                                                    '-PPIndustryAlm', ' ', parameters('ppIndustryAlm'), ' ',
-                                                    '-PPIndustryBilling', ' ', parameters('ppIndustryBilling')
+                                                    '-PPCitizenAlm', ' ', parameters('ppCitizenAlm'), ' '                                                    
                                                     )]",
                                 "azPowerShellVersion": "7.2",
                                 "timeout": "PT120M",
