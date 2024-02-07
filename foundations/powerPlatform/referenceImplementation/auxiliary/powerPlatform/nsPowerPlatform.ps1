@@ -145,7 +145,7 @@ function New-DLPAssignmentFromEnv {
     )
     #DLP Template references
     $dlpPolicies = @{
-        baseUri          = 'https://raw.githubusercontent.com/BogdanCiobanu1982/industry/main/foundations/powerPlatform/referenceImplementation/auxiliary/powerPlatform/'
+        baseUri          = 'https://raw.githubusercontent.com/microsoft/industry/main/foundations/powerPlatform/referenceImplementation/auxiliary/powerPlatform/'
         tenant           = @{
             low    = 'lowTenantDlpPolicy.json'
             medium = 'mediumTenantDlpPolicy.json'
@@ -379,7 +379,7 @@ if ($PPCitizen -in "yes", "half" -and $PPCitizenCount -ge 1 -or $PPCitizen -eq '
                 envCurrency    = $PPCitizenCurrency
                 envDescription = $PPCitizenDescription
                 EnvALM         = $PPCitizenAlm -eq 'Yes'
-                EnvDataverse   = $PPCitizen -eq 'Yes'            
+                EnvDataverse   = $PPCitizen -eq 'Yes'
             }
             $environmentsToCreate = New-EnvironmentCreationObject @envHt
         }
@@ -397,7 +397,7 @@ if ($PPCitizen -in "yes", "half" -and $PPCitizenCount -ge 1 -or $PPCitizen -eq '
                 Description        = $environment.envDescription
                 LanguageName       = $environment.envLanguage
                 Currency           = $environment.envCurrency
-                SecurityGroupId    = $environment.envRbac                 
+                SecurityGroupId    = $environment.envRbac
             }
             $null = New-PowerOpsEnvironment @envCreationHt
             Write-Output "Created citizen environment $($environment.envName) in $($environment.envRegion)"
