@@ -233,15 +233,13 @@ if ($PPTenantIsolationSetting -in 'inbound', 'outbound', 'both') {
     $tenantIsolationSettings = @{
         Enabled = $true
     }
-    if ($PPTenantIsolationDomains) {
-        $tenantIsolationSettings.TenantId = $PPTenantIsolationDomains
-        if ($PPTenantIsolationSetting -eq 'both') {
-            $tenantIsolationSettings.AllowedDirection = 'InboundAndOutbound'
-        }
-        else {
-            $tenantIsolationSettings.AllowedDirection = $PPTenantIsolationSetting
-        }
+            
+    if ($PPTenantIsolationSetting -eq 'both') {
+        $tenantIsolationSettings.AllowedDirection = 'InboundAndOutbound'
     }
+    else {
+        $tenantIsolationSettings.AllowedDirection = $PPTenantIsolationSetting
+    }    
 
     try {
         Set-PowerOpsTenantIsolation @tenantIsolationSettings
