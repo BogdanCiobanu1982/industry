@@ -63,6 +63,32 @@ $DeploymentScriptOutputs = @{}
 #Install required modules
 Install-Module -Name PowerOps -AllowPrerelease -Force
 
+Install-module Microsoft.Graph  
+Connect-MgGraph -Scopes "Group.ReadWrite.All"
+
+#Create the Security Groups and M365 Groups
+# Define the details for the Security Groups and the Makers Microsoft 365 Group
+$devSecurityGroup = @{
+    description="Security Group used for Power Platform - Development environment"
+    displayName="entra_powerplatform_development"
+    mailEnabled=$false
+    securityEnabled=$true
+    mailNickname="PowerPlatformDevelopmentGroup"
+   }
+   $testSecurityGroup = @{
+    description="Security Group used for Power Platform - Test environment"
+    displayName="entra_powerplatform_test"
+    mailEnabled=$false
+    securityEnabled=$true
+    mailNickname="PowerPlatformTestGroup"
+   }
+
+# Create the Security Groups for Dev/Test/Prod/Admin and the Makers M365 Group
+$devSecurityGroupCreated = New-MgGroup @devSecurityGroup
+New-MgGroup @testSecurityGroup
+
+$devSecurityGroupId = $devSecurityGroupCreated.id
+
 #Default ALM environment tiers
 $envTiers = 'dev'
 
@@ -120,7 +146,7 @@ function New-EnvironmentCreationObject {
                         envLanguage    = $envLanguage
                         envCurrency    = $envCurrency
                         envDescription = $envDescription
-                        envRbac        = '20010111-d760-41a4-ac7d-538efaad051f'
+                        envRbac        = $devSecurityGroupId
                     }
                 }
             }
