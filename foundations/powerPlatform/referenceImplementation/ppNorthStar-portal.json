@@ -154,7 +154,7 @@
                             "visible": true,
                             "options": {
                                 "icon": "Info",
-                                "text": "Configure tenant security settings and Data-loss prevention policies for Power Platform to meet your overall security requirements. These settings will apply to all existing and new environments in your tenant, and additional restrictions can be configured later in the deployment experience.",
+                                "text": "Configure tenant security settings for Power Platform to meet your overall security requirements. These settings will apply to all existing and new environments in your tenant, and additional restrictions can be configured later in the deployment experience.",
                                 "uri": "https://aka.ms/NorthStarPowerPlatform"
                             }
                         },
