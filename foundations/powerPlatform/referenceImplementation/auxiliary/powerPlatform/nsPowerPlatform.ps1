@@ -359,6 +359,8 @@ if ($PPCitizen -in "yes", "half" -and $PPCitizenCount -ge 1 -or $PPCitizen -eq '
             }
             $null = New-PowerOpsEnvironment @envCreationHt 
             Write-Output "Created citizen environment $($environment.envName) in $($environment.envRegion)"
+            Write-Output "Selected D365 Application: $ppSelectD365Apps"
+            
             if (-not [string]::IsNullOrEmpty($environment.envRbac) -and $environment.envDataverse -eq $false) {
                 Write-Output "Assigning RBAC for principalId $($environment.envRbac) in citizen environment $($environment.envName)"
                 $null = New-PowerOpsRoleAssignment -PrincipalId $environment.envRbac -RoleDefinition EnvironmentAdmin -EnvironmentName $environment.envName
