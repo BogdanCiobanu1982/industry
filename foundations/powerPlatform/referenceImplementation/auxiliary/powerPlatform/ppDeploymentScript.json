@@ -242,10 +242,9 @@
              "allowedValues": [
                 "D365_Sales",
                 "D365_FieldService",
-                "D365_CustomerService",
-                "none"
+                "D365_CustomerService"                
             ],
-            "defaultValue": "none",
+            "defaultValue": "''",
             "metadata": {
                 "description": "Select Dynamics 365 Applications to be installed on the Landing Zones (Environments)."
             }
