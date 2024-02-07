@@ -163,12 +163,12 @@
                             "type": "Microsoft.Common.Section",
                             "label": "Tenant Data-loss prevention policy",
                             "elements": [],
-                            "visible": true
+                            "visible": false
                         },
                         {
                             "name": "dlpTenantText",
                             "type": "Microsoft.Common.TextBlock",
-                            "visible": true,
+                            "visible": false,
                             "options": {
                                 "text": "Configure overall Data-loss prevention policy for the tenant. This policy will by default apply to all existing and new environments. Additional policies can be configured in the 'Landing Zones' tab.",
                                 "link": {
@@ -195,12 +195,12 @@
                                 ],
                                 "required": true
                             },
-                            "visible": true
+                            "visible": false
                         },
                         {
                             "name": "tenantIsolationSetting",
                             "type": "Microsoft.Common.Section",
-                            "label": "Tenant isolation (preview)",
+                            "label": "Tenant isolation",
                             "elements": [],
                             "visible": true
                         },
