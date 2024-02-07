@@ -414,8 +414,7 @@
                 "healthcare",
                 "fsi",
                 "retail",
-                "none",
-                "D365_Sales"
+                "none"                
             ],
             "defaultValue": "none",
             "metadata": {
