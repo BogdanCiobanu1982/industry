@@ -2997,8 +2997,7 @@
         },
         "outputs": {
             "parameters": {
-                "ppIdentity": "[steps('powerp').ppIdentity.id]",                
-                "ppTenantIsolationDomains": "[steps('tenant').ppTenantIsolationDomains]",
+                "ppIdentity": "[steps('powerp').ppIdentity.id]",                                
                 "ppTenantIsolationSetting": "[steps('tenant').ppTenantIsolationSetting]",
                 "ppGuestMakerSetting": "[steps('tenant').ppGuestMakerSetting]",
                 "ppAppSharingSetting": "[steps('tenant').ppAppSharingSetting]",
