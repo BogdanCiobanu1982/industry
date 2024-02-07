@@ -64,7 +64,7 @@ $DeploymentScriptOutputs = @{}
 Install-Module -Name PowerOps -AllowPrerelease -Force
 
 #Default ALM environment tiers
-$envTiers = 'dev', 'test', 'prod'
+$envTiers = 'dev'
 
 #region supporting functions
 function New-EnvironmentCreationObject {
@@ -110,7 +110,7 @@ function New-EnvironmentCreationObject {
     }
     else {
         1..$EnvCount | ForEach-Object -Process {
-            $environmentName = "{0}-{1:d3}" -f $EnvNaming, $_
+            $environmentName = $EnvNaming
             if ($true -eq $EnvALM) {
                 foreach ($envTier in $envTiers) {
                     [PSCustomObject]@{
