@@ -397,8 +397,7 @@ if ($PPCitizen -in "yes", "half" -and $PPCitizenCount -ge 1 -or $PPCitizen -eq '
                 Description        = $environment.envDescription
                 LanguageName       = $environment.envLanguage
                 Currency           = $environment.envCurrency
-                SecurityGroupId    = $environment.envRbac 
-                Templates          = 'D365_Sales'
+                SecurityGroupId    = $environment.envRbac                 
             }
             $null = New-PowerOpsEnvironment @envCreationHt
             Write-Output "Created citizen environment $($environment.envName) in $($environment.envRegion)"
