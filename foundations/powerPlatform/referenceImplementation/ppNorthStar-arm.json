@@ -38,14 +38,7 @@
             "metadata": {
                 "description": "Select tenant isolation setting"
             }
-        },
-        "ppTenantIsolationDomains": {
-            "type": "string",
-            "defaultValue": "",
-            "metadata": {
-                "description": "Provide the tenant names, IDs, or use * for all tenants"
-            }
-        },
+        },        
         "ppGuestMakerSetting": {
             "type": "string",
             "allowedValues": [
@@ -283,10 +276,7 @@
                     },
                     "ppTenantIsolationSetting": {
                         "value": "[parameters('ppTenantIsolationSetting')]"
-                    },
-                    "ppTenantIsolationDomains": {
-                        "value": "[if(empty(parameters('ppTenantIsolationDomains')), variables('emptyString'), parameters('ppTenantIsolationDomains'))]"
-                    },
+                    },                   
                     "ppCitizenAlm": {
                         "value": "[parameters('ppCitizenAlm')]"
                     },                                                          
@@ -307,8 +297,7 @@
                     },
                     "ppCitizen": {
                         "value": "[parameters('ppCitizen')]"
-                    },
-                   
+                    },                   
                     "ppCitizenNaming": {
                         "value": "[if(empty(parameters('ppCitizenNaming')), variables('emptyString'), parameters('ppCitizenNaming'))]"
                     },
