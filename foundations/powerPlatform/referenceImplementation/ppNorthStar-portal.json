@@ -1371,6 +1371,33 @@
                                 ]
                             },
                             "visible": "[not(equals(steps('landingZones').ppD365Apps, 'no'))]"
+                        },
+                        {
+                            "name": "ppD365SalesApp",
+                            "type": "Microsoft.Common.CheckBox",
+                            "label": "Dynamics 365 for Sales",                                                        
+                            "constraints": {
+                                "required": false
+                            },
+                            "visible": "[not(equals(steps('landingZones').ppD365Apps, 'no'))]"
+                        }
+                        {
+                            "name": "ppD365CustomerServiceApp",
+                            "type": "Microsoft.Common.CheckBox",
+                            "label": "Dynamics 365 for Customer Service",                                                        
+                            "constraints": {
+                                "required": false
+                            },
+                            "visible": "[not(equals(steps('landingZones').ppD365Apps, 'no'))]"
+                        }
+                        {
+                            "name": "ppD365FieldServiceApp",
+                            "type": "Microsoft.Common.CheckBox",
+                            "label": "Dynamics 365 for Field Service",                                                        
+                            "constraints": {
+                                "required": false
+                            },
+                            "visible": "[not(equals(steps('landingZones').ppD365Apps, 'no'))]"
                         }
                     ]
                 }
