@@ -236,14 +236,7 @@
             "metadata": {
                 "description": "Select the currency for the environments."
             }
-        },
-        "ppSelectD365Apps": {
-            "type": "string",
-            "defaultValue": "",
-            "metadata": {
-                "description": "Select Dynamics 365 Applications to be installed on the Landing Zones (Environments)."
-            }
-        },
+        },       
         "ppD365SalesApp": {
             "type": "string",
             "defaultValue": "",
@@ -327,8 +320,7 @@
                                                     '-PPCitizenRegion', ' ', parameters('ppCitizenRegion'), ' ',
                                                     '-PPCitizenDlp', ' ', parameters('ppCitizenDlp'), ' ',
                                                     '-PPCitizenManagedEnv', ' ', parameters('ppCitizenManagedEnv'), ' ',
-                                                    '-PPCitizenAlm', ' ', parameters('ppCitizenAlm'), ' ',
-                                                    '-ppSelectD365Apps', ' ', parameters('ppSelectD365Apps'), ' ',
+                                                    '-PPCitizenAlm', ' ', parameters('ppCitizenAlm'), ' ',                                                    
                                                     '-ppD365SalesApp', ' ', parameters('ppD365SalesApp'), ' ',
                                                     '-ppD365CustomerServiceApp', ' ', parameters('ppD365CustomerServiceApp'), ' ',
                                                     '-ppD365FieldServiceApp', ' ', parameters('ppD365FieldServiceApp'), ' '                                                     
