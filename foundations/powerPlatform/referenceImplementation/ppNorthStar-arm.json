@@ -232,11 +232,6 @@
         },
         "ppSelectD365Apps": {
             "type": "string",
-            "allowedValues": [
-                "D365_Sales",
-                "D365_FieldService",
-                "D365_CustomerService"                
-            ],
             "defaultValue": "''",
             "metadata": {
                 "description": "Select Dynamics 365 Applications to be installed on the Landing Zones (Environments)."
