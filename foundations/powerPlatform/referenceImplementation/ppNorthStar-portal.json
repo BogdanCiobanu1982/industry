@@ -140,9 +140,7 @@
                             "name": "ppTenantIsolationSetting",
                             "type": "Microsoft.Common.OptionsGroup",
                             "label": "Enable tenant isolation",
-                            "defaultValue": "Block both inbound and outbound",
-                            "readOnly": true,
-                            "enabled": false,
+                            "defaultValue": "Block both inbound and outbound",                                                        
                             "toolTip": "Select the preferred tenant isolation method by selecting either inbound, outbound, or both.",
                             "constraints": {
                                 "allowedValues": [
@@ -172,7 +170,7 @@
                             "type": "Microsoft.Common.Section",
                             "label": "Tenant Guest user and sharing settings",
                             "elements": [],
-                            "visible": true
+                            "visible": true                            
                         },
                         {
                             "name": "tenantText",
@@ -191,7 +189,7 @@
                             "type": "Microsoft.Common.OptionsGroup",
                             "label": "Prevent Azure AD guests accounts to make Power Apps",
                             "defaultValue": "Yes",
-                            "multiSelect": true,
+                            "multiSelect": true,                            
                             "toolTip": "If 'Yes' is selected, the setup will configure this setting.",
                             "constraints": {
                                 "allowedValues": [
@@ -212,7 +210,7 @@
                             "type": "Microsoft.Common.OptionsGroup",
                             "label": "Restrict sharing of PowerApps with the entire organization",
                             "defaultValue": "Yes",
-                            "multiSelect": true,
+                            "multiSelect": true,                            
                             "toolTip": "If 'Yes' is selected, the setup will configure this setting.",
                             "constraints": {
                                 "allowedValues": [
