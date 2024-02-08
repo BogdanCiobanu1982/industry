@@ -239,9 +239,30 @@
         },
         "ppSelectD365Apps": {
             "type": "string",
-            "defaultValue": "''",
+            "defaultValue": "",
             "metadata": {
                 "description": "Select Dynamics 365 Applications to be installed on the Landing Zones (Environments)."
+            }
+        },
+        "ppD365SalesApp": {
+            "type": "string",
+            "defaultValue": "",
+            "metadata": {
+                "description": "Dynamics 365 for Sales."
+            }
+        },
+        "ppD365CustomerServiceApp": {
+            "type": "string",
+            "defaultValue": "",
+            "metadata": {
+                "description": "Dynamics 365 for Customer Service."
+            }
+        },
+        "ppD365FieldServiceApp": {
+            "type": "string",
+            "defaultValue": "",
+            "metadata": {
+                "description": "Dynamics 365 for Field Service."
             }
         }        
     },
@@ -307,7 +328,10 @@
                                                     '-PPCitizenDlp', ' ', parameters('ppCitizenDlp'), ' ',
                                                     '-PPCitizenManagedEnv', ' ', parameters('ppCitizenManagedEnv'), ' ',
                                                     '-PPCitizenAlm', ' ', parameters('ppCitizenAlm'), ' ',
-                                                    '-ppSelectD365Apps', ' ', parameters('ppSelectD365Apps'), ' '                                                    
+                                                    '-ppSelectD365Apps', ' ', parameters('ppSelectD365Apps'), ' ',
+                                                    '-ppD365SalesApp', ' ', parameters('ppD365SalesApp'), ' ',
+                                                    '-ppD365CustomerServiceApp', ' ', parameters('ppD365CustomerServiceApp'), ' ',
+                                                    '-ppD365FieldServiceApp', ' ', parameters('ppD365FieldServiceApp'), ' '                                                     
                                                     )]",
                                 "azPowerShellVersion": "7.2",
                                 "timeout": "PT120M",
