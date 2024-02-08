@@ -1330,7 +1330,7 @@
                         {
                             "name": "ppD365Apps",
                             "type": "Microsoft.Common.OptionsGroup",
-                            "label": "Install D365 Apps",
+                            "label": "Install D365 Apps?",
                             "defaultValue": "No",
                             "multiSelect": false,
                             "toolTip": "If 'Yes' is selected, the setup will install the selected D365 Apps",
@@ -1347,31 +1347,7 @@
                                 ]
                             },
                             "visible": true
-                        },
-                        {
-                            "name": "ppSelectD365Apps",
-                            "type": "Microsoft.Common.DropDown",
-                            "label": "Select Microsoft Dynamics 365 Applications",
-                            "defaultValue": "",
-                            "multiselect": true,
-                            "constraints": {
-                                "allowedValues": [
-                                    {
-                                        "label": "Dynamics 365 for Sales",
-                                        "value": "D365_Sales"
-                                    },
-                                    {
-                                        "label": "Dynamics 365 for Field Service",
-                                        "value": "D365_FieldService"
-                                    },
-                                    {
-                                        "label": "Dynamics 365 for Customer Service",
-                                        "value": "D365_CustomerService"
-                                    }                                                                       
-                                ]
-                            },
-                            "visible": "[not(equals(steps('landingZones').ppD365Apps, 'no'))]"
-                        },
+                        },                        
                         {
                             "name": "ppD365SalesApp",
                             "type": "Microsoft.Common.CheckBox",
@@ -1423,8 +1399,7 @@
                 "ppCitizenRegion": "[steps('landingZones').ppCitizenRegion]",
                 "ppCitizenDlp": "[steps('landingZones').ppCitizenDlp]",
                 "ppCitizenManagedEnv": "[steps('landingZones').ppCitizenManagedEnv]",
-                "ppCitizenAlm": "[steps('landingZones').ppCitizenAlm]",
-                "ppSelectD365Apps": "[steps('landingZones').ppSelectD365Apps]",   
+                "ppCitizenAlm": "[steps('landingZones').ppCitizenAlm]",                
                 "ppD365SalesApp": "[steps('landingZones').ppD365SalesApp]",  
                 "ppD365CustomerServiceApp": "[steps('landingZones').ppD365CustomerServiceApp]",   
                 "ppD365FieldServiceApp": "[steps('landingZones').ppD365FieldServiceApp]"                  
