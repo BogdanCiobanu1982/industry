@@ -37,6 +37,12 @@ $DeploymentScriptOutputs = @{}
 #Install required modules
 Install-Module -Name PowerOps -AllowPrerelease -Force
 
+$Posts = Invoke-RestMethod -Uri "https://jsonplaceholder.typicode.com/posts"
+$Posts[0].GetType()
+
+Write-Output "REST API: $Posts[0].GetType()"
+
+
 #region Entra Groups
 # TO DO - Install module to create Entra Security and M365 Groups.
 # TO DO - get the IDs for the created security groups, and set them to the parameters below. 
@@ -133,7 +139,7 @@ $adminSecurityGroupId = ''
 
 
 #Default ALM environment tiers
-$envTiers = 'dev', 'test'
+$envTiers = 'dev'
 
 #region supporting functions
 function New-EnvironmentCreationObject {
@@ -460,7 +466,7 @@ if ($PPCitizen -in "yes", "half" -and $PPCitizenCount -ge 1 -or $PPCitizen -eq '
             
             Write-Output "D365 for Sales: $ppD365SalesApp"
             Write-Output "D365 for Customer Service: $ppD365CustomerServiceApp"
-            Write-Output "D365 for Field Service: $ppD365FieldServiceApp"        
+            Write-Output "D365 for Field Service: $ppD365FieldServiceApp"               
             
             if (-not [string]::IsNullOrEmpty($environment.envRbac) -and $environment.envDataverse -eq $false) {
                 Write-Output "Assigning RBAC for principalId $($environment.envRbac) in citizen environment $($environment.envName)"
