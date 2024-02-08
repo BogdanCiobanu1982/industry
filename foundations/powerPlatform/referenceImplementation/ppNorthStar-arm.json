@@ -358,10 +358,10 @@
                         "value": "[if(parameters('ppD365SalesApp'), 'True', 'False')]"
                     },
                     "ppD365CustomerServiceApp": {
-                        "value": "[parameters('ppD365CustomerServiceApp')]"
+                        "value": "[if(parameters('ppD365CustomerServiceApp'), 'True', 'False')]"
                     },
                     "ppD365FieldServiceApp": {
-                        "value": "[parameters('ppD365FieldServiceApp')]"
+                        "value": "[if(parameters('ppD365FieldServiceApp'), 'True', 'False')]"
                     }                    
                 }
             }
