@@ -229,14 +229,7 @@
             "metadata": {
                 "description": "Select the currency for the environments."
             }
-        },
-        "ppSelectD365Apps": {
-            "type": "string",
-            "defaultValue": "",
-            "metadata": {
-                "description": "Select Dynamics 365 Applications to be installed on the Landing Zones (Environments)."
-            }
-        },
+        },       
         "ppD365SalesApp": {
             "type": "bool",
             "defaultValue": "",
@@ -343,17 +336,13 @@
                     },
                     "rgName": {
                         "value": "[concat(variables('resourceNamePrefix'), '-setup-', parameters('location'))]"
-                    },
-                                                      
+                    },                                                      
                     "ppCitizenLanguage": {
                         "value": "[if(empty(parameters('ppCitizenLanguage')), variables('emptyString'), parameters('ppCitizenLanguage'))]"
                     },
                     "ppCitizenCurrency": {
                         "value": "[if(empty(parameters('ppCitizenCurrency')), variables('emptyString'), parameters('ppCitizenCurrency'))]"
-                    },
-                    "ppSelectD365Apps": {
-                        "value": "[parameters('ppSelectD365Apps')]"
-                    },
+                    },                    
                     "ppD365SalesApp": {
                         "value": "[if(parameters('ppD365SalesApp'), 'True', 'False')]"
                     },
