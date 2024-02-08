@@ -27,8 +27,7 @@ param (
     [Parameter(Mandatory = $false)][string][AllowEmptyString()][AllowNull()]$PPCitizenManagedEnv,
     [Parameter(Mandatory = $false)][string][AllowEmptyString()][AllowNull()]$PPCitizenAlm,    
     [Parameter(Mandatory = $false)][string][AllowEmptyString()][AllowNull()]$PPCitizenCurrency,
-    [Parameter(Mandatory = $false)][string][AllowEmptyString()][AllowNull()]$PPCitizenLanguage,
-    [Parameter(Mandatory = $false)][string][AllowEmptyString()][AllowNull()]$ppSelectD365Apps,      
+    [Parameter(Mandatory = $false)][string][AllowEmptyString()][AllowNull()]$PPCitizenLanguage,     
     [Parameter(Mandatory = $false)][string][AllowEmptyString()][AllowNull()]$ppD365SalesApp,
     [Parameter(Mandatory = $false)][string][AllowEmptyString()][AllowNull()]$ppD365CustomerServiceApp,
     [Parameter(Mandatory = $false)][string][AllowEmptyString()][AllowNull()]$ppD365FieldServiceApp        
@@ -361,7 +360,7 @@ if ($PPCitizen -in "yes", "half" -and $PPCitizenCount -ge 1 -or $PPCitizen -eq '
             }
             $null = New-PowerOpsEnvironment @envCreationHt 
             Write-Output "Created citizen environment $($environment.envName) in $($environment.envRegion)"
-            Write-Output "Selected D365 Application: $ppSelectD365Apps"
+            
             Write-Output "D365 for Sales: $ppD365SalesApp"
             Write-Output "D365 for Customer Service: $ppD365CustomerServiceApp"
             Write-Output "D365 for Field Service: $ppD365FieldServiceApp"        
