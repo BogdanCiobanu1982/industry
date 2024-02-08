@@ -171,7 +171,7 @@
                             "type": "Microsoft.Common.Section",
                             "label": "Tenant Guest user and sharing settings",
                             "elements": [],
-                            "visible": true
+                            "visible": true                            
                         },
                         {
                             "name": "tenantText",
@@ -191,6 +191,7 @@
                             "label": "Prevent Azure AD guests accounts to make Power Apps",
                             "defaultValue": "Yes",
                             "multiSelect": true,
+                            "enabled": false,
                             "toolTip": "If 'Yes' is selected, the setup will configure this setting.",
                             "constraints": {
                                 "allowedValues": [
@@ -212,6 +213,7 @@
                             "label": "Restrict sharing of PowerApps with the entire organization",
                             "defaultValue": "Yes",
                             "multiSelect": true,
+                            "enabled": false,
                             "toolTip": "If 'Yes' is selected, the setup will configure this setting.",
                             "constraints": {
                                 "allowedValues": [
