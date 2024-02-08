@@ -355,7 +355,7 @@
                         "value": "[parameters('ppSelectD365Apps')]"
                     },
                     "ppD365SalesApp": {
-                        "value": "[parameters('ppD365SalesApp')]"
+                        "value": "[if(parameters('ppD365SalesApp'), 'True', 'False')]"
                     },
                     "ppD365CustomerServiceApp": {
                         "value": "[parameters('ppD365CustomerServiceApp')]"
