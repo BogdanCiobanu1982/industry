@@ -232,9 +232,30 @@
         },
         "ppSelectD365Apps": {
             "type": "string",
-            "defaultValue": "''",
+            "defaultValue": "",
             "metadata": {
                 "description": "Select Dynamics 365 Applications to be installed on the Landing Zones (Environments)."
+            }
+        },
+        "ppD365SalesApp": {
+            "type": "string",
+            "defaultValue": "",
+            "metadata": {
+                "description": "Dynamics 365 for Sales."
+            }
+        },
+        "ppD365CustomerServiceApp": {
+            "type": "string",
+            "defaultValue": "",
+            "metadata": {
+                "description": "Dynamics 365 for Customer Service."
+            }
+        },
+        "ppD365FieldServiceApp": {
+            "type": "string",
+            "defaultValue": "",
+            "metadata": {
+                "description": "Dynamics 365 for Field Service."
             }
         }                      
     },
@@ -332,6 +353,15 @@
                     },
                     "ppSelectD365Apps": {
                         "value": "[parameters('ppSelectD365Apps')]"
+                    },
+                    "ppD365SalesApp": {
+                        "value": "[parameters('ppD365SalesApp')]"
+                    },
+                    "ppD365CustomerServiceApp": {
+                        "value": "[parameters('ppD365CustomerServiceApp')]"
+                    },
+                    "ppD365FieldServiceApp": {
+                        "value": "[parameters('ppD365FieldServiceApp')]"
                     }                    
                 }
             }
