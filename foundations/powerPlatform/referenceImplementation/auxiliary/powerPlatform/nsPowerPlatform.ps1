@@ -37,6 +37,20 @@ $DeploymentScriptOutputs = @{}
 #Install required modules
 Install-Module -Name PowerOps -AllowPrerelease -Force
 
+
+Install-Module Microsoft.Graph
+Connect-MgGraph -Scopes "Group.ReadWrite.All"
+
+$productionSecurityGroup = @{
+    description="Security Group used for Power Platform - Production environment"
+    displayName="entra_powerplatform_production"
+    mailEnabled=$false
+    securityEnabled=$true
+    mailNickname="PowerPlatformProductionGroup"
+   }
+
+   New-MgGroup @productionSecurityGroup
+   
 #Get the created groups IDs
 $devSecurityGroupId = '2f178b09-3e99-4f68-b3dc-177daa6d662f'
 $testSecurityGroupId = 'eae9814e-26cf-43f5-a7be-f08c5b5b0a50'
