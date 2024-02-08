@@ -1424,7 +1424,10 @@
                 "ppCitizenDlp": "[steps('landingZones').ppCitizenDlp]",
                 "ppCitizenManagedEnv": "[steps('landingZones').ppCitizenManagedEnv]",
                 "ppCitizenAlm": "[steps('landingZones').ppCitizenAlm]",
-                "ppSelectD365Apps": "[steps('landingZones').ppSelectD365Apps]"                  
+                "ppSelectD365Apps": "[steps('landingZones').ppSelectD365Apps]",   
+                "ppD365SalesApp": "[steps('landingZones').ppD365SalesApp]",  
+                "ppD365CustomerServiceApp": "[steps('landingZones').ppD365CustomerServiceApp]",   
+                "ppD365FieldServiceApp": "[steps('landingZones').ppD365FieldServiceApp]"                  
             },
             "kind": "Subscription",
             "location": "[steps('powerp').locationName]",
