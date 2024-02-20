@@ -8,22 +8,13 @@ param (
     #Security, govarnance and compliance
     [Parameter(Mandatory = $false)][string][AllowEmptyString()][AllowNull()]$PPGuestMakerSetting,
     [Parameter(Mandatory = $false)][string][AllowEmptyString()][AllowNull()]$PPAppSharingSetting,
-    #Admin environment and settings
+    #Settings
     [Parameter(Mandatory = $false)][string][AllowEmptyString()][AllowNull()]$PPEnvCreationSetting,
     [Parameter(Mandatory = $false)][string][AllowEmptyString()][AllowNull()]$PPTrialEnvCreationSetting,
     [Parameter(Mandatory = $false)][string][AllowEmptyString()][AllowNull()]$PPEnvCapacitySetting,
     [Parameter(Mandatory = $false)][string][AllowEmptyString()][AllowNull()]$PPTenantIsolationSetting,
     [Parameter(Mandatory = $false)][string][AllowEmptyString()][AllowNull()]$PPTenantDLP,   
     
-    #Start - Admin environment    
-    [Parameter(Mandatory = $false)][string][AllowEmptyString()][AllowNull()]$PPAdminEnvNaming,
-    [ValidateSet('unitedstates', 'europe', 'unitedkingdom', 'asia', 'australia', 'india', 'japan', 'canada', 'unitedkingdom', 'unitedstatesfirstrelease', 'southamerica', 'france', 'switzerland', 'germany', 'unitedarabemirates', 'norway')][Parameter(Mandatory = $false)][string]$PPAdminRegion,
-    [Parameter(Mandatory = $false)][string][AllowEmptyString()][AllowNull()]$PPAdminDlp,
-    [Parameter(Mandatory = $false)][string][AllowEmptyString()][AllowNull()]$PPAdminEnvEnablement,   
-    [Parameter(Mandatory = $false)][string][AllowEmptyString()][AllowNull()]$PPAdminManagedEnv,
- 
-    #End - Admin environment
-
     #Landing Zones
     [Parameter(Mandatory = $false)][string][AllowEmptyString()][AllowNull()]$PPDefaultRenameText,
     [Parameter(Mandatory = $false)][string][AllowEmptyString()][AllowNull()]$PPDefaultDLP,
@@ -54,7 +45,6 @@ $adminSecurityGroupId = ''
 
 #Default ALM environment tiers
 $envTiers = 'dev', 'test', 'prod'
-$envTiersAdmin = 'admin'
 
 #region supporting functions
 function New-EnvironmentCreationObject {
@@ -106,8 +96,8 @@ function New-EnvironmentCreationObject {
             if ($true -eq $EnvALM) {
                 foreach ($envTier in $envTiers) { 
                     if($envTier -eq 'dev'){
-                        <# $sgId = New-CreateSecurityGroup -EnvironmentType dev
-                        $securityGroupId = $sgId #>
+                        $sgId = New-CreateSecurityGroup -EnvironmentType dev
+                        $securityGroupId = $sgId
                         $envSku = 'Sandbox'  
                     }
                     if ( $envTier -eq 'test' ){
@@ -154,7 +144,6 @@ function New-EnvironmentCreationObject {
         }
     }
 }
-
 
 function New-CreateSecurityGroup {
     param (      
@@ -284,7 +273,6 @@ function New-CreateSecurityGroup {
             return $Value
 }
 
-
 function New-InstallPackaggeToEnvironment {
     param (      
         [Parameter(Mandatory = $true)][string]$EnvironmentId,
@@ -333,7 +321,6 @@ function New-InstallPackaggeToEnvironment {
             }  
           
 }
-
 
 function New-DLPAssignmentFromEnv {
     param (
@@ -403,8 +390,6 @@ function New-DLPAssignmentFromEnv {
         Write-Warning "Created Default $EnvironmentDLP DLP Policy`r`n$_"
     }
 }
-
-
 
 #endregion supporting functions
 
@@ -516,54 +501,6 @@ if ($defaultEnvironment.properties.governanceConfiguration.protectionLevel -ne '
 }
 #endregion default environment
 
-#region create admin environments
-
-Write-Output "Admin environment Id $($adminEnvironment.name)"
-
-$adminEnvName =''
-if ($PPAdminEnvEnablement -eq 'Yes' -and -not [string]::IsNullOrEmpty($PPAdminEnvNaming)) {
-    # Create environment
-    foreach ($envTierAdmin in $envTiersAdmin) {
-        try {
-            $adminEnvName = '{0}-{1}' -f $PPAdminEnvNaming, $envTierAdmin
-            $null = New-PowerOpsEnvironment -Name $adminEnvName -Location $PPCitizenRegion -Dataverse $true -ManagedEnvironment ($PPAdminManagedEnv -eq 'Yes')
-            Write-Output "Created environment $adminEnvName in $PPCitizenRegion"
-        }
-        catch {
-            throw "Failed to create admin environment $adminEnvName`r `n$_"
-        }
-    }
-
-    # Assign DLP to created environments
-    if ($PPAdminDlp -eq "Yes") {
-        $adminEnvironments = Get-PowerOpsEnvironment | Where-Object { $_.properties.displayName -like "$PPAdminEnvNaming-admin*" }
-        try {
-            New-DLPAssignmentFromEnv -Environments $adminEnvironments.properties.displayName -EnvironmentDLP 'citizenDlpPolicy'          
-            Write-Output "Created Default Environment DLP Policy"
-        }
-        catch {
-            Write-Warning "Created Default Environment DLP Policy`r`n$_"
-        }
-    }
-
-    Start-Sleep -Seconds 30 
-
-    #Starts Install Power Platform Pipeline App in Admin Envrionemnt
-    foreach ($envTierAdmin in $envTiersAdmin) {
-        try {
-    $adminEnvName = '{0}-{1}' -f $PPAdminEnvNaming, $envTierAdmin    
-    $adminEnvironment = Get-PowerOpsEnvironment | Where-Object { $_.Properties.displayName -eq $adminEnvName }
-    New-InstallPackaggeToEnvironment -EnvironmentId $($adminEnvironment.name) -PackageName 'msdyn_AppDeploymentAnchor'
-        }
-        catch {
-            Write-Warning "Error installing App`r`n$_"
-        }
-    }
-    #Ends Install Power Platform Pipeline App in Admin Envrionemnt
-
-}
-#endregion create admin environments
-
 #region create default tenant dlp policies
 if ($PPTenantDLP -in 'low', 'medium', 'high') {
     try {
@@ -622,8 +559,8 @@ if ($PPCitizen -in "yes", "half" -and $PPCitizenCount -ge 1 -or $PPCitizen -eq '
             }   
             
             # Starts Here: Code to create Group
-            #New-AzADGroup -DisplayName 'Test' -MailEnabled $False -MailNickName 'PowerPlatformDevelopmentGroup' -SecurityEnabled $True -Description 'Security Group used for Power Platform - Development environment'
-            #New-AzADGroup -DisplayName 'PowerPlatformDevelopmentGroup' -MailNickName 'PowerPlatformDevelopmentGroup' 
+            New-AzADGroup -DisplayName 'Test' -MailEnabled $False -MailNickName 'PowerPlatformDevelopmentGroup' -SecurityEnabled $True -Description 'Security Group used for Power Platform - Development environment'
+            New-AzADGroup -DisplayName 'PowerPlatformDevelopmentGroup' -MailNickName 'PowerPlatformDevelopmentGroup' 
             # Ends Here:  Code to create group 
 
             
