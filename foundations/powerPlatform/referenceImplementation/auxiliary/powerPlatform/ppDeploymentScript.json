@@ -88,7 +88,9 @@
             "metadata": {
                 "description": "Select tenant isolation setting"
             }
-        },          
+        },   
+     
+
         "ppDefaultRenameText": {
             "type": "string",
             "defaultValue": "''",
@@ -168,7 +170,7 @@
             ],
             "defaultValue": "unitedstates",
             "metadata": {
-                "description": "Provide location for the Admin environments."
+                "description": "Provide location for the citizen dev environments."
             }
         },
         "ppCitizenDlp": {
@@ -308,7 +310,7 @@
                                                     '-PPTrialEnvCreationSetting', ' ', parameters('ppTrialEnvCreationSetting'), ' ',
                                                     '-PPEnvCapacitySetting', ' ', parameters('ppEnvCapacitySetting'), ' ',
                                                     '-PPTenantDLP', ' ', parameters('ppTenantDlp'), ' ',
-                                                    '-PPTenantIsolationSetting', ' ', parameters('ppTenantIsolationSetting'), ' ',                                                                                                
+                                                    '-PPTenantIsolationSetting', ' ', parameters('ppTenantIsolationSetting'), ' ',                                                                                                   
                                                     '-PPDefaultRenameText', ' ', parameters('ppDefaultRenameText'), ' ',
                                                     '-PPDefaultDLP', ' ', parameters('ppDefaultDlp'), ' ',
                                                     '-PPDefaultManagedEnv', ' ', parameters('ppDefaultManagedEnv'), ' ',
