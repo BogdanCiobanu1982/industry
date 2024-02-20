@@ -43,7 +43,7 @@ $prodSecurityGroupId = ''
 $adminSecurityGroupId = ''
 
 #Default ALM environment tiers
-$envTiers = 'dev', 'test', 'prod', 'admin'
+$envTiers = 'dev'
 
 $Global:envAdminName = ''
 #region supporting functions
