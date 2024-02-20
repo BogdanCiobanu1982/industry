@@ -93,8 +93,7 @@
             "metadata": {
                 "description": "Select to enable/disable this setting."
             }
-        },           
-
+        }, 
         "ppDefaultRenameText": {
             "type": "string",
             "defaultValue": "Personal",
@@ -298,7 +297,8 @@
                     },
                     "ppTenantIsolationSetting": {
                         "value": "[parameters('ppTenantIsolationSetting')]"
-                    },                        
+                    },  
+                    
                     "ppCitizenAlm": {
                         "value": "[parameters('ppCitizenAlm')]"
                     },                                                          
