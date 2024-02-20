@@ -8,13 +8,12 @@ param (
     #Security, govarnance and compliance
     [Parameter(Mandatory = $false)][string][AllowEmptyString()][AllowNull()]$PPGuestMakerSetting,
     [Parameter(Mandatory = $false)][string][AllowEmptyString()][AllowNull()]$PPAppSharingSetting,
-    #Settings
+    #Admin environment and settings
     [Parameter(Mandatory = $false)][string][AllowEmptyString()][AllowNull()]$PPEnvCreationSetting,
     [Parameter(Mandatory = $false)][string][AllowEmptyString()][AllowNull()]$PPTrialEnvCreationSetting,
     [Parameter(Mandatory = $false)][string][AllowEmptyString()][AllowNull()]$PPEnvCapacitySetting,
     [Parameter(Mandatory = $false)][string][AllowEmptyString()][AllowNull()]$PPTenantIsolationSetting,
     [Parameter(Mandatory = $false)][string][AllowEmptyString()][AllowNull()]$PPTenantDLP,   
-    
     #Landing Zones
     [Parameter(Mandatory = $false)][string][AllowEmptyString()][AllowNull()]$PPDefaultRenameText,
     [Parameter(Mandatory = $false)][string][AllowEmptyString()][AllowNull()]$PPDefaultDLP,
@@ -44,8 +43,9 @@ $prodSecurityGroupId = ''
 $adminSecurityGroupId = ''
 
 #Default ALM environment tiers
-$envTiers = 'dev', 'test', 'prod'
+$envTiers = 'dev', 'test', 'prod', 'admin'
 
+$Global:envAdminName = ''
 #region supporting functions
 function New-EnvironmentCreationObject {
     param (
@@ -96,7 +96,10 @@ function New-EnvironmentCreationObject {
             if ($true -eq $EnvALM) {
                 foreach ($envTier in $envTiers) { 
                     if($envTier -eq 'dev'){
+                        Write-Output "Pre Create DEV Security Group. Environment Name: $envTier"  
                         $sgId = New-CreateSecurityGroup -EnvironmentType dev
+                        Write-Output "Post Create DEV Security Group. Security Group ID: $sgId"
+
                         $securityGroupId = $sgId
                         $envSku = 'Sandbox'  
                     }
@@ -113,6 +116,7 @@ function New-EnvironmentCreationObject {
                     if ( $envTier -eq 'admin' ){
                         <#$sgId = New-CreateSecurityGroup -EnvironmentType admin
                         $securityGroupId = $sgId #>
+                        $Global:envAdminName =  "{0}-{1}" -f $environmentName, $envTier                   
                         $envSku ='Production'
                     }
 
@@ -304,8 +308,6 @@ function New-InstallPackaggeToEnvironment {
                 "Authorization" = "Bearer $($Token)"
             }
            # Declaring the HTTP Post request
-                     
-        
             $PostParameters = @{
                 "Uri"         = "$($PostEnvironment)"
                 "Method"      = "Post"
@@ -321,6 +323,7 @@ function New-InstallPackaggeToEnvironment {
             }  
           
 }
+
 
 function New-DLPAssignmentFromEnv {
     param (
@@ -501,6 +504,7 @@ if ($defaultEnvironment.properties.governanceConfiguration.protectionLevel -ne '
 }
 #endregion default environment
 
+
 #region create default tenant dlp policies
 if ($PPTenantDLP -in 'low', 'medium', 'high') {
     try {
@@ -534,7 +538,7 @@ if ($PPCitizen -in "yes", "half" -and $PPCitizenCount -ge 1 -or $PPCitizen -eq '
                 envLanguage    = $PPCitizenLanguage
                 envCurrency    = $PPCitizenCurrency
                 envDescription = ''
-                EnvALM         = $PPCitizenAlm -eq 'No'
+                EnvALM         = $PPCitizenAlm -eq 'Yes'
                 EnvDataverse   = $PPCitizen -eq 'Yes'
             }
             $environmentsToCreate = New-EnvironmentCreationObject @envHt
@@ -559,14 +563,13 @@ if ($PPCitizen -in "yes", "half" -and $PPCitizenCount -ge 1 -or $PPCitizen -eq '
             }   
             
             # Starts Here: Code to create Group
-            New-AzADGroup -DisplayName 'Test' -MailEnabled $False -MailNickName 'PowerPlatformDevelopmentGroup' -SecurityEnabled $True -Description 'Security Group used for Power Platform - Development environment'
-            New-AzADGroup -DisplayName 'PowerPlatformDevelopmentGroup' -MailNickName 'PowerPlatformDevelopmentGroup' 
+            #New-AzADGroup -DisplayName 'Test' -MailEnabled $False -MailNickName 'PowerPlatformDevelopmentGroup' -SecurityEnabled $True -Description 'Security Group used for Power Platform - Development environment'
+            #New-AzADGroup -DisplayName 'PowerPlatformDevelopmentGroup' -MailNickName 'PowerPlatformDevelopmentGroup' 
             # Ends Here:  Code to create group 
-
+            
             
             # Code Begins
             # Get token to authenticate to Power Platform
-            
             $Token = (Get-AzAccessToken).Token
             
             # Power Platform API base Uri
@@ -589,17 +592,16 @@ if ($PPCitizen -in "yes", "half" -and $PPCitizenCount -ge 1 -or $PPCitizen -eq '
       
             Write-Output "Creating Environment: $($envCreationHt.Name)"
             
-            # Form the request body to create new Environments in Power Platform
-           
+            # Form the request body to create new Environments in Power Platform           
 
             $templates = @()
-            if ($ppD365SalesApp -eq "true") {          
+            if ($ppD365SalesApp -eq 'true' -and $envCreationHt.Name -ne $Global:envAdminName ) {          
                 $templates += 'D365_Sales'   
             }
-            if ($ppD365CustomerServiceApp -eq "true") {          
+            if ($ppD365CustomerServiceApp -eq 'true' -and $envCreationHt.Name -ne $Global:envAdminName ) {          
                 $templates += 'D365_CustomerService'   
             }
-            if ($ppD365FieldServiceApp -eq "true") { 
+            if ($ppD365FieldServiceApp -eq 'true' -and $envCreationHt.Name -ne $Global:envAdminName ) { 
                 $templates += 'D365_FieldService'   
             }
             
@@ -639,13 +641,30 @@ if ($PPCitizen -in "yes", "half" -and $PPCitizenCount -ge 1 -or $PPCitizen -eq '
                 Write-Error "Creation of citizen Environment $($envCreationHt.Name) failed`r`n$_"
                 throw "REST API call failed drastically"
             }  
+
+           #Starts Install Power Platform Pipeline App in Admin Envrionemnt
+           Write-Output "Admin Envrionement Name $($Global:envAdminName)."
+           If($envCreationHt.Name -eq $Global:envAdminName ){
+            Start-Sleep -Seconds 120           
+            foreach ($envTier in $envTiers) {
+                try {          
+                          $adminEnvironment = Get-PowerOpsEnvironment | Where-Object { $_.Properties.displayName -eq $envAdminName }
+                          New-InstallPackaggeToEnvironment -EnvironmentId $($adminEnvironment.name) -PackageName 'msdyn_AppDeploymentAnchor'
+                }
+                catch {
+                    Write-Warning "Error installing App`r`n$_"
+                }
+            }
+           }
+            #Ends Install Power Platform Pipeline App in Admin Envrionemnt
+
             # Get newly created environments
-            $GetParameters = @{
+           <# $GetParameters = @{
                 "Uri"         = "$($BaseUri)$($GetEnvironment)"
                 "Method"      = "Get"
                 "Headers"     = $headers
                 "ContentType" = "application/json"
-            }          
+            }   #>       
             
            #Start-Sleep -Seconds 120    
             try {
