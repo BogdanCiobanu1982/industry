@@ -88,7 +88,74 @@
             "metadata": {
                 "description": "Select tenant isolation setting"
             }
-        },       
+        },   
+        "ppAdminEnvEnablement": {
+            "type": "string",
+            "allowedValues": [
+                "yes",
+                "no"
+            ],
+            "defaultValue": "no",
+            "metadata": {
+                "description": "select to enable/disable this setting."
+            }
+        },
+        "ppAdminEnvNaming": {
+            "type": "string",
+            "maxLength": 15,
+            "defaultValue": "''",
+            "metadata": {
+                "description": "Provide naming convention for the Admin environments."
+            }
+        },
+        "ppAdminRegion": {
+            "type": "string",
+            "allowedValues": [
+                "europe",
+                "unitedstates",
+                "unitedkingdom",
+                "asia",
+                "japan",
+                "india",
+                "canada",
+                "southamerica",
+                "unitedkingdom",
+                "france",
+                "germany",
+                "unitedarabemirates",
+                "australia",
+                "norway"
+            ],
+            "defaultValue": "unitedstates",
+            "metadata": {
+                "description": "Provide location for the Admin environments."
+            }
+        },
+        "ppAdminDlp": {
+            "type": "string",
+            "defaultValue": "no",
+            "allowedValues": [
+                "yes",
+                "no"
+            ],
+            "metadata": {
+                "description": "Select to enable/disable this setting."
+            }
+        },
+        "ppAdminManagedEnv": {
+            "type": "string",
+            "defaultValue": "no",
+            "allowedValues": [
+                "no",
+                "yes"
+            ],
+            "metadata": {
+                "description": "Select to enable/disable this setting."
+            }
+        },
+        
+
+
         "ppDefaultRenameText": {
             "type": "string",
             "defaultValue": "''",
@@ -218,7 +285,7 @@
         },
         "scriptUri": {
             "type": "string",
-            "defaultValue": "https://raw.githubusercontent.com/BogdanCiobanu1982/industry/main/foundations/powerPlatform/referenceImplementation/auxiliary/powerPlatform/nsPowerPlatform.ps1",
+            "defaultValue": "https://raw.githubusercontent.com/HemantKumar10/landingzones/main/foundations/powerPlatform/referenceImplementation/auxiliary/powerPlatform/nsPowerPlatform.ps1",
             "metadata": {
                 "description": "The uri pointing to the PowerShell script used in the deploymentScript"
             }
@@ -239,21 +306,21 @@
         },       
         "ppD365SalesApp": {
             "type": "string",
-            "defaultValue": "",
+            "defaultValue": "false",
             "metadata": {
                 "description": "Dynamics 365 for Sales."
             }
         },
         "ppD365CustomerServiceApp": {
             "type": "string",
-            "defaultValue": "",
+            "defaultValue": "false",
             "metadata": {
                 "description": "Dynamics 365 for Customer Service."
             }
         },
         "ppD365FieldServiceApp": {
             "type": "string",
-            "defaultValue": "",
+            "defaultValue": "false",
             "metadata": {
                 "description": "Dynamics 365 for Field Service."
             }
@@ -308,7 +375,12 @@
                                                     '-PPTrialEnvCreationSetting', ' ', parameters('ppTrialEnvCreationSetting'), ' ',
                                                     '-PPEnvCapacitySetting', ' ', parameters('ppEnvCapacitySetting'), ' ',
                                                     '-PPTenantDLP', ' ', parameters('ppTenantDlp'), ' ',
-                                                    '-PPTenantIsolationSetting', ' ', parameters('ppTenantIsolationSetting'), ' ',                                                    
+                                                    '-PPTenantIsolationSetting', ' ', parameters('ppTenantIsolationSetting'), ' ', 
+                                                    '-PPAdminEnvEnablement', ' ', parameters('ppAdminEnvEnablement'), ' ',
+                                                    '-PPAdminEnvNaming', ' ', parameters('ppAdminEnvNaming'), ' ',                                                   
+                                                    '-PPAdminRegion', ' ', parameters('ppAdminRegion'), ' ',                                                 
+                                                    '-PPAdminDlp', ' ', parameters('ppAdminDlp'), ' ',
+                                                    '-PPAdminManagedEnv', ' ', parameters('ppAdminManagedEnv'), ' ',                                                  
                                                     '-PPDefaultRenameText', ' ', parameters('ppDefaultRenameText'), ' ',
                                                     '-PPDefaultDLP', ' ', parameters('ppDefaultDlp'), ' ',
                                                     '-PPDefaultManagedEnv', ' ', parameters('ppDefaultManagedEnv'), ' ',
