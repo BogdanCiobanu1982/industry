@@ -45,104 +45,16 @@ param (
 $DeploymentScriptOutputs = @{}
 #Install required modules
 Install-Module -Name PowerOps -AllowPrerelease -Force
-
-#region Entra Groups
-# TO DO - Install module to create Entra Security and M365 Groups.
-# TO DO - get the IDs for the created security groups, and set them to the parameters below. 
-
-# Install-module Microsoft.Graph  
-# Connect-MgGraph -Scopes "Group.ReadWrite.All"
-
-# Define the details for the Security Groups and the Makers Microsoft 365 Group
-#    $devSecurityGroup = @{
-#     description="Security Group used for Power Platform - Development environment"
-#     displayName="entra_powerplatform_development"
-#     mailEnabled=$false
-#     securityEnabled=$true
-#     mailNickname="PowerPlatformDevelopmentGroup"
-#    }
-
-#    $testSecurityGroup = @{
-#     description="Security Group used for Power Platform - Test environment"
-#     displayName="entra_powerplatform_test"
-#     mailEnabled=$false
-#     securityEnabled=$true
-#     mailNickname="PowerPlatformTestGroup"
-#    }
-
-#    $productionSecurityGroup = @{
-#     description="Security Group used for Power Platform - Production environment"
-#     displayName="entra_powerplatform_production"
-#     mailEnabled=$false
-#     securityEnabled=$true
-#     mailNickname="PowerPlatformProductionGroup"
-#    }
-
-#    $adminSecurityGroup = @{
-#     description="Security Group used for Power Platform - Admin environment"
-#     displayName="entra_powerplatform_admin"
-#     mailEnabled=$false
-#     securityEnabled=$true
-#     mailNickname="PowerPlatformAdminGroup"
-#    }
-
-#    $makersM365Group = @{
-#     description="Microsoft 365 Group used for Power Platform Makers"
-#     displayName="entra_powerplatform_makers"
-#     GroupTypes="Unified"
-#     mailEnabled=$true
-#     securityEnabled=$true
-#     mailNickname="Makers"
-#    }
-
-#    $usersM365Group = @{
-#     description="Microsoft 365 Group used for Power Platform Users"
-#     displayName="entra_powerplatform_users"
-#     GroupTypes="Unified"
-#     mailEnabled=$true
-#     securityEnabled=$true
-#     mailNickname="Users"
-#    }
-
-#    $adminsM365Group = @{
-#     description="Microsoft 365 Group used for Power Platform Admins"
-#     displayName="entra_powerplatform_admins"
-#     GroupTypes="Unified"
-#     mailEnabled=$true
-#     securityEnabled=$true
-#     mailNickname="Admins"
-#    }
-   
-   # Create the Security Groups for Dev/Test/Prod/Admin and the Makers M365 Group
-#    New-MgGroup @devSecurityGroup
-#    New-MgGroup @testSecurityGroup
-#    New-MgGroup @productionSecurityGroup
-#    New-MgGroup @adminSecurityGroup
-#    New-MgGroup @makersM365Group
-#    New-MgGroup @usersM365Group
-#    New-MgGroup @adminsM365Group
    
 #Get the created groups IDs
-$devSecurityGroupId = '2f178b09-3e99-4f68-b3dc-177daa6d662f'
-$testSecurityGroupId = 'eae9814e-26cf-43f5-a7be-f08c5b5b0a50'
+$devSecurityGroupId = ''
+$testSecurityGroupId = ''
 $prodSecurityGroupId = ''
 $adminSecurityGroupId = ''
 
-#endregion Entra Groups
-
-#region Dynamics 365 Applications
-# TO DO - Install PowerApp.Administation module and pass the managed identity ID 
-# TO DO - modify the sample below to create the 4 environments, including (or not) the templates for D365 Apps. 
-
-# Install-Module -Name Microsoft.PowerApps.Administration.PowerShell -Identity -ClientId "5d09226d-8c9e-41b4-893e-231e0f7d285a" 
-# Import-Module -Name Microsoft.PowerApps.Administration.PowerShell
-# New-AdminPowerAppEnvironment -DisplayName 'BC-ANS-RND-PS' -Location unitedkingdom -RegionName uksouth -CurrencyName GBP -EnvironmentSku Sandbox -Templates "D365_Sales" -WaitUntilFinished $true -DomainName BCANSRNDPS -LanguageName 1033 -ProvisionDatabase
-
-#endregion Dynamics 365 Applications
-
-
 #Default ALM environment tiers
 $envTiers = 'dev', 'test', 'prod'
+$envTiersAdmin = 'admin'
 
 #region supporting functions
 function New-EnvironmentCreationObject {
@@ -604,20 +516,18 @@ if ($defaultEnvironment.properties.governanceConfiguration.protectionLevel -ne '
 }
 #endregion default environment
 
-
-#region create admin environments and import COE solution
+#region create admin environments
 
 Write-Output "Admin environment Id $($adminEnvironment.name)"
-
 
 $adminEnvName =''
 if ($PPAdminEnvEnablement -eq 'Yes' -and -not [string]::IsNullOrEmpty($PPAdminEnvNaming)) {
     # Create environment
-    foreach ($envTier in $envTiers) {
+    foreach ($envTierAdmin in $envTiersAdmin) {
         try {
-            $adminEnvName = '{0}-admin-{1}' -f $PPAdminEnvNaming, $envTier
-            $null = New-PowerOpsEnvironment -Name $adminEnvName -Location $PPAdminRegion -Dataverse $true -ManagedEnvironment ($PPAdminManagedEnv -eq 'Yes')
-            Write-Output "Created environment $adminEnvName in $PPAdminRegion"
+            $adminEnvName = '{0}-{1}' -f $PPAdminEnvNaming, $envTierAdmin
+            $null = New-PowerOpsEnvironment -Name $adminEnvName -Location $PPCitizenRegion -Dataverse $true -ManagedEnvironment ($PPAdminManagedEnv -eq 'Yes')
+            Write-Output "Created environment $adminEnvName in $PPCitizenRegion"
         }
         catch {
             throw "Failed to create admin environment $adminEnvName`r `n$_"
@@ -628,19 +538,20 @@ if ($PPAdminEnvEnablement -eq 'Yes' -and -not [string]::IsNullOrEmpty($PPAdminEn
     if ($PPAdminDlp -eq "Yes") {
         $adminEnvironments = Get-PowerOpsEnvironment | Where-Object { $_.properties.displayName -like "$PPAdminEnvNaming-admin*" }
         try {
-            New-DLPAssignmentFromEnv -Environments $adminEnvironments.properties.displayName -EnvironmentDLP 'adminEnv'          
-            Write-Output "Created Default Admin Environment DLP Policy"
+            New-DLPAssignmentFromEnv -Environments $adminEnvironments.properties.displayName -EnvironmentDLP 'citizenDlpPolicy'          
+            Write-Output "Created Default Environment DLP Policy"
         }
         catch {
-            Write-Warning "Created Default Admin Environment DLP Policy`r`n$_"
+            Write-Warning "Created Default Environment DLP Policy`r`n$_"
         }
     }
 
-    Start-Sleep -Seconds 30  
+    Start-Sleep -Seconds 30 
+
     #Starts Install Power Platform Pipeline App in Admin Envrionemnt
-    foreach ($envTier in $envTiers) {
+    foreach ($envTierAdmin in $envTiersAdmin) {
         try {
-    $adminEnvName = '{0}-admin-{1}' -f $PPAdminEnvNaming, $envTier    
+    $adminEnvName = '{0}-{1}' -f $PPAdminEnvNaming, $envTierAdmin    
     $adminEnvironment = Get-PowerOpsEnvironment | Where-Object { $_.Properties.displayName -eq $adminEnvName }
     New-InstallPackaggeToEnvironment -EnvironmentId $($adminEnvironment.name) -PackageName 'msdyn_AppDeploymentAnchor'
         }
@@ -650,9 +561,8 @@ if ($PPAdminEnvEnablement -eq 'Yes' -and -not [string]::IsNullOrEmpty($PPAdminEn
     }
     #Ends Install Power Platform Pipeline App in Admin Envrionemnt
 
-
 }
-#endregion create admin environments and import COE solution
+#endregion create admin environments
 
 #region create default tenant dlp policies
 if ($PPTenantDLP -in 'low', 'medium', 'high') {
@@ -687,7 +597,7 @@ if ($PPCitizen -in "yes", "half" -and $PPCitizenCount -ge 1 -or $PPCitizen -eq '
                 envLanguage    = $PPCitizenLanguage
                 envCurrency    = $PPCitizenCurrency
                 envDescription = ''
-                EnvALM         = $PPCitizenAlm -eq 'Yes'
+                EnvALM         = $PPCitizenAlm -eq 'No'
                 EnvDataverse   = $PPCitizen -eq 'Yes'
             }
             $environmentsToCreate = New-EnvironmentCreationObject @envHt
