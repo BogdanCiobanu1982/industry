@@ -95,11 +95,8 @@ function New-EnvironmentCreationObject {
             $envSku = 'Sandbox'     
             if ($true -eq $EnvALM) {
                 foreach ($envTier in $envTiers) { 
-                    if($envTier -eq 'dev'){
-                        Write-Output "Pre Create DEV Security Group. Environment Name: $envTier"  
-                        $sgId = New-CreateSecurityGroup -EnvironmentType dev
-                        Write-Output "Post Create DEV Security Group. Security Group ID: $sgId"
-
+                    if($envTier -eq 'dev'){                        
+                        $sgId = New-CreateSecurityGroup -EnvironmentType dev                        
                         $securityGroupId = $sgId
                         $envSku = 'Sandbox'  
                     }
@@ -591,6 +588,7 @@ if ($PPCitizen -in "yes", "half" -and $PPCitizenCount -ge 1 -or $PPCitizen -eq '
             }
       
             Write-Output "Creating Environment: $($envCreationHt.Name)"
+            Write-Output "DEV Security Group. Security Group ID: $environment.envRbac"
             
             # Form the request body to create new Environments in Power Platform           
 
