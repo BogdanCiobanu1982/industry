@@ -37,10 +37,8 @@ $DeploymentScriptOutputs = @{}
 Install-Module -Name PowerOps -AllowPrerelease -Force
    
 #Get the created groups IDs
-$devSecurityGroupId = ''
-$testSecurityGroupId = ''
-$prodSecurityGroupId = ''
-$adminSecurityGroupId = ''
+$devSecurityGroup = Get-MgGroup -Filter "DisplayName eq 'entra_powerplatform_development'"
+$devSecurityGroupId = $devSecurityGroup.Id
 
 #Default ALM environment tiers
 $envTiers = 'dev'
@@ -98,6 +96,7 @@ function New-EnvironmentCreationObject {
                     if($envTier -eq 'dev'){                        
                         <#$sgId = New-CreateSecurityGroup -EnvironmentType dev                        
                         $securityGroupId = $sgId#>
+                        $securityGroupId = $devSecurityGroupId
                         $envSku = 'Sandbox'  
                     }
                     if ( $envTier -eq 'test' ){
