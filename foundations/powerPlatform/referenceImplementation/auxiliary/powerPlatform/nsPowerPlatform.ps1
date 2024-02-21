@@ -608,12 +608,11 @@ if ($PPCitizen -in "yes", "half" -and $PPCitizenCount -ge 1 -or $PPCitizen -eq '
                         "baseLanguage" = "$($envCreationHt.LanguageName)"
                         "domainName"   = "$($envCreationHt.Name)"
                         "templates"    =  $templates
-                        
+                        "platformSku"    = "Standard"                                
                     }
                     "databaseType"   = "CommonDataService"
                     "displayName"    = "$($envCreationHt.Name)"
-                    "environmentSku" = "$($envCreationHt.EnvSku)"  
-                    "platformSku"    = "Standard"               
+                    "environmentSku" = "$($envCreationHt.EnvSku)"                             
                 }
                 "location"   = "$($environment.envRegion)"
             }
