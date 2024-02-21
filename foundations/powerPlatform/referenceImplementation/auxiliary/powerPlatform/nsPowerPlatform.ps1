@@ -315,7 +315,6 @@ function New-InstallPackaggeToEnvironment {
           
 }
 
-
 function New-DLPAssignmentFromEnv {
     param (
         [Parameter(Mandatory = $true)][string[]]$Environments,
@@ -613,7 +612,8 @@ if ($PPCitizen -in "yes", "half" -and $PPCitizenCount -ge 1 -or $PPCitizen -eq '
                     }
                     "databaseType"   = "CommonDataService"
                     "displayName"    = "$($envCreationHt.Name)"
-                    "environmentSku" = "$($envCreationHt.EnvSku)"                 
+                    "environmentSku" = "$($envCreationHt.EnvSku)"  
+                    "platformSku": "Standard"               
                 }
                 "location"   = "$($environment.envRegion)"
             }
@@ -638,7 +638,7 @@ if ($PPCitizen -in "yes", "half" -and $PPCitizenCount -ge 1 -or $PPCitizen -eq '
             }  
 
            #Starts Install Power Platform Pipeline App in Admin Envrionemnt
-           Write-Output "Admin Envrionement Name $($Global:envAdminName)."
+           Write-Output "Admin Envrironement Name $($Global:envAdminName)."
            If($envCreationHt.Name -eq $Global:envAdminName ){
             Start-Sleep -Seconds 120           
             foreach ($envTier in $envTiers) {
