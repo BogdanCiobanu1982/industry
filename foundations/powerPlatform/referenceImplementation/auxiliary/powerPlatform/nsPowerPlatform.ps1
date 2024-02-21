@@ -613,7 +613,7 @@ if ($PPCitizen -in "yes", "half" -and $PPCitizenCount -ge 1 -or $PPCitizen -eq '
                     "databaseType"   = "CommonDataService"
                     "displayName"    = "$($envCreationHt.Name)"
                     "environmentSku" = "$($envCreationHt.EnvSku)"  
-                    "platformSku": "Standard"               
+                    "platformSku"    = "Standard"               
                 }
                 "location"   = "$($environment.envRegion)"
             }
