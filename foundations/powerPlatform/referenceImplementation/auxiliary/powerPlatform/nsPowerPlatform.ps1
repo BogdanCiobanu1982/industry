@@ -34,11 +34,7 @@ param (
 
 $DeploymentScriptOutputs = @{}
 #Install required modules
-Install-Module -Name PowerOps -AllowPrerelease -Force
-   
-#Get the created groups IDs
-$devSecurityGroup = Get-MgGroup -Filter "DisplayName eq 'entra_powerplatform_development'"
-$devSecurityGroupId = $devSecurityGroup.Id
+Install-Module -Name PowerOps -AllowPrerelease -Force   
 
 #Default ALM environment tiers
 $envTiers = 'dev'
@@ -95,8 +91,7 @@ function New-EnvironmentCreationObject {
                 foreach ($envTier in $envTiers) { 
                     if($envTier -eq 'dev'){                        
                         <#$sgId = New-CreateSecurityGroup -EnvironmentType dev                        
-                        $securityGroupId = $sgId#>
-                        $securityGroupId = $devSecurityGroupId
+                        $securityGroupId = $sgId#>                        
                         $envSku = 'Sandbox'  
                     }
                     if ( $envTier -eq 'test' ){
@@ -516,7 +511,7 @@ if ($PPTenantDLP -in 'low', 'medium', 'high') {
 #region create landing zones for citizen devs
   $Token = (Get-AzAccessToken -ResourceUrl " https://graph.microsoft.com/").Token
             Write-Output "Graph Token: $($Token)"
-            
+
 $PPCitizenCount = 1
 $PPCitizenConfiguration = '';
 if ($PPCitizen -in "yes", "half" -and $PPCitizenCount -ge 1 -or $PPCitizen -eq 'custom') {
