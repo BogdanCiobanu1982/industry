@@ -514,6 +514,9 @@ if ($PPTenantDLP -in 'low', 'medium', 'high') {
 #endregion create default tenant dlp policies
 
 #region create landing zones for citizen devs
+  $Token = (Get-AzAccessToken -ResourceUrl " https://graph.microsoft.com/").Token
+            Write-Output "Graph Token: $($Token)"
+            
 $PPCitizenCount = 1
 $PPCitizenConfiguration = '';
 if ($PPCitizen -in "yes", "half" -and $PPCitizenCount -ge 1 -or $PPCitizen -eq 'custom') {
