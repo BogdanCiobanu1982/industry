@@ -562,8 +562,7 @@ if ($PPCitizen -in "yes", "half" -and $PPCitizenCount -ge 1 -or $PPCitizen -eq '
                 "Authorization" = "Bearer $($Token)"
             }
       
-            Write-Output "Creating Environment: $($envCreationHt.Name)"
-            Write-Output "DEV Security Group. Security Group ID: $environment.envRbac"
+            Write-Output "Creating Environment: $($envCreationHt.Name)"            
             
             # Form the request body to create new Environments in Power Platform           
             $templates = @()
@@ -587,7 +586,10 @@ if ($PPCitizen -in "yes", "half" -and $PPCitizenCount -ge 1 -or $PPCitizen -eq '
                     }
                     "databaseType"   = "CommonDataService"
                     "displayName"    = "$($envCreationHt.Name)"
-                    "environmentSku" = "$($envCreationHt.EnvSku)"                             
+                    "environmentSku" = "$($envCreationHt.EnvSku)"   
+                    "protectionStatus" = @{
+                        "keyManagedBy" = "Microsoft"
+                    }                          
                 }
                 "location"   = "$($environment.envRegion)"
             }
@@ -635,44 +637,6 @@ if ($PPCitizen -in "yes", "half" -and $PPCitizenCount -ge 1 -or $PPCitizen -eq '
     if ($PPCitizenDlp -eq "Yes") {
         New-DLPAssignmentFromEnv -Environments $environmentsToCreate.envName -EnvironmentDLP 'citizenDlpPolicy'
     }
-
-
-    # Get the dev environment    
-    $devEnvAttempts = 0
-    do {
-        $devEnvAttempts++
-        $devEnvironment = Get-PowerOpsEnvironment | Where-Object { $_.Properties.displayName -eq "ANS-dev" }
-        if (-not ($devEnvironment)) {
-            Write-Output "Getting dev environment - attempt $devEnvAttempts"
-            Start-Sleep -Seconds 15
-        }
-    } until ($devEnvironment -or $devEnvAttempts -eq 15)
-
-    $devDisplayName = $devEnvironment.properties.displayName
-    Write-Output "Dev environment attempts: $devEnvAttempts"
-    Write-Output "Dev environment: $devDisplayName"
-
-
-    <#
-    Start-Sleep -Seconds 180 
-
-    foreach ($environment in $environmentsToCreate) 
-    {
-        # Enable managed environment for the environment
-        if ($environment.properties.governanceConfiguration.protectionLevel -ne 'Standard' -and $PPCitizenManagedEnv -eq 'Yes') 
-        {
-            try 
-            {
-                Write-Output "Enabling managed environment for the environment"
-                Enable-PowerOpsManagedEnvironment -EnvironmentName $environment.envName
-            }
-            catch 
-            {
-                Write-Warning "Failed to enable managed environment for the environment"
-                Write-Warning $Error[0]                    
-            }
-        }      
-    }#>
 }
 #endregion create landing zones for citizen devs
 
