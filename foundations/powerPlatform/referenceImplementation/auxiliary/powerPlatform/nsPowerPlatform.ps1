@@ -93,26 +93,31 @@ function New-EnvironmentCreationObject {
                         <#$sgId = New-CreateSecurityGroup -EnvironmentType dev                        
                         $securityGroupId = $sgId#>                        
                         $envSku = 'Sandbox'  
+                        $envDescription = 'Environment used for development purposes'
                     }
                     if ( $envTier -eq 'test' ){
                         <# $sgId = New-CreateSecurityGroup -EnvironmentType test
                         $securityGroupId = $sgId #>
                         $envSku = 'Sandbox'  
+                        $envDescription = 'Environment used for testing purposes'
                     }
                     if ( $envTier -eq 'prod' ){
                         <# $sgId = New-CreateSecurityGroup -EnvironmentType prod
                         $securityGroupId = $sgId #>
-                        $envSku ='Production'                     
+                        $envSku ='Production'      
+                        $envDescription = 'Environment used for production purposes'               
                     }
                     if ( $envTier -eq 'admin' ){
                         <#$sgId = New-CreateSecurityGroup -EnvironmentType admin
                         $securityGroupId = $sgId #>
                         $Global:envAdminName =  "{0}-{1}" -f $environmentName, $envTier                   
                         $envSku ='Production'
+                        $envDescription = 'Environment used for administration purposes'     
                     }
 
                     [PSCustomObject]@{
                         envName        = "{0}-{1}" -f $environmentName, $envTier
+                        envDescription = 
                         envRegion      = $EnvRegion
                         envDataverse   = $EnvDataverse
                         envLanguage    = $envLanguage
@@ -273,46 +278,33 @@ function New-InstallPackaggeToEnvironment {
         [Parameter(Mandatory = $true)][string]$EnvironmentId,
         [Parameter(Mandatory = $true)][string]$PackageName
     ) 
-            # Code Begins
-            # Get token to authenticate to Power Platform
-
-
-            <# $Token = (Get-AzAccessToken).Token 
-            $TokenGraph = (Get-AzAccessToken -ResourceUrl "https://graph.microsoft.com/Group.ReadWrite.All").Token
-               Write-Output "Token Graph $($Token1) "
-            $Token1 = (Get-AzAccessToken -ResourceUrl "https://api.powerplatform.com/AppManagement.ApplicationPackages.Install").Token            
-            Write-Output "Token1 $($TokenGraph) "
-            Import-Module MSAL.PS
-            $AuthResult = Get-MsalToken -ClientId '49676daf-ff23-4aac-adcc-55472d4e2ce0' -Scope 'https://api.powerplatform.com/.default'   
-            Write-Output "TokenX $($AuthResult.AccessToken) " #>
-
-            $TokenGraph = (Get-AzAccessToken -ResourceUrl "https://graph.microsoft.com/").Token
-           
-
-            $Token = (Get-AzAccessToken -ResourceUrl "https://api.powerplatform.com/").Token
-            # Power Platform HTTP Post Environment Uri
-            $PostEnvironment = "https://api.powerplatform.com/appmanagement/environments/$($EnvironmentId)/applicationPackages/$($PackageName)/install?api-version=2022-03-01-preview"           
-            
-            # Declare Rest headers
-            $Headers = @{
-                "Content-Type"  = "application/json"
-                "Authorization" = "Bearer $($Token)"
-            }
-           # Declaring the HTTP Post request
-            $PostParameters = @{
-                "Uri"         = "$($PostEnvironment)"
-                "Method"      = "Post"
-                "Headers"     = $headers
-                "ContentType" = "application/json"
-            }  
-            try {
-                Invoke-RestMethod @PostParameters  
-                Write-Output "Application Installtion $($PackageName) is being done..."
-            }
-            catch {            
-                Write-Error "$($PackageName) Installtion EnvironmentId $($EnvironmentId) failed`r`n$_"               
-            }  
-          
+        # Code Begins
+        # Get token to authenticate to Power Platform
+        $TokenGraph = (Get-AzAccessToken -ResourceUrl "https://graph.microsoft.com/").Token
+        
+        $Token = (Get-AzAccessToken -ResourceUrl "https://api.powerplatform.com/").Token
+        # Power Platform HTTP Post Environment Uri
+        $PostEnvironment = "https://api.powerplatform.com/appmanagement/environments/$($EnvironmentId)/applicationPackages/$($PackageName)/install?api-version=2022-03-01-preview"           
+        
+        # Declare Rest headers
+        $Headers = @{
+            "Content-Type"  = "application/json"
+            "Authorization" = "Bearer $($Token)"
+        }
+        # Declaring the HTTP Post request
+        $PostParameters = @{
+            "Uri"         = "$($PostEnvironment)"
+            "Method"      = "Post"
+            "Headers"     = $headers
+            "ContentType" = "application/json"
+        }  
+        try {
+            Invoke-RestMethod @PostParameters  
+            Write-Output "Application Installation $($PackageName) in progress..."
+        }
+        catch {            
+            Write-Error "$($PackageName) Installation EnvironmentId $($EnvironmentId) failed`r`n$_"               
+        }          
 }
 
 function New-DLPAssignmentFromEnv {
@@ -533,6 +525,7 @@ if ($PPCitizen -in "yes", "half" -and $PPCitizenCount -ge 1 -or $PPCitizen -eq '
         try {
             $envCreationHt = @{
                 Name               = $environment.envName
+                Description        = $environment.envDescription
                 Location           = $environment.envRegion
                 Dataverse          = $true
                 ManagedEnvironment = $PPCitizenManagedEnv -eq 'Yes'
@@ -586,10 +579,8 @@ if ($PPCitizen -in "yes", "half" -and $PPCitizenCount -ge 1 -or $PPCitizen -eq '
                     }
                     "databaseType"   = "CommonDataService"
                     "displayName"    = "$($envCreationHt.Name)"
-                    "environmentSku" = "$($envCreationHt.EnvSku)"   
-                    "protectionStatus" = @{
-                        "keyManagedBy" = "Microsoft"
-                    }                          
+                    "description"    = "$($envCreationHt.Description)"
+                    "environmentSku" = "$($envCreationHt.EnvSku)"                       
                 }
                 "location"   = "$($environment.envRegion)"
             }
