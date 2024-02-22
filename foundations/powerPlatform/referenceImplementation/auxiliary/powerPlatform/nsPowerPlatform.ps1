@@ -34,10 +34,10 @@ param (
 
 $DeploymentScriptOutputs = @{}
 #Install required modules
-Install-Module -Name PowerOps -AllowPrerelease -Force
+Install-Module -Name PowerOps -AllowPrerelease -Force   
 
 #Default ALM environment tiers
-$envTiers = 'dev', 'test', 'prod', 'admin'
+$envTiers = 'dev','test','prod','admin'
 
 $Global:envAdminName = ''
 #region supporting functions
@@ -89,9 +89,9 @@ function New-EnvironmentCreationObject {
             $envSku = 'Sandbox'     
             if ($true -eq $EnvALM) {
                 foreach ($envTier in $envTiers) { 
-                    if($envTier -eq 'dev'){
-                        <# $sgId = New-CreateSecurityGroup -EnvironmentType dev
-                        $securityGroupId = $sgId #>
+                    if($envTier -eq 'dev'){                        
+                        <#$sgId = New-CreateSecurityGroup -EnvironmentType dev                        
+                        $securityGroupId = $sgId#>                        
                         $envSku = 'Sandbox'  
                     }
                     if ( $envTier -eq 'test' ){
@@ -139,7 +139,6 @@ function New-EnvironmentCreationObject {
         }
     }
 }
-
 
 function New-CreateSecurityGroup {
     param (      
@@ -269,7 +268,6 @@ function New-CreateSecurityGroup {
             return $Value
 }
 
-
 function New-InstallPackaggeToEnvironment {
     param (      
         [Parameter(Mandatory = $true)][string]$EnvironmentId,
@@ -301,8 +299,6 @@ function New-InstallPackaggeToEnvironment {
                 "Authorization" = "Bearer $($Token)"
             }
            # Declaring the HTTP Post request
-                     
-        
             $PostParameters = @{
                 "Uri"         = "$($PostEnvironment)"
                 "Method"      = "Post"
@@ -318,7 +314,6 @@ function New-InstallPackaggeToEnvironment {
             }  
           
 }
-
 
 function New-DLPAssignmentFromEnv {
     param (
@@ -388,8 +383,6 @@ function New-DLPAssignmentFromEnv {
         Write-Warning "Created Default $EnvironmentDLP DLP Policy`r`n$_"
     }
 }
-
-
 
 #endregion supporting functions
 
@@ -515,6 +508,9 @@ if ($PPTenantDLP -in 'low', 'medium', 'high') {
 #endregion create default tenant dlp policies
 
 #region create landing zones for citizen devs
+  $Token = (Get-AzAccessToken -ResourceUrl " https://graph.microsoft.com/").Token
+            Write-Output "Graph Token: $($Token)"
+
 $PPCitizenCount = 1
 $PPCitizenConfiguration = '';
 if ($PPCitizen -in "yes", "half" -and $PPCitizenCount -ge 1 -or $PPCitizen -eq 'custom') {
@@ -567,7 +563,6 @@ if ($PPCitizen -in "yes", "half" -and $PPCitizenCount -ge 1 -or $PPCitizen -eq '
             
             # Code Begins
             # Get token to authenticate to Power Platform
-            
             $Token = (Get-AzAccessToken).Token
             
             # Power Platform API base Uri
@@ -589,6 +584,7 @@ if ($PPCitizen -in "yes", "half" -and $PPCitizenCount -ge 1 -or $PPCitizen -eq '
             }
       
             Write-Output "Creating Environment: $($envCreationHt.Name)"
+            Write-Output "DEV Security Group. Security Group ID: $environment.envRbac"
             
             # Form the request body to create new Environments in Power Platform           
 
@@ -611,12 +607,11 @@ if ($PPCitizen -in "yes", "half" -and $PPCitizenCount -ge 1 -or $PPCitizen -eq '
                     "linkedEnvironmentMetadata" = @{
                         "baseLanguage" = "$($envCreationHt.LanguageName)"
                         "domainName"   = "$($envCreationHt.Name)"
-                        "templates"    =  $templates
-                        
+                        "templates"    =  $templates                                              
                     }
                     "databaseType"   = "CommonDataService"
                     "displayName"    = "$($envCreationHt.Name)"
-                    "environmentSku" = "$($envCreationHt.EnvSku)"                 
+                    "environmentSku" = "$($envCreationHt.EnvSku)"                             
                 }
                 "location"   = "$($environment.envRegion)"
             }
@@ -640,11 +635,8 @@ if ($PPCitizen -in "yes", "half" -and $PPCitizenCount -ge 1 -or $PPCitizen -eq '
                 throw "REST API call failed drastically"
             }  
 
-
-
-
            #Starts Install Power Platform Pipeline App in Admin Envrionemnt
-           Write-Output "Admin Envrionement Name $($Global:envAdminName)."
+           Write-Output "Admin Envrironement Name $($Global:envAdminName)."
            If($envCreationHt.Name -eq $Global:envAdminName ){
             Start-Sleep -Seconds 120           
             foreach ($envTier in $envTiers) {
