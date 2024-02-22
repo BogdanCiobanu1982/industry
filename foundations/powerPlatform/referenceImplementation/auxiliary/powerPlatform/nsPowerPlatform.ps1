@@ -646,6 +646,8 @@ if ($PPCitizen -in "yes", "half" -and $PPCitizenCount -ge 1 -or $PPCitizen -eq '
                 catch 
                 {
                     Write-Warning "Failed to enable managed environment for the environment"
+                    Write-Warning $Error[0]
+                    Write-Warning $Error[0].Exception.GetType().FullName
                 }
             }      
 
