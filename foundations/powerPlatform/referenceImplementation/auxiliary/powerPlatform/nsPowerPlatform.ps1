@@ -633,7 +633,21 @@ if ($PPCitizen -in "yes", "half" -and $PPCitizenCount -ge 1 -or $PPCitizen -eq '
             catch {
                 Write-Error "Creation of citizen Environment $($envCreationHt.Name) failed`r`n$_"
                 throw "REST API call failed drastically"
-            }  
+            }
+
+             # Enable managed environment for the environment
+            if ($environment.properties.governanceConfiguration.protectionLevel -ne 'Standard' -and $PPCitizenManagedEnv -eq 'Yes') 
+            {
+                try 
+                {
+                    Write-Output "Enabling managed environment for the environment"
+                    Enable-PowerOpsManagedEnvironment -EnvironmentName $environment.name
+                }
+                catch 
+                {
+                    Write-Warning "Failed to enable managed environment for the environment"
+                }
+            }      
 
            #Starts Install Power Platform Pipeline App in Admin Envrionemnt
            Write-Output "Admin Envrironement Name $($Global:envAdminName)."
