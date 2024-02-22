@@ -684,8 +684,8 @@ if ($PPCitizen -in "yes", "half" -and $PPCitizenCount -ge 1 -or $PPCitizen -eq '
         New-DLPAssignmentFromEnv -Environments $environmentsToCreate.envName -EnvironmentDLP 'citizenDlpPolicy'
     }
 
-    Start-Sleep -Seconds 120 
-    
+    Start-Sleep -Seconds 180 
+
     foreach ($environment in $environmentsToCreate) 
     {
         # Enable managed environment for the environment
