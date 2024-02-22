@@ -633,22 +633,7 @@ if ($PPCitizen -in "yes", "half" -and $PPCitizenCount -ge 1 -or $PPCitizen -eq '
             catch {
                 Write-Error "Creation of citizen Environment $($envCreationHt.Name) failed`r`n$_"
                 throw "REST API call failed drastically"
-            }
-
-             # Enable managed environment for the environment
-            if ($environment.properties.governanceConfiguration.protectionLevel -ne 'Standard' -and $PPCitizenManagedEnv -eq 'Yes') 
-            {
-                try 
-                {
-                    Write-Output "Enabling managed environment for the environment"
-                    Enable-PowerOpsManagedEnvironment -EnvironmentName $environment.envName
-                }
-                catch 
-                {
-                    Write-Warning "Failed to enable managed environment for the environment"
-                    Write-Warning $Error[0]                    
-                }
-            }      
+            }             
 
            #Starts Install Power Platform Pipeline App in Admin Envrionemnt
            Write-Output "Admin Envrironement Name $($Global:envAdminName)."
@@ -697,6 +682,26 @@ if ($PPCitizen -in "yes", "half" -and $PPCitizenCount -ge 1 -or $PPCitizen -eq '
     }
     if ($PPCitizenDlp -eq "Yes") {
         New-DLPAssignmentFromEnv -Environments $environmentsToCreate.envName -EnvironmentDLP 'citizenDlpPolicy'
+    }
+
+    Start-Sleep -Seconds 120 
+    
+    foreach ($environment in $environmentsToCreate) 
+    {
+        # Enable managed environment for the environment
+        if ($environment.properties.governanceConfiguration.protectionLevel -ne 'Standard' -and $PPCitizenManagedEnv -eq 'Yes') 
+        {
+            try 
+            {
+                Write-Output "Enabling managed environment for the environment"
+                Enable-PowerOpsManagedEnvironment -EnvironmentName $environment.envName
+            }
+            catch 
+            {
+                Write-Warning "Failed to enable managed environment for the environment"
+                Write-Warning $Error[0]                    
+            }
+        }      
     }
 }
 #endregion create landing zones for citizen devs
