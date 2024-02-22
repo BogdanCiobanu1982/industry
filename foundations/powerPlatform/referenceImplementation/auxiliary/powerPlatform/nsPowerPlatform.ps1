@@ -452,6 +452,10 @@ do {
     }
 } until ($defaultEnvironment -or $defaultEnvAttempts -eq 15)
 
+$defaultDisplayName = $defaultEnvironment.properties.displayName
+Write-Output "Default environment attempts: $defaultEnvAttempts"
+Write-Output "Default environment: $defaultDisplayName"
+
 # Rename default environment if parameter provided
 if (-not [string]::IsNullOrEmpty($PPDefaultRenameText)) {
     # Get old default environment name
@@ -494,23 +498,7 @@ if ($defaultEnvironment.properties.governanceConfiguration.protectionLevel -ne '
 }
 #endregion default environment
 
-
-#region create default tenant dlp policies
-if ($PPTenantDLP -in 'low', 'medium', 'high') {
-    try {
-        $null = New-DLPAssignmentFromEnv -Environments $defaultEnvironment.properties.displayName -EnvironmentDLP $PPTenantDLP
-        Write-Output "Created Default Tenant DLP Policy - $PPTenantDLP"
-    }
-    catch {
-        Write-Warning "Failed to create Default Tenant DLP Policy`r`n$_"
-    }
-}
-#endregion create default tenant dlp policies
-
 #region create landing zones for citizen devs
-  $Token = (Get-AzAccessToken -ResourceUrl " https://graph.microsoft.com/").Token
-            Write-Output "Graph Token: $($Token)"
-
 $PPCitizenCount = 1
 $PPCitizenConfiguration = '';
 if ($PPCitizen -in "yes", "half" -and $PPCitizenCount -ge 1 -or $PPCitizen -eq 'custom') {
@@ -554,13 +542,7 @@ if ($PPCitizen -in "yes", "half" -and $PPCitizenCount -ge 1 -or $PPCitizen -eq '
                 SecurityGroupId    = $environment.envRbac  
                 EnvSku             = $environment.envSKu                                           
             }   
-            
-            # Starts Here: Code to create Group
-            #New-AzADGroup -DisplayName 'Test' -MailEnabled $False -MailNickName 'PowerPlatformDevelopmentGroup' -SecurityEnabled $True -Description 'Security Group used for Power Platform - Development environment'
-            #New-AzADGroup -DisplayName 'PowerPlatformDevelopmentGroup' -MailNickName 'PowerPlatformDevelopmentGroup' 
-            # Ends Here:  Code to create group 
-            
-            
+                       
             # Code Begins
             # Get token to authenticate to Power Platform
             $Token = (Get-AzAccessToken).Token
@@ -573,10 +555,7 @@ if ($PPCitizen -in "yes", "half" -and $PPCitizenCount -ge 1 -or $PPCitizen -eq '
             
             # Power Platform HTTP Post Environment Uri
             $PostEnvironment = '/providers/Microsoft.BusinessAppPlatform/environments?api-version=2019-05-01&ud=/providers/Microsoft.BusinessAppPlatform/scopes/admin/environments'
-            
-            # Power Platform HTTP Get DLP Policy Uri // Coming soon
-            # $GetPolicies = "https://api.bap.microsoft.com/providers/Microsoft.BusinessAppPlatform/scopes/admin/apiPolicies?api-version=2016-11-01"
-            
+                       
             # Declare Rest headers
             $Headers = @{
                 "Content-Type"  = "application/json"
@@ -587,7 +566,6 @@ if ($PPCitizen -in "yes", "half" -and $PPCitizenCount -ge 1 -or $PPCitizen -eq '
             Write-Output "DEV Security Group. Security Group ID: $environment.envRbac"
             
             # Form the request body to create new Environments in Power Platform           
-
             $templates = @()
             if ($ppD365SalesApp -eq 'true' -and $envCreationHt.Name -ne $Global:envAdminName ) {          
                 $templates += 'D365_Sales'   
@@ -597,9 +575,7 @@ if ($PPCitizen -in "yes", "half" -and $PPCitizenCount -ge 1 -or $PPCitizen -eq '
             }
             if ($ppD365FieldServiceApp -eq 'true' -and $envCreationHt.Name -ne $Global:envAdminName ) { 
                 $templates += 'D365_FieldService'   
-            }
-            
-           # "securityGroupId"= "$($envCreationHt.SecurityGroupId)"
+            }           
             
         # Declaring the HTTP Post request
             $PostBody = @{
@@ -649,31 +625,7 @@ if ($PPCitizen -in "yes", "half" -and $PPCitizenCount -ge 1 -or $PPCitizen -eq '
                 }
             }
            }
-            #Ends Install Power Platform Pipeline App in Admin Envrionemnt
-
-            # Get newly created environments
-           <# $GetParameters = @{
-                "Uri"         = "$($BaseUri)$($GetEnvironment)"
-                "Method"      = "Get"
-                "Headers"     = $headers
-                "ContentType" = "application/json"
-            }   #>       
-            
-           #Start-Sleep -Seconds 120    
-            try {
-                <# New-InstallPackaggeToEnvironment -EnvironmentId '32512600-a32e-e22f-85f0-c7168370b4a5' -PackageName 'msdyn_AppDeploymentAnchor' #>
-                <#$response = Invoke-RestMethod @GetParameters #>
-                #Write-Host ($response | Format-List | Out-String)
-            }
-            catch {
-                Write-Output "Retrieving the environment failed.`r`n$_"              
-            }          
-            <# $response.value | Where-Object { $_.properties.displayName -eq $($envCreationHt.Name) } | Foreach-Object -Process {  
-                Write-Output "$($envCreationHt.Name): Installation of App Power Platform Pipeline started "          
-                  New-InstallPackaggeToEnvironment -EnvironmentId $($_.name) -PackageName 'msdyn_AppDeploymentAnchor'
-                    Write-Output "$($envCreationHt.Name): Installation of App Power Platform Pipeline completed"  
-                } #>            
-
+            #Ends Install Power Platform Pipeline App in Admin Envrionemnt                                  
         }
         catch {
             Write-Warning "Failed to create citizen environment $($environment.envName)"
@@ -684,6 +636,24 @@ if ($PPCitizen -in "yes", "half" -and $PPCitizenCount -ge 1 -or $PPCitizen -eq '
         New-DLPAssignmentFromEnv -Environments $environmentsToCreate.envName -EnvironmentDLP 'citizenDlpPolicy'
     }
 
+
+    # Get the dev environment    
+    $devEnvAttempts = 0
+    do {
+        $devEnvAttempts++
+        $devEnvironment = Get-PowerOpsEnvironment | Where-Object { $_.Properties.displayName -eq "ANS-dev" }
+        if (-not ($devEnvironment)) {
+            Write-Output "Getting dev environment - attempt $devEnvAttempts"
+            Start-Sleep -Seconds 15
+        }
+    } until ($devEnvironment -or $devEnvAttempts -eq 15)
+
+    $devDisplayName = $devEnvironment.properties.displayName
+    Write-Output "Dev environment attempts: $devEnvAttempts"
+    Write-Output "Dev environment: $devDisplayName"
+
+
+    <#
     Start-Sleep -Seconds 180 
 
     foreach ($environment in $environmentsToCreate) 
@@ -702,7 +672,7 @@ if ($PPCitizen -in "yes", "half" -and $PPCitizenCount -ge 1 -or $PPCitizen -eq '
                 Write-Warning $Error[0]                    
             }
         }      
-    }
+    }#>
 }
 #endregion create landing zones for citizen devs
 
