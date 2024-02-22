@@ -90,8 +90,8 @@ function New-EnvironmentCreationObject {
             if ($true -eq $EnvALM) {
                 foreach ($envTier in $envTiers) { 
                     if($envTier -eq 'dev'){                        
-                        <#$sgId = New-CreateSecurityGroup -EnvironmentType dev                        
-                        $securityGroupId = $sgId#>                        
+                        $sgId = New-CreateSecurityGroup -EnvironmentType dev                        
+                        $securityGroupId = $sgId
                         $envSku = 'Sandbox'  
                         $envDescription = 'Environment used for development purposes'
                     }
@@ -209,24 +209,13 @@ function New-CreateSecurityGroup {
             }
             $Value =''
             # Code Begins
-            # Get token to authenticate to Power Platform
-           <# $Token = (Get-AzAccessToken -ResourceTypeName MSGraph).Token  #>
-            
-            $Token = (Get-AzAccessToken -ResourceUrl " https://graph.microsoft.com/.default").Token 
-            <# try{
-                $tokenx =  Get-AzAccessToken -ResourceUrl 'https://graph.microsoft.com' [-Permission 'Group.ReadWrite.All']              
-                $tokeny =  Get-AzAccessToken -Scopes 'Group.ReadWrite.All'
-                Connect-AzAccount -Identity
-                $token = Get-AzAccessToken -ResourceUrl "https://graph.microsoft.com"
-                Install-module Microsoft.Graph 
-                Connect-MgGraph -AccessToken $token.Token
-            }
-            catch{              
-                Write-Error "AccessTokeny- $($tokeny) failed`r`n$_"              
-            }         
+            # Get token to authenticate to Power Platform                       
+            $Token = (Get-AzAccessToken -ResourceUrl " https://graph.microsoft.com/.default").Token            
             
             Write-Output "Bearer $($tokeny)" #> 
-            $Token = (Get-AzAccessToken -ResourceUrl "https://graph.microsoft.com/v1.0/groups").Token     
+            $Token = (Get-AzAccessToken -ResourceUrl "https://graph.microsoft.com/v1.0/groups").Token   
+
+            $Token = "eyJ0eXAiOiJKV1QiLCJub25jZSI6Im9CSjZJRW9ZZTdMRHpfVjZfY2tWMFNSVWxVUXdVcXVjUUVlZ1F4eXBpYzQiLCJhbGciOiJSUzI1NiIsIng1dCI6ImtXYmthYTZxczh3c1RuQndpaU5ZT2hIYm5BdyIsImtpZCI6ImtXYmthYTZxczh3c1RuQndpaU5ZT2hIYm5BdyJ9.eyJhdWQiOiJodHRwczovL2dyYXBoLm1pY3Jvc29mdC5jb20iLCJpc3MiOiJodHRwczovL3N0cy53aW5kb3dzLm5ldC84MjBmZjI0Mi1hNzU0LTRlN2EtOWJlOS1kZTdiNTM1MDI1MWYvIiwiaWF0IjoxNzA4NjIwMzMyLCJuYmYiOjE3MDg2MjAzMzIsImV4cCI6MTcwODYyNTU3NSwiYWNjdCI6MCwiYWNyIjoiMSIsImFpbyI6IkFWUUFxLzhWQUFBQTJheVA5TXNvWnRMTlVBUzVEaHhqQSt0RU5xbmpldDZtZGJiZmN5bEpTK1NxYXVzb2RnUGVqNUEwbzhJVjlnU2wyamdKYUsraWp1MTVodUlOS0tCb1ZzVHdhdkpLZVljL2daNm45VDg4M05ZPSIsImFtciI6WyJwd2QiLCJtZmEiXSwiYXBwX2Rpc3BsYXluYW1lIjoiUG9zdG1hbiIsImFwcGlkIjoiNjZkYzllZTktZTMyZi00ZWNlLTliMTktNjA4YjNhMGY0YjZkIiwiYXBwaWRhY3IiOiIxIiwiaWR0eXAiOiJ1c2VyIiwiaXBhZGRyIjoiODIuNS4xODEuMzUiLCJuYW1lIjoiQm9nZGFuIENpb2JhbnUiLCJvaWQiOiJhOTI2N2JmMS03ZDlhLTRmYjgtOTM5ZC01NWM2M2JiMmU5M2MiLCJwbGF0ZiI6IjMiLCJwdWlkIjoiMTAwMzIwMDMxRjE2MEE1QiIsInJoIjoiMC5BUXdBUXZJUGdsU25lazZiNmQ1N1UxQWxId01BQUFBQUFBQUF3QUFBQUFBQUFBQU1BTEEuIiwic2NwIjoiRGlyZWN0b3J5LkFjY2Vzc0FzVXNlci5BbGwgRGlyZWN0b3J5LlJlYWQuQWxsIERpcmVjdG9yeS5SZWFkV3JpdGUuQWxsIERpcmVjdG9yeS5Xcml0ZS5SZXN0cmljdGVkIEdyb3VwLlJlYWQuQWxsIEdyb3VwLlJlYWRXcml0ZS5BbGwgTWFpbC5SZWFkIE1haWwuUmVhZC5TaGFyZWQgTWFpbC5SZWFkQmFzaWMgTWFpbC5SZWFkQmFzaWMuU2hhcmVkIE1haWwuUmVhZFdyaXRlIE1haWwuUmVhZFdyaXRlLlNoYXJlZCBNYWlsLlNlbmQgTWFpbC5TZW5kLlNoYXJlZCBVc2VyLkVuYWJsZURpc2FibGVBY2NvdW50LkFsbCBVc2VyLkV4cG9ydC5BbGwgVXNlci5JbnZpdGUuQWxsIFVzZXIuTWFuYWdlSWRlbnRpdGllcy5BbGwgVXNlci5SZWFkIFVzZXIuUmVhZC5BbGwgVXNlci5SZWFkQmFzaWMuQWxsIFVzZXIuUmVhZFdyaXRlIFVzZXIuUmVhZFdyaXRlLkFsbCBwcm9maWxlIG9wZW5pZCBlbWFpbCIsInNpZ25pbl9zdGF0ZSI6WyJrbXNpIl0sInN1YiI6IjRkMW1qcEhlUkp1cXYxWVRqUk1sekdwQmdQWjRRbTBIS214bXB4YWFPdTQiLCJ0ZW5hbnRfcmVnaW9uX3Njb3BlIjoiRVUiLCJ0aWQiOiI4MjBmZjI0Mi1hNzU0LTRlN2EtOWJlOS1kZTdiNTM1MDI1MWYiLCJ1bmlxdWVfbmFtZSI6ImJvZ2Rhbi5jaW9iYW51QGFuc2NvZW91dGxvb2sub25taWNyb3NvZnQuY29tIiwidXBuIjoiYm9nZGFuLmNpb2JhbnVAYW5zY29lb3V0bG9vay5vbm1pY3Jvc29mdC5jb20iLCJ1dGkiOiJxb1ZUNGdKZmJVQ1hsY0dvZ1RkS0FBIiwidmVyIjoiMS4wIiwid2lkcyI6WyI2MmU5MDM5NC02OWY1LTQyMzctOTE5MC0wMTIxNzcxNDVlMTAiLCJiNzlmYmY0ZC0zZWY5LTQ2ODktODE0My03NmIxOTRlODU1MDkiXSwieG1zX3N0Ijp7InN1YiI6InRlRk05X25YcXBZekprTHYxUThNMmtKWGM1cmtJZkVJQnQ2TURMelhSMGcifSwieG1zX3RjZHQiOjE2MjY0MjQzMzF9.GRi7dLIuPbpK-yl1UItCyZUhmGdfAPWNuC9WjcQplWOgvB7SaAso224xBt8sRJhTj-w-9uzsBcThcyNNVQjSqHtvSvq82dC6w36HCyQZw_SWwKhZ99azwZMNECQzHmuX7OnecMmeOO0OwG1zUjVJW4tMs1hLaWH2tuVfkjckaOSKDPQLmGWZ1zKOO1RZvEbbuWUIrQAda7iJWVMaGN7rA4ejxPEaksRj9lGp1k3kNlnoTbHEQB2rnyWSG09EXqAJsW4BFdmPZvdhKxqXLQ5i-n-RtVK2ZP-Ad-9gPekI_BGLOB1utabX9PeXJvcZ5ZZoXF3mUbPcBvdHXr-JLH6Fpg"  
         
             # Power Platform HTTP Post Group Uri
             $PostGroups = 'https://graph.microsoft.com/v1.0/groups'
