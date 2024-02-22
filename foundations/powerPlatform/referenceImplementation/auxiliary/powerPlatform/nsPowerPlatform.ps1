@@ -116,8 +116,7 @@ function New-EnvironmentCreationObject {
                     }
 
                     [PSCustomObject]@{
-                        envName        = "{0}-{1}" -f $environmentName, $envTier
-                        envDescription = 
+                        envName        = "{0}-{1}" -f $environmentName, $envTier                        
                         envRegion      = $EnvRegion
                         envDataverse   = $EnvDataverse
                         envLanguage    = $envLanguage
