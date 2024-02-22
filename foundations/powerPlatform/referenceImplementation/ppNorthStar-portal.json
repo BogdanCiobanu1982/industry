@@ -1328,7 +1328,28 @@
                                     "uri": "https://www.microsoft.com/en-us/dynamics-365"
                                 }
                             }
-                        },                             
+                        },
+                        {
+                            "name": "ppD365Apps",
+                            "type": "Microsoft.Common.OptionsGroup",
+                            "label": "Install D365 Apps?",
+                            "defaultValue": "No",
+                            "multiSelect": false,
+                            "toolTip": "If 'Yes' is selected, the setup will install the selected D365 Apps",
+                            "constraints": {
+                                "allowedValues": [
+                                    {
+                                        "label": "Yes",
+                                        "value": "yes"
+                                    },
+                                    {
+                                        "label": "No",
+                                        "value": "no"
+                                    }
+                                ]
+                            },
+                            "visible": true
+                        },                        
                         {
                             "name": "ppD365SalesApp",
                             "type": "Microsoft.Common.CheckBox",
@@ -1336,7 +1357,7 @@
                             "constraints": {
                                 "required": false
                             },
-                            "visible": true
+                            "visible": "[not(equals(steps('landingZones').ppD365Apps, 'no'))]"
                         },
                         {
                             "name": "ppD365CustomerServiceApp",
@@ -1345,7 +1366,7 @@
                             "constraints": {
                                 "required": false
                             },
-                            "visible": true
+                            "visible": "[not(equals(steps('landingZones').ppD365Apps, 'no'))]"
                         },
                         {
                             "name": "ppD365FieldServiceApp",
@@ -1354,7 +1375,7 @@
                             "constraints": {
                                 "required": false
                             },
-                            "visible": true
+                            "visible": "[not(equals(steps('landingZones').ppD365Apps, 'no'))]"
                         }
                     ]
                 }
