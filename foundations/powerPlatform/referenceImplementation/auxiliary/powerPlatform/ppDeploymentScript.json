@@ -170,7 +170,7 @@
             ],
             "defaultValue": "unitedstates",
             "metadata": {
-                "description": "Provide location for the Admin environments."
+                "description": "Provide location for the citizen dev environments."
             }
         },
         "ppCitizenDlp": {
@@ -290,7 +290,7 @@
                         {
                             "type": "Microsoft.Resources/deploymentScripts",
                             "apiVersion": "2020-10-01",
-                            "name": "[concat(parameters('rgName'), '-ppNorthStar')]",
+                            "name": "[concat(parameters('rgName'), '-deploymentScript')]",
                             "location": "[parameters('location')]",
                             "kind": "AzurePowerShell",
                             "identity": {
