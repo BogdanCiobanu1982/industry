@@ -528,8 +528,7 @@ if ($PPCitizen -in "yes", "half" -and $PPCitizenCount -ge 1 -or $PPCitizen -eq '
                 Description        = $environment.envDescription
                 Location           = $environment.envRegion
                 Dataverse          = $true
-                ManagedEnvironment = $PPCitizenManagedEnv -eq 'Yes'
-                Description        = $environment.envDescription
+                ManagedEnvironment = $PPCitizenManagedEnv -eq 'Yes'                
                 LanguageName       = $environment.envLanguage
                 Currency           = $environment.envCurrency
                 SecurityGroupId    = $environment.envRbac  
