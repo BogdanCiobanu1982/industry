@@ -641,13 +641,12 @@ if ($PPCitizen -in "yes", "half" -and $PPCitizenCount -ge 1 -or $PPCitizen -eq '
                 try 
                 {
                     Write-Output "Enabling managed environment for the environment"
-                    Enable-PowerOpsManagedEnvironment -EnvironmentName $environment.name
+                    Enable-PowerOpsManagedEnvironment -EnvironmentName $environment.envName
                 }
                 catch 
                 {
                     Write-Warning "Failed to enable managed environment for the environment"
-                    Write-Warning $Error[0]
-                    Write-Warning $Error[0].Exception.GetType().FullName
+                    Write-Warning $Error[0]                    
                 }
             }      
 
