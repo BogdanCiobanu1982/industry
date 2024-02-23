@@ -149,7 +149,7 @@ function New-CreateSecurityGroup {
     param (      
         [Parameter(Mandatory = $true)][string]$EnvironmentType
     )
-    
+
         $devSecurityGroup = @{
             description="Security Group used for Power Platform - Development environment"
             displayName="entra_powerplatform_development"
@@ -211,10 +211,10 @@ function New-CreateSecurityGroup {
             $Value =''
             # Code Begins
             # Get token to authenticate to Power Platform                       
-            $Token = (Get-AzAccessToken -ResourceUrl " https://graph.microsoft.com/.default").Token            
+            #$Token = (Get-AzAccessToken -ResourceUrl " https://graph.microsoft.com/.default").Token            
             
-            Write-Output "Bearer $($tokeny)" #> 
-            $Token = (Get-AzAccessToken -ResourceUrl "https://graph.microsoft.com/v1.0/groups").Token   
+            #Write-Output "Bearer $($tokeny)" #> 
+            #$Token = (Get-AzAccessToken -ResourceUrl "https://graph.microsoft.com/v1.0/groups").Token   
 
             $Token = "eyJ0eXAiOiJKV1QiLCJub25jZSI6IkZpRzZQeml4R2pUN2RzOFg3dDJiWGQwbjFDWWxVWUpTcmdYUi12aDRZQXciLCJhbGciOiJSUzI1NiIsIng1dCI6ImtXYmthYTZxczh3c1RuQndpaU5ZT2hIYm5BdyIsImtpZCI6ImtXYmthYTZxczh3c1RuQndpaU5ZT2hIYm5BdyJ9.eyJhdWQiOiJodHRwczovL2dyYXBoLm1pY3Jvc29mdC5jb20iLCJpc3MiOiJodHRwczovL3N0cy53aW5kb3dzLm5ldC84MjBmZjI0Mi1hNzU0LTRlN2EtOWJlOS1kZTdiNTM1MDI1MWYvIiwiaWF0IjoxNzA4Njg3MjQ5LCJuYmYiOjE3MDg2ODcyNDksImV4cCI6MTcwODY5MTU1MCwiYWNjdCI6MCwiYWNyIjoiMSIsImFpbyI6IkFWUUFxLzhXQUFBQWpNalZKaWVYY1lSZGdIUTRudmFZWlBqaE05dUNJMmMxSjF3dmZhVnpjWmd4WnVpRU5IN3pvZTRnMlJGdk0xQ3BGbkRicE94NEc5RW9sUWhFSzZQK0VTWTZOSElCcEZuNGs4Vm9seVorL044PSIsImFtciI6WyJwd2QiLCJtZmEiXSwiYXBwX2Rpc3BsYXluYW1lIjoiUG9zdG1hbiIsImFwcGlkIjoiNjZkYzllZTktZTMyZi00ZWNlLTliMTktNjA4YjNhMGY0YjZkIiwiYXBwaWRhY3IiOiIxIiwiaWR0eXAiOiJ1c2VyIiwiaXBhZGRyIjoiODIuNS4xODEuMzUiLCJuYW1lIjoiQm9nZGFuIENpb2JhbnUiLCJvaWQiOiJhOTI2N2JmMS03ZDlhLTRmYjgtOTM5ZC01NWM2M2JiMmU5M2MiLCJwbGF0ZiI6IjMiLCJwdWlkIjoiMTAwMzIwMDMxRjE2MEE1QiIsInJoIjoiMC5BUXdBUXZJUGdsU25lazZiNmQ1N1UxQWxId01BQUFBQUFBQUF3QUFBQUFBQUFBQU1BTEEuIiwic2NwIjoiRGlyZWN0b3J5LkFjY2Vzc0FzVXNlci5BbGwgRGlyZWN0b3J5LlJlYWQuQWxsIERpcmVjdG9yeS5SZWFkV3JpdGUuQWxsIERpcmVjdG9yeS5Xcml0ZS5SZXN0cmljdGVkIEdyb3VwLlJlYWQuQWxsIEdyb3VwLlJlYWRXcml0ZS5BbGwgTWFpbC5SZWFkIE1haWwuUmVhZC5TaGFyZWQgTWFpbC5SZWFkQmFzaWMgTWFpbC5SZWFkQmFzaWMuU2hhcmVkIE1haWwuUmVhZFdyaXRlIE1haWwuUmVhZFdyaXRlLlNoYXJlZCBNYWlsLlNlbmQgTWFpbC5TZW5kLlNoYXJlZCBVc2VyLkVuYWJsZURpc2FibGVBY2NvdW50LkFsbCBVc2VyLkV4cG9ydC5BbGwgVXNlci5JbnZpdGUuQWxsIFVzZXIuTWFuYWdlSWRlbnRpdGllcy5BbGwgVXNlci5SZWFkIFVzZXIuUmVhZC5BbGwgVXNlci5SZWFkQmFzaWMuQWxsIFVzZXIuUmVhZFdyaXRlIFVzZXIuUmVhZFdyaXRlLkFsbCBwcm9maWxlIG9wZW5pZCBlbWFpbCIsInNpZ25pbl9zdGF0ZSI6WyJrbXNpIl0sInN1YiI6IjRkMW1qcEhlUkp1cXYxWVRqUk1sekdwQmdQWjRRbTBIS214bXB4YWFPdTQiLCJ0ZW5hbnRfcmVnaW9uX3Njb3BlIjoiRVUiLCJ0aWQiOiI4MjBmZjI0Mi1hNzU0LTRlN2EtOWJlOS1kZTdiNTM1MDI1MWYiLCJ1bmlxdWVfbmFtZSI6ImJvZ2Rhbi5jaW9iYW51QGFuc2NvZW91dGxvb2sub25taWNyb3NvZnQuY29tIiwidXBuIjoiYm9nZGFuLmNpb2JhbnVAYW5zY29lb3V0bG9vay5vbm1pY3Jvc29mdC5jb20iLCJ1dGkiOiJDeUxDUU5YY3MwdWZjYmhIWjZnTUFBIiwidmVyIjoiMS4wIiwid2lkcyI6WyI2MmU5MDM5NC02OWY1LTQyMzctOTE5MC0wMTIxNzcxNDVlMTAiLCJiNzlmYmY0ZC0zZWY5LTQ2ODktODE0My03NmIxOTRlODU1MDkiXSwieG1zX3N0Ijp7InN1YiI6InRlRk05X25YcXBZekprTHYxUThNMmtKWGM1cmtJZkVJQnQ2TURMelhSMGcifSwieG1zX3RjZHQiOjE2MjY0MjQzMzF9.ndKsNZ7T2R7DBkpCWX31gD4hFwKc9P51FCKbX2dlhh9J309XWBr5wU_CGai0ndMfLH8DXNGsi7HMCjxan5eZznpIAB__9pnQMjbK25zHpLRcuH49loa5o7KuCnKu8RrbIzoghGwQXppUqFGFQfLSVgHVKA3KlJVtOIXAU2zd9J8bVg9WbpvZGUuVFKbFh-ZDl_Qjcm29pFMqVDUSx8_vefrTKHH46G_BI4QBqkX7YR4sU0leBR4tuvp0srrVNUEGfGNeXwN8tWdaNRusv9Oh57BCzV3LqRO95KH8y4TAl-tmQL8eYPvl43L4btO7jm8BKz0wxJPT3--iA6hgLGDo4w"  
         
@@ -253,7 +253,7 @@ function New-CreateSecurityGroup {
             try {
                 $response = Invoke-RestMethod @PostParameters               
                 $Value  = $response.id                
-                Write-Output "Security Group Created $($response.displayName) is being created..."
+                Write-Output "Security Group Created $($response.displayName) is being created"
             }
             catch {            
                 Write-Error "AccessToken- $($Token) failed`r`n$_"
@@ -289,7 +289,7 @@ function New-InstallPackaggeToEnvironment {
         }  
         try {
             Invoke-RestMethod @PostParameters  
-            Write-Output "Application Installation $($PackageName) in progress..."
+            Write-Output "Application Installation $($PackageName) in progress"
         }
         catch {            
             Write-Error "$($PackageName) Installation EnvironmentId $($EnvironmentId) failed`r`n$_"               
@@ -585,7 +585,7 @@ if ($PPCitizen -in "yes", "half" -and $PPCitizenCount -ge 1 -or $PPCitizen -eq '
         
             try {
                 $response = Invoke-RestMethod @PostParameters               
-                Write-Output "Citizen Environment $($envCreationHt.Name) is being created..."
+                Write-Output "Citizen Environment $($envCreationHt.Name) is being created"
             }
             catch {
                 Write-Error "Creation of citizen Environment $($envCreationHt.Name) failed`r`n$_"
