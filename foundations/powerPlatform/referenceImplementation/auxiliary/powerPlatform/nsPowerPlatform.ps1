@@ -53,100 +53,66 @@ function New-EnvironmentCreationObject {
         [Parameter(Mandatory = $false)][switch]$EnvALM,
         [Parameter(Mandatory = $false, ParameterSetName = 'EnvCount')][switch]$EnvDataverse
     )
-    if (-not [string]::IsNullOrEmpty($ARMInputString)) {      
-        foreach ($env in ($ARMInputString -split 'ppEnvName:')) {
-            if ($env -match ".") {
-                $environment = $env.TrimEnd(',')
-                if ($EnvALM) {
-                    foreach ($envTier in $envTiers) {
-                        [PSCustomObject]@{
-                            envRegion      = ($environment -split (','))[2].Split(':')[1]
-                            envLanguage    = ($environment -split (','))[3].Split(':')[1]
-                            envCurrency    = ($environment -split (','))[4].Split(':')[1]
-                            envDescription = ($environment -split (','))[1].Split(':')[1]
-                            envRbac        = ($environment -split (','))[5].Split(':')[1]
-                            envName        = '{0}-{1}' -f ($environment -split (','))[0], $envTier
-                        }
-                    }
+               
+    1..$EnvCount | ForEach-Object -Process 
+    {            
+        $environmentName = $EnvNaming
+        $securityGroupId = ''      
+        $envSku = 'Sandbox'                 
+        if ($true -eq $EnvALM) {                
+            foreach ($envTier in $envTiers) {                 
+                if($envTier -eq 'dev'){                                          
+                    <#$sgId = New-CreateSecurityGroup -EnvironmentType dev                                                
+                    $securityGroupId = $sgId#>
+                    $envSku = 'Sandbox'  
+                    $envDescription = 'Environment used for development purposes'
                 }
-                else {
-                    [PSCustomObject]@{
-                        envName        = ($environment -split (','))[0]
-                        envRegion      = ($environment -split (','))[2].Split(':')[1]
-                        envLanguage    = ($environment -split (','))[3].Split(':')[1]
-                        envCurrency    = ($environment -split (','))[4].Split(':')[1]
-                        envDescription = ($environment -split (','))[1].Split(':')[1]
-                        envRbac        = ($environment -split (','))[5].Split(':')[1]
-                    }
+                if ( $envTier -eq 'test' ){
+                    <# $sgId = New-CreateSecurityGroup -EnvironmentType test
+                    $securityGroupId = $sgId #>
+                    $envSku = 'Sandbox'  
+                    $envDescription = 'Environment used for testing purposes'
                 }
-            }
-        }
-    }
-    else {         
-        1..$EnvCount | ForEach-Object -Process {            
-            $environmentName = $EnvNaming
-            $securityGroupId = ''      
-            $envSku = 'Sandbox'     
-            Write-Output "Security - Before IF Statement" 
-            if ($true -eq $EnvALM) {
-                Write-Output "EnvALM is true"
-                foreach ($envTier in $envTiers) { 
-                    Write-Output "Security - Entered foreach"
-                    if($envTier -eq 'dev'){                  
-                        Write-Output "Security - Entered DEV if statement"      
-                        $sgId = New-CreateSecurityGroup -EnvironmentType dev                        
-                        Write-Output "Security Dev ID: $sgId"
-                        $securityGroupId = $sgId
-                        $envSku = 'Sandbox'  
-                        $envDescription = 'Environment used for development purposes'
-                    }
-                    if ( $envTier -eq 'test' ){
-                        <# $sgId = New-CreateSecurityGroup -EnvironmentType test
-                        $securityGroupId = $sgId #>
-                        $envSku = 'Sandbox'  
-                        $envDescription = 'Environment used for testing purposes'
-                    }
-                    if ( $envTier -eq 'prod' ){
-                        <# $sgId = New-CreateSecurityGroup -EnvironmentType prod
-                        $securityGroupId = $sgId #>
-                        $envSku ='Production'      
-                        $envDescription = 'Environment used for production purposes'               
-                    }
-                    if ( $envTier -eq 'admin' ){
-                        <#$sgId = New-CreateSecurityGroup -EnvironmentType admin
-                        $securityGroupId = $sgId #>
-                        $Global:envAdminName =  "{0}-{1}" -f $environmentName, $envTier                   
-                        $envSku ='Production'
-                        $envDescription = 'Environment used for administration purposes'     
-                    }
+                if ( $envTier -eq 'prod' ){
+                    <# $sgId = New-CreateSecurityGroup -EnvironmentType prod
+                    $securityGroupId = $sgId #>
+                    $envSku ='Production'      
+                    $envDescription = 'Environment used for production purposes'               
+                }
+                if ( $envTier -eq 'admin' ){
+                    <#$sgId = New-CreateSecurityGroup -EnvironmentType admin
+                    $securityGroupId = $sgId #>
+                    $Global:envAdminName =  "{0}-{1}" -f $environmentName, $envTier                   
+                    $envSku ='Production'
+                    $envDescription = 'Environment used for administration purposes'     
+                }
 
-                    [PSCustomObject]@{
-                        envName        = "{0}-{1}" -f $environmentName, $envTier                        
-                        envRegion      = $EnvRegion
-                        envDataverse   = $EnvDataverse
-                        envLanguage    = $envLanguage
-                        envCurrency    = $envCurrency
-                        envDescription = $envDescription
-                        envRbac        = $securityGroupId
-                        envSku         = $envSku
-                    }
-                }
-            }
-            else {
-              
                 [PSCustomObject]@{
-                    envName        = $environmentName
+                    envName        = "{0}-{1}" -f $environmentName, $envTier                        
                     envRegion      = $EnvRegion
                     envDataverse   = $EnvDataverse
                     envLanguage    = $envLanguage
                     envCurrency    = $envCurrency
                     envDescription = $envDescription
-                    envRbac        = ''
+                    envRbac        = $securityGroupId
                     envSku         = $envSku
                 }
             }
         }
-    }
+        else {
+            
+            [PSCustomObject]@{
+                envName        = $environmentName
+                envRegion      = $EnvRegion
+                envDataverse   = $EnvDataverse
+                envLanguage    = $envLanguage
+                envCurrency    = $envCurrency
+                envDescription = $envDescription
+                envRbac        = ''
+                envSku         = $envSku
+            }
+        }
+    }    
 }
 
 function New-CreateSecurityGroup {
@@ -486,6 +452,12 @@ if ($defaultEnvironment.properties.governanceConfiguration.protectionLevel -ne '
 #region create landing zones for citizen devs
 $PPCitizenCount = 1
 $PPCitizenConfiguration = '';
+
+Write-Output "PPCitizen Parameter: $PPCitizen"
+Write-Output "PPCitizenCount Parameter: $PPCitizenCount"
+Write-Output "PPCitizenConfiguration Parameter: $PPCitizenConfiguration"
+Write-Output "PPCitizenAlm Parameter: $PPCitizenAlm"
+
 if ($PPCitizen -in "yes", "half" -and $PPCitizenCount -ge 1 -or $PPCitizen -eq 'custom') {
     if ($PPCitizenConfiguration -ne '') {
         try {
