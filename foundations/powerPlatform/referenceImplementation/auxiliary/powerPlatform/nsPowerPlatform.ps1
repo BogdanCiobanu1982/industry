@@ -467,9 +467,11 @@ if ($PPCitizen -in "yes")
             # Code Begins
             # Get token to authenticate to Power Platform
             $Token = (Get-AzAccessToken).Token
+
+            Write-Output "Token: $Token"
             
             # Power Platform API base Uri
-            $BaseUri = "https://api.bap.microsoft.com"
+            $BaseUri = "https://api.bap.microsoft.com"            
             
             # Power Plaform HTTP Get Environment Uri
             $GetEnvironment = '/providers/Microsoft.BusinessAppPlatform/scopes/admin/environments?$expand=permissions&api-version=2016-11-01'
@@ -508,10 +510,7 @@ if ($PPCitizen -in "yes")
                     "databaseType"   = "CommonDataService"
                     "displayName"    = "$($envCreationHt.Name)"
                     "description"    = "$($envCreationHt.Description)"
-                    "environmentSku" = "$($envCreationHt.EnvSku)"                     
-                    "securityGroupMemberships" = @{                    
-                        "id" = "d4922936-d040-42da-8e2a-6b462fd35f58"
-                    }                    
+                    "environmentSku" = "$($envCreationHt.EnvSku)"                                        
                 }
                 "location"          = "$($environment.envRegion)"                
             }
