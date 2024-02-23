@@ -467,7 +467,6 @@ if ($PPCitizen -in "yes")
             # Code Begins
             # Get token to authenticate to Power Platform
             $Token = (Get-AzAccessToken).Token
-
             Write-Output "Token: $Token"
             
             # Power Platform API base Uri
@@ -505,7 +504,8 @@ if ($PPCitizen -in "yes")
                     "linkedEnvironmentMetadata" = @{
                         "baseLanguage" = "$($envCreationHt.LanguageName)"
                         "domainName"   = "$($envCreationHt.Name)"
-                        "templates"    =  $templates                                              
+                        "templates"    =  $templates  
+                        "securityGroupId": "d4922936-d040-42da-8e2a-6b462fd35f58"                                            
                     }
                     "databaseType"   = "CommonDataService"
                     "displayName"    = "$($envCreationHt.Name)"
