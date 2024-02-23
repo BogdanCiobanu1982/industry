@@ -449,8 +449,11 @@ if ($PPCitizen -in "yes")
         throw "Failed to create environment object. Input data is malformed. '`r`n$_'"
     }
     
-    foreach ($environment in $environmentsToCreate) {
-        
+    foreach ($environment in $environmentsToCreate) 
+    {               
+        $securityGroup = $environment.envRbac
+        Write-Output "Security Group ID for DEV: $securityGroup" 
+
         try {
             $envCreationHt = @{
                 Name               = $environment.envName
@@ -481,10 +484,7 @@ if ($PPCitizen -in "yes")
             $Headers = @{
                 "Content-Type"  = "application/json"
                 "Authorization" = "Bearer $($Token)"
-            }
-
-            $securityGorup = $envCreationHt.SecurityGroupId
-            Write-Output "Security Group ID for DEV: $securityGorup" 
+            }            
             
             Write-Output "Creating Environment: $($envCreationHt.Name)"           
             
