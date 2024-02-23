@@ -442,14 +442,10 @@ if ($defaultEnvironment.properties.governanceConfiguration.protectionLevel -ne '
 #endregion default environment
 
 #region create landing zones for citizen devs
-$PPCitizenCount = 1
-$PPCitizenConfiguration = '';
-
 if ($PPCitizen -in "yes") 
 {   
     try {
-        $envHt = @{
-            EnvCount       = $PPCitizenCount
+        $envHt = @{            
             EnvNaming      = $PPCitizenNaming
             EnvRegion      = $PPCitizenRegion
             envLanguage    = $PPCitizenLanguage
