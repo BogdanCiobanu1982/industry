@@ -83,13 +83,17 @@ function New-EnvironmentCreationObject {
         }
     }
     else {         
-        1..$EnvCount | ForEach-Object -Process {
+        1..$EnvCount | ForEach-Object -Process {            
             $environmentName = $EnvNaming
             $securityGroupId = ''      
             $envSku = 'Sandbox'     
+            Write-Output "Security - Before IF Statement" 
             if ($true -eq $EnvALM) {
+                Write-Output "EnvALM is true"
                 foreach ($envTier in $envTiers) { 
-                    if($envTier -eq 'dev'){                        
+                    Write-Output "Security - Entered foreach"
+                    if($envTier -eq 'dev'){                  
+                        Write-Output "Security - Entered DEV if statement"      
                         $sgId = New-CreateSecurityGroup -EnvironmentType dev                        
                         Write-Output "Security Dev ID: $sgId"
                         $securityGroupId = $sgId
@@ -590,23 +594,7 @@ if ($PPCitizen -in "yes", "half" -and $PPCitizenCount -ge 1 -or $PPCitizen -eq '
             catch {
                 Write-Error "Creation of citizen Environment $($envCreationHt.Name) failed`r`n$_"
                 throw "REST API call failed drastically"
-            }             
-
-           #Starts Install Power Platform Pipeline App in Admin Envrionemnt
-           Write-Output "Admin Envrironement Name $($Global:envAdminName)."
-           If($envCreationHt.Name -eq $Global:envAdminName ){
-            Start-Sleep -Seconds 120           
-            foreach ($envTier in $envTiers) {
-                try {          
-                          $adminEnvironment = Get-PowerOpsEnvironment | Where-Object { $_.Properties.displayName -eq $envAdminName }
-                          New-InstallPackaggeToEnvironment -EnvironmentId $($adminEnvironment.name) -PackageName 'msdyn_AppDeploymentAnchor'
-                }
-                catch {
-                    Write-Warning "Error installing App`r`n$_"
-                }
-            }
-           }
-            #Ends Install Power Platform Pipeline App in Admin Envrionemnt                                  
+            }                                                       
         }
         catch {
             Write-Warning "Failed to create citizen environment $($environment.envName)"
@@ -616,6 +604,26 @@ if ($PPCitizen -in "yes", "half" -and $PPCitizenCount -ge 1 -or $PPCitizen -eq '
     if ($PPCitizenDlp -eq "Yes") {
         New-DLPAssignmentFromEnv -Environments $environmentsToCreate.envName -EnvironmentDLP 'citizenDlpPolicy'
     }
+
+    #Starts Install Power Platform Pipeline App in Admin Envrionemnt
+    Write-Output "Admin Envrironement Name $($Global:envAdminName)."
+    
+    Start-Sleep -Seconds 60           
+    foreach ($envTier in $envTiers) 
+    {
+        if($envTier -eq 'dev')
+        {
+            try {          
+                    $adminEnvironment = Get-PowerOpsEnvironment | Where-Object { $_.Properties.displayName -eq $envAdminName }
+                    New-InstallPackaggeToEnvironment -EnvironmentId $($adminEnvironment.name) -PackageName 'msdyn_AppDeploymentAnchor'
+            }
+            catch {
+                Write-Warning "Error installing App`r`n$_"
+            }
+        }
+    }
+    
+    #Ends Install Power Platform Pipeline App in Admin Envrionemnt   
 }
 #endregion create landing zones for citizen devs
 
