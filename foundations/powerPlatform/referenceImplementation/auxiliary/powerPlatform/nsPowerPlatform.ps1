@@ -510,7 +510,7 @@ if ($PPCitizen -in "yes")
                     "environmentSku" = "$($envCreationHt.EnvSku)"                       
                 }
                 "location"          = "$($environment.envRegion)"
-                "securityGroupId"   = "$($envCreationHt.SecurityGroupId)"
+                "securityGroup"   = "$($envCreationHt.SecurityGroupId)"
             }
         
             $PostParameters = @{
