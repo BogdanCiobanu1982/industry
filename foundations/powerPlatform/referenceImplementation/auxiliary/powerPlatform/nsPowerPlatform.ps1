@@ -481,7 +481,8 @@ if ($PPCitizen -in "yes")
                 "Authorization" = "Bearer $($Token)"
             }
       
-            Write-Output "Creating Environment: $($envCreationHt.Name)"            
+            Write-Output "Creating Environment: $($envCreationHt.Name)"   
+            Write-Output "Security Group ID for DEV: $envCreationHt.SecurityGroupId" 
             
             # Form the request body to create new Environments in Power Platform           
             $templates = @()
