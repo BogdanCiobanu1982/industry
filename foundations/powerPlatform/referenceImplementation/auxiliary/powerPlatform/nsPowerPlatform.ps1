@@ -56,14 +56,37 @@ function New-EnvironmentCreationObject {
         [Parameter(Mandatory = $false)][switch]$EnvALM,
         [Parameter(Mandatory = $false, ParameterSetName = 'EnvCount')][switch]$EnvDataverse
     )
-
-    if (-not [string]::IsNullOrEmpty($ARMInputString)) 
-    { 
+    if (-not [string]::IsNullOrEmpty($ARMInputString)) {      
+        foreach ($env in ($ARMInputString -split 'ppEnvName:')) {
+            if ($env -match ".") {
+                $environment = $env.TrimEnd(',')
+                if ($EnvALM) {
+                    foreach ($envTier in $envTiers) {
+                        [PSCustomObject]@{
+                            envRegion      = ($environment -split (','))[2].Split(':')[1]
+                            envLanguage    = ($environment -split (','))[3].Split(':')[1]
+                            envCurrency    = ($environment -split (','))[4].Split(':')[1]
+                            envDescription = ($environment -split (','))[1].Split(':')[1]
+                            envRbac        = ($environment -split (','))[5].Split(':')[1]
+                            envName        = '{0}-{1}' -f ($environment -split (','))[0], $envTier
+                        }
+                    }
+                }
+                else {
+                    [PSCustomObject]@{
+                        envName        = ($environment -split (','))[0]
+                        envRegion      = ($environment -split (','))[2].Split(':')[1]
+                        envLanguage    = ($environment -split (','))[3].Split(':')[1]
+                        envCurrency    = ($environment -split (','))[4].Split(':')[1]
+                        envDescription = ($environment -split (','))[1].Split(':')[1]
+                        envRbac        = ($environment -split (','))[5].Split(':')[1]
+                    }
+                }
+            }
+        }
     }
-    else
-    {       
-        1..$EnvCount | ForEach-Object -Process 
-        {            
+    else {         
+        1..$EnvCount | ForEach-Object -Process {            
             $environmentName = $EnvNaming
             $securityGroupId = ''      
             $envSku = 'Sandbox'                 
@@ -108,7 +131,7 @@ function New-EnvironmentCreationObject {
                 }
             }
             else {
-                
+              
                 [PSCustomObject]@{
                     envName        = $environmentName
                     envRegion      = $EnvRegion
@@ -120,8 +143,8 @@ function New-EnvironmentCreationObject {
                     envSku         = $envSku
                 }
             }
-        } 
-    }   
+        }
+    }
 }
 
 function New-CreateSecurityGroup {
