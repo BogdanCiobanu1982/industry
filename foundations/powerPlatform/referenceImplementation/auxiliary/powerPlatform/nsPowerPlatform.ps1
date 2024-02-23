@@ -41,6 +41,9 @@ $envTiers = 'dev','test','prod','admin'
 
 $Global:envAdminName = ''
 #region supporting functions
+
+Write-Output "ARMInputString Parameter: $ARMInputString"
+
 function New-EnvironmentCreationObject {
     param (
         [Parameter(Mandatory = $true, ParameterSetName = 'ARMInputString')]$ARMInputString,
@@ -53,66 +56,72 @@ function New-EnvironmentCreationObject {
         [Parameter(Mandatory = $false)][switch]$EnvALM,
         [Parameter(Mandatory = $false, ParameterSetName = 'EnvCount')][switch]$EnvDataverse
     )
-               
-    1..$EnvCount | ForEach-Object -Process 
-    {            
-        $environmentName = $EnvNaming
-        $securityGroupId = ''      
-        $envSku = 'Sandbox'                 
-        if ($true -eq $EnvALM) {                
-            foreach ($envTier in $envTiers) {                 
-                if($envTier -eq 'dev'){                                          
-                    <#$sgId = New-CreateSecurityGroup -EnvironmentType dev                                                
-                    $securityGroupId = $sgId#>
-                    $envSku = 'Sandbox'  
-                    $envDescription = 'Environment used for development purposes'
-                }
-                if ( $envTier -eq 'test' ){
-                    <# $sgId = New-CreateSecurityGroup -EnvironmentType test
-                    $securityGroupId = $sgId #>
-                    $envSku = 'Sandbox'  
-                    $envDescription = 'Environment used for testing purposes'
-                }
-                if ( $envTier -eq 'prod' ){
-                    <# $sgId = New-CreateSecurityGroup -EnvironmentType prod
-                    $securityGroupId = $sgId #>
-                    $envSku ='Production'      
-                    $envDescription = 'Environment used for production purposes'               
-                }
-                if ( $envTier -eq 'admin' ){
-                    <#$sgId = New-CreateSecurityGroup -EnvironmentType admin
-                    $securityGroupId = $sgId #>
-                    $Global:envAdminName =  "{0}-{1}" -f $environmentName, $envTier                   
-                    $envSku ='Production'
-                    $envDescription = 'Environment used for administration purposes'     
-                }
 
+    if (-not [string]::IsNullOrEmpty($ARMInputString)) 
+    { 
+    }
+    else
+    {       
+        1..$EnvCount | ForEach-Object -Process 
+        {            
+            $environmentName = $EnvNaming
+            $securityGroupId = ''      
+            $envSku = 'Sandbox'                 
+            if ($true -eq $EnvALM) {                
+                foreach ($envTier in $envTiers) {                 
+                    if($envTier -eq 'dev'){                                          
+                        <#$sgId = New-CreateSecurityGroup -EnvironmentType dev                                                
+                        $securityGroupId = $sgId#>
+                        $envSku = 'Sandbox'  
+                        $envDescription = 'Environment used for development purposes'
+                    }
+                    if ( $envTier -eq 'test' ){
+                        <# $sgId = New-CreateSecurityGroup -EnvironmentType test
+                        $securityGroupId = $sgId #>
+                        $envSku = 'Sandbox'  
+                        $envDescription = 'Environment used for testing purposes'
+                    }
+                    if ( $envTier -eq 'prod' ){
+                        <# $sgId = New-CreateSecurityGroup -EnvironmentType prod
+                        $securityGroupId = $sgId #>
+                        $envSku ='Production'      
+                        $envDescription = 'Environment used for production purposes'               
+                    }
+                    if ( $envTier -eq 'admin' ){
+                        <#$sgId = New-CreateSecurityGroup -EnvironmentType admin
+                        $securityGroupId = $sgId #>
+                        $Global:envAdminName =  "{0}-{1}" -f $environmentName, $envTier                   
+                        $envSku ='Production'
+                        $envDescription = 'Environment used for administration purposes'     
+                    }
+
+                    [PSCustomObject]@{
+                        envName        = "{0}-{1}" -f $environmentName, $envTier                        
+                        envRegion      = $EnvRegion
+                        envDataverse   = $EnvDataverse
+                        envLanguage    = $envLanguage
+                        envCurrency    = $envCurrency
+                        envDescription = $envDescription
+                        envRbac        = $securityGroupId
+                        envSku         = $envSku
+                    }
+                }
+            }
+            else {
+                
                 [PSCustomObject]@{
-                    envName        = "{0}-{1}" -f $environmentName, $envTier                        
+                    envName        = $environmentName
                     envRegion      = $EnvRegion
                     envDataverse   = $EnvDataverse
                     envLanguage    = $envLanguage
                     envCurrency    = $envCurrency
                     envDescription = $envDescription
-                    envRbac        = $securityGroupId
+                    envRbac        = ''
                     envSku         = $envSku
                 }
             }
-        }
-        else {
-            
-            [PSCustomObject]@{
-                envName        = $environmentName
-                envRegion      = $EnvRegion
-                envDataverse   = $EnvDataverse
-                envLanguage    = $envLanguage
-                envCurrency    = $envCurrency
-                envDescription = $envDescription
-                envRbac        = ''
-                envSku         = $envSku
-            }
-        }
-    }    
+        } 
+    }   
 }
 
 function New-CreateSecurityGroup {
