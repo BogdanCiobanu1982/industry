@@ -59,8 +59,8 @@ function New-EnvironmentCreationObject {
     if ($true -eq $EnvALM) {                
         foreach ($envTier in $envTiers) {                 
             if($envTier -eq 'dev'){                                          
-                <#$sgId = New-CreateSecurityGroup -EnvironmentType dev                                                
-                $securityGroupId = $sgId#>
+                $sgId = New-CreateSecurityGroup -EnvironmentType dev                                                
+                $securityGroupId = $sgId
                 $envSku = 'Sandbox'  
                 $envDescription = 'Environment used for development purposes'
             }
