@@ -450,10 +450,7 @@ if ($PPCitizen -in "yes")
     }
     
     foreach ($environment in $environmentsToCreate) 
-    {       
-        $environmentSecurityID = $environment.envRbac
-        Write-Output "Environment DEV Security ID value: $environmentSecurityID"
-
+    {             
         try {
             $envCreationHt = @{
                 Name               = $environment.envName
@@ -508,7 +505,7 @@ if ($PPCitizen -in "yes")
                         "baseLanguage" = "$($envCreationHt.LanguageName)"
                         "domainName"   = "$($envCreationHt.Name)"
                         "templates"    =  $templates  
-                        "securityGroupId" = "d4922936-d040-42da-8e2a-6b462fd35f58"                                            
+                        "securityGroupId" = $environment.envRbac                                            
                     }
                     "databaseType"   = "CommonDataService"
                     "displayName"    = "$($envCreationHt.Name)"
