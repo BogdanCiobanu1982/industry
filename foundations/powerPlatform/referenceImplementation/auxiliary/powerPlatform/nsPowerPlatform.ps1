@@ -212,6 +212,8 @@ function New-CreateSecurityGroup {
                 Write-Error "AccessToken- $($Token) failed`r`n$_"
                 throw "REST API call failed drastically"
             }  
+
+            $DeploymentScriptOutputs['Security Group value'] = $Value
             return $Value
 }
 
@@ -508,7 +510,7 @@ if ($PPCitizen -in "yes")
                     "displayName"    = "$($envCreationHt.Name)"
                     "description"    = "$($envCreationHt.Description)"
                     "environmentSku" = "$($envCreationHt.EnvSku)"
-                    "securityGroup"   = "$($envCreationHt.SecurityGroupId)"                       
+                    "securityGroupId"   = "$($envCreationHt.SecurityGroupId)"                       
                 }
                 "location"          = "$($environment.envRegion)"                
             }
