@@ -37,7 +37,7 @@ $DeploymentScriptOutputs = @{}
 Install-Module -Name PowerOps -AllowPrerelease -Force   
 
 #Default ALM environment tiers
-$envTiers = 'dev','admin'
+$envTiers = 'dev'
 
 $Global:envAdminName = ''
 #region supporting functions
@@ -95,20 +95,7 @@ function New-EnvironmentCreationObject {
                 envSku         = $envSku
             }
         }
-    }
-    else {
-        
-        [PSCustomObject]@{
-            envName        = $environmentName
-            envRegion      = $EnvRegion
-            envDataverse   = $EnvDataverse
-            envLanguage    = $envLanguage
-            envCurrency    = $envCurrency
-            envDescription = $envDescription
-            envRbac        = ''
-            envSku         = $envSku
-        }            
-    }
+    }   
 }
 
 function New-CreateSecurityGroup {
@@ -446,13 +433,13 @@ if ($PPCitizen -in "yes")
 {   
     try {
         $envHt = @{            
-            EnvNaming      = $PPCitizenNaming
-            EnvRegion      = $PPCitizenRegion
-            envLanguage    = $PPCitizenLanguage
-            envCurrency    = $PPCitizenCurrency
-            envDescription = ''
-            EnvALM         = $PPCitizenAlm -eq 'Yes'
-            EnvDataverse   = $PPCitizen -eq 'Yes'
+            EnvNaming       = $PPCitizenNaming
+            EnvRegion       = $PPCitizenRegion
+            envLanguage     = $PPCitizenLanguage
+            envCurrency     = $PPCitizenCurrency
+            envDescription  = ''
+            EnvALM          = $PPCitizenAlm -eq 'Yes'
+            EnvDataverse    = $PPCitizen -eq 'Yes'            
         }
         $environmentsToCreate = New-EnvironmentCreationObject @envHt
     }
@@ -521,7 +508,8 @@ if ($PPCitizen -in "yes")
                     "description"    = "$($envCreationHt.Description)"
                     "environmentSku" = "$($envCreationHt.EnvSku)"                       
                 }
-                "location"   = "$($environment.envRegion)"
+                "location"          = "$($environment.envRegion)"
+                "securityGroupId"   = "$($environment.SecurityGroupId)"
             }
         
             $PostParameters = @{
@@ -552,7 +540,7 @@ if ($PPCitizen -in "yes")
         New-DLPAssignmentFromEnv -Environments $environmentsToCreate.envName -EnvironmentDLP 'citizenDlpPolicy'
     }
 
-    #Starts Install Power Platform Pipeline App in Admin Envrionemnt        
+    #region Install Power Platform Pipeline App in Admin Envrionemnt        
     Start-Sleep -Seconds 60           
     foreach ($envTier in $envTiers) 
     {
@@ -566,9 +554,8 @@ if ($PPCitizen -in "yes")
                 Write-Warning "Error installing App`r`n$_"
             }
         }
-    }
-    
-    #Ends Install Power Platform Pipeline App in Admin Envrionemnt   
+    }    
+    #endregion Install Power Platform Pipeline App in Admin Envrionemnt   
 }
 #endregion create landing zones for citizen devs
 
