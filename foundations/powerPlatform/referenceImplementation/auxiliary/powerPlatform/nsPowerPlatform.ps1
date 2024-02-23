@@ -451,7 +451,7 @@ if ($PPCitizen -in "yes")
     
     foreach ($environment in $environmentsToCreate) 
     {       
-        $environmentSecurityID = $environment.rbac
+        $environmentSecurityID = $environment.envRbac
         Write-Output "Environment DEV Security ID value: $environmentSecurityID"
 
         try {
