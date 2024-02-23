@@ -59,9 +59,11 @@ function New-EnvironmentCreationObject {
     if ($true -eq $EnvALM) {                
         foreach ($envTier in $envTiers) {                 
             if($envTier -eq 'dev'){                                          
-                $sgId = New-CreateSecurityGroup -EnvironmentType dev    
-                $DeploymentScriptOutputs['sgId'] = $sgId
-                $securityGroupId = $sgId
+                $createdSecurityGroup = New-CreateSecurityGroup -EnvironmentType dev    
+                $DeploymentScriptOutputs['sgId'] = $createdSecurityGroup
+                $DeploymentScriptOutputs['created security role id'] = $createdSecurityGroup.securityRoleId
+
+                $securityGroupId = $createdSecurityGroup
                 $envSku = 'Sandbox'  
                 $envDescription = 'Environment used for development purposes'
             }
@@ -203,16 +205,25 @@ function New-CreateSecurityGroup {
                 "Body"        = $postBody | ConvertTo-json -Depth 100
                 "ContentType" = "application/json"
             }        
-            Write-Output "Invoking the request to create Security Group: $($postBody.displayName)"        
+            
             try {
                 $response = Invoke-RestMethod @PostParameters               
-                $Value  = $response.id                
-                Write-Output "Security Group $($response.displayName) is being created"
+                $Value  = $response.id                                
             }
             catch {            
                 Write-Error "AccessToken- $($Token) failed`r`n$_"
                 throw "REST API call failed drastically"
             }  
+
+
+
+
+            [PSCustomObject]@{
+                securityRoleId = $Value
+            }
+
+
+
 
             $DeploymentScriptOutputs['Security Group value'] = $Value
             return $Value
