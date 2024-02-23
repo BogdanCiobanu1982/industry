@@ -59,8 +59,8 @@ function New-EnvironmentCreationObject {
     if ($true -eq $EnvALM) {                
         foreach ($envTier in $envTiers) {                 
             if($envTier -eq 'dev'){                                          
-                $sgId = New-CreateSecurityGroup -EnvironmentType dev                                                
-                $securityGroupId = $sgId
+                <#$sgId = New-CreateSecurityGroup -EnvironmentType dev                                                
+                $securityGroupId = $sgId#>
                 $envSku = 'Sandbox'  
                 $envDescription = 'Environment used for development purposes'
             }
@@ -169,7 +169,7 @@ function New-CreateSecurityGroup {
             #Write-Output "Bearer $($tokeny)" #> 
             #$Token = (Get-AzAccessToken -ResourceUrl "https://graph.microsoft.com/v1.0/groups").Token   
 
-            $Token = "eyJ0eXAiOiJKV1QiLCJub25jZSI6IlREOTdsZ3JldjEwX09WYm1scFNUdFJKeEpQY21mYVkxdGNaSWFBSmZlMVkiLCJhbGciOiJSUzI1NiIsIng1dCI6ImtXYmthYTZxczh3c1RuQndpaU5ZT2hIYm5BdyIsImtpZCI6ImtXYmthYTZxczh3c1RuQndpaU5ZT2hIYm5BdyJ9.eyJhdWQiOiJodHRwczovL2dyYXBoLm1pY3Jvc29mdC5jb20iLCJpc3MiOiJodHRwczovL3N0cy53aW5kb3dzLm5ldC84MjBmZjI0Mi1hNzU0LTRlN2EtOWJlOS1kZTdiNTM1MDI1MWYvIiwiaWF0IjoxNzA4Njk4NjAzLCJuYmYiOjE3MDg2OTg2MDMsImV4cCI6MTcwODcwNDI1OCwiYWNjdCI6MCwiYWNyIjoiMSIsImFpbyI6IkFWUUFxLzhXQUFBQWQrZTUxTU9OSGNRb0N3Q2wwaDlLb3pXVXAzR1BNajB0NDdoa1gxaXFINDRwS3J4UGpUVWFTL0U4dVlOSlJnVnVuSFFRODV6NkpXYTJrbUVsd2lzTkR6WjhUZGU4Tlo4bUxLTmJaclA2M2xJPSIsImFtciI6WyJwd2QiLCJtZmEiXSwiYXBwX2Rpc3BsYXluYW1lIjoiUG9zdG1hbiIsImFwcGlkIjoiNjZkYzllZTktZTMyZi00ZWNlLTliMTktNjA4YjNhMGY0YjZkIiwiYXBwaWRhY3IiOiIxIiwiaWR0eXAiOiJ1c2VyIiwiaXBhZGRyIjoiODIuNS4xODEuMzUiLCJuYW1lIjoiQm9nZGFuIENpb2JhbnUiLCJvaWQiOiJhOTI2N2JmMS03ZDlhLTRmYjgtOTM5ZC01NWM2M2JiMmU5M2MiLCJwbGF0ZiI6IjMiLCJwdWlkIjoiMTAwMzIwMDMxRjE2MEE1QiIsInJoIjoiMC5BUXdBUXZJUGdsU25lazZiNmQ1N1UxQWxId01BQUFBQUFBQUF3QUFBQUFBQUFBQU1BTEEuIiwic2NwIjoiRGlyZWN0b3J5LkFjY2Vzc0FzVXNlci5BbGwgRGlyZWN0b3J5LlJlYWQuQWxsIERpcmVjdG9yeS5SZWFkV3JpdGUuQWxsIERpcmVjdG9yeS5Xcml0ZS5SZXN0cmljdGVkIEdyb3VwLlJlYWQuQWxsIEdyb3VwLlJlYWRXcml0ZS5BbGwgTWFpbC5SZWFkIE1haWwuUmVhZC5TaGFyZWQgTWFpbC5SZWFkQmFzaWMgTWFpbC5SZWFkQmFzaWMuU2hhcmVkIE1haWwuUmVhZFdyaXRlIE1haWwuUmVhZFdyaXRlLlNoYXJlZCBNYWlsLlNlbmQgTWFpbC5TZW5kLlNoYXJlZCBVc2VyLkVuYWJsZURpc2FibGVBY2NvdW50LkFsbCBVc2VyLkV4cG9ydC5BbGwgVXNlci5JbnZpdGUuQWxsIFVzZXIuTWFuYWdlSWRlbnRpdGllcy5BbGwgVXNlci5SZWFkIFVzZXIuUmVhZC5BbGwgVXNlci5SZWFkQmFzaWMuQWxsIFVzZXIuUmVhZFdyaXRlIFVzZXIuUmVhZFdyaXRlLkFsbCBwcm9maWxlIG9wZW5pZCBlbWFpbCIsInNpZ25pbl9zdGF0ZSI6WyJrbXNpIl0sInN1YiI6IjRkMW1qcEhlUkp1cXYxWVRqUk1sekdwQmdQWjRRbTBIS214bXB4YWFPdTQiLCJ0ZW5hbnRfcmVnaW9uX3Njb3BlIjoiRVUiLCJ0aWQiOiI4MjBmZjI0Mi1hNzU0LTRlN2EtOWJlOS1kZTdiNTM1MDI1MWYiLCJ1bmlxdWVfbmFtZSI6ImJvZ2Rhbi5jaW9iYW51QGFuc2NvZW91dGxvb2sub25taWNyb3NvZnQuY29tIiwidXBuIjoiYm9nZGFuLmNpb2JhbnVAYW5zY29lb3V0bG9vay5vbm1pY3Jvc29mdC5jb20iLCJ1dGkiOiJTeFhrcVhxNzVVS1NNdW85TExJV0FBIiwidmVyIjoiMS4wIiwid2lkcyI6WyI2MmU5MDM5NC02OWY1LTQyMzctOTE5MC0wMTIxNzcxNDVlMTAiLCJiNzlmYmY0ZC0zZWY5LTQ2ODktODE0My03NmIxOTRlODU1MDkiXSwieG1zX3N0Ijp7InN1YiI6InRlRk05X25YcXBZekprTHYxUThNMmtKWGM1cmtJZkVJQnQ2TURMelhSMGcifSwieG1zX3RjZHQiOjE2MjY0MjQzMzF9.Yx1SGyI4w6qYXS_nweW1eLmG1YG-4v6O3icBailYaocWi3PIiR7hMpW22H1Uug6I3Js8zXZGi0kyCyOl2WRL0Zshlgwm2NRieXDCWen079ROwGnxTBUXOcwgI8_O-8hQXsHSQ8vqFdU2pRVfGSQzF9CYHLmultrFg5-KEPOoNneZHFJNEYaBST9ZyCTZLbXgNZ0SfXkZ3fg2ORgAB9iEdpc9NHnQ2Qyn1rer85hQmVzNgLgyPQJM_S264jyxzKBE1wHLakzutZwp9NbOQ-DaotbNHwEnrWYEY_SL87fLHzEZHBdjXcIeuhBTEuVEwKB-im2iYzU4iIBLMTzXz6kb0A"  
+            $Token = "eyJ0eXAiOiJKV1QiLCJub25jZSI6IlV1eTNXVHpWLXVmTmpFNVluSjdvQk5QUzRKQzBCbjdqMGE1SC1HR3M3RUEiLCJhbGciOiJSUzI1NiIsIng1dCI6ImtXYmthYTZxczh3c1RuQndpaU5ZT2hIYm5BdyIsImtpZCI6ImtXYmthYTZxczh3c1RuQndpaU5ZT2hIYm5BdyJ9.eyJhdWQiOiJodHRwczovL2dyYXBoLm1pY3Jvc29mdC5jb20iLCJpc3MiOiJodHRwczovL3N0cy53aW5kb3dzLm5ldC84MjBmZjI0Mi1hNzU0LTRlN2EtOWJlOS1kZTdiNTM1MDI1MWYvIiwiaWF0IjoxNzA4NzA0NDcwLCJuYmYiOjE3MDg3MDQ0NzAsImV4cCI6MTcwODcwOTQ5MSwiYWNjdCI6MCwiYWNyIjoiMSIsImFpbyI6IkFWUUFxLzhXQUFBQUpjUDM2NGhwNll4VEtwdFRpUlZTZFNhNExQNW5iQVFuN2EwbmF2SXpneWZlQUtwb3ZQNDluREVvR2FLbXMvOVFjd3ExNEJZYVY2cmZjcld0WGg0MGNIbVBRMU9NY2k2dHBNOXQ4d1pvY0hnPSIsImFtciI6WyJwd2QiLCJtZmEiXSwiYXBwX2Rpc3BsYXluYW1lIjoiUG9zdG1hbiIsImFwcGlkIjoiNjZkYzllZTktZTMyZi00ZWNlLTliMTktNjA4YjNhMGY0YjZkIiwiYXBwaWRhY3IiOiIxIiwiaWR0eXAiOiJ1c2VyIiwiaXBhZGRyIjoiODIuNS4xODEuMzUiLCJuYW1lIjoiQm9nZGFuIENpb2JhbnUiLCJvaWQiOiJhOTI2N2JmMS03ZDlhLTRmYjgtOTM5ZC01NWM2M2JiMmU5M2MiLCJwbGF0ZiI6IjMiLCJwdWlkIjoiMTAwMzIwMDMxRjE2MEE1QiIsInJoIjoiMC5BUXdBUXZJUGdsU25lazZiNmQ1N1UxQWxId01BQUFBQUFBQUF3QUFBQUFBQUFBQU1BTEEuIiwic2NwIjoiRGlyZWN0b3J5LkFjY2Vzc0FzVXNlci5BbGwgRGlyZWN0b3J5LlJlYWQuQWxsIERpcmVjdG9yeS5SZWFkV3JpdGUuQWxsIERpcmVjdG9yeS5Xcml0ZS5SZXN0cmljdGVkIEdyb3VwLlJlYWQuQWxsIEdyb3VwLlJlYWRXcml0ZS5BbGwgTWFpbC5SZWFkIE1haWwuUmVhZC5TaGFyZWQgTWFpbC5SZWFkQmFzaWMgTWFpbC5SZWFkQmFzaWMuU2hhcmVkIE1haWwuUmVhZFdyaXRlIE1haWwuUmVhZFdyaXRlLlNoYXJlZCBNYWlsLlNlbmQgTWFpbC5TZW5kLlNoYXJlZCBVc2VyLkVuYWJsZURpc2FibGVBY2NvdW50LkFsbCBVc2VyLkV4cG9ydC5BbGwgVXNlci5JbnZpdGUuQWxsIFVzZXIuTWFuYWdlSWRlbnRpdGllcy5BbGwgVXNlci5SZWFkIFVzZXIuUmVhZC5BbGwgVXNlci5SZWFkQmFzaWMuQWxsIFVzZXIuUmVhZFdyaXRlIFVzZXIuUmVhZFdyaXRlLkFsbCBwcm9maWxlIG9wZW5pZCBlbWFpbCIsInNpZ25pbl9zdGF0ZSI6WyJrbXNpIl0sInN1YiI6IjRkMW1qcEhlUkp1cXYxWVRqUk1sekdwQmdQWjRRbTBIS214bXB4YWFPdTQiLCJ0ZW5hbnRfcmVnaW9uX3Njb3BlIjoiRVUiLCJ0aWQiOiI4MjBmZjI0Mi1hNzU0LTRlN2EtOWJlOS1kZTdiNTM1MDI1MWYiLCJ1bmlxdWVfbmFtZSI6ImJvZ2Rhbi5jaW9iYW51QGFuc2NvZW91dGxvb2sub25taWNyb3NvZnQuY29tIiwidXBuIjoiYm9nZGFuLmNpb2JhbnVAYW5zY29lb3V0bG9vay5vbm1pY3Jvc29mdC5jb20iLCJ1dGkiOiJZMllFUHByT0cwZUFQU0h2VHBnWEFBIiwidmVyIjoiMS4wIiwid2lkcyI6WyI2MmU5MDM5NC02OWY1LTQyMzctOTE5MC0wMTIxNzcxNDVlMTAiLCJiNzlmYmY0ZC0zZWY5LTQ2ODktODE0My03NmIxOTRlODU1MDkiXSwieG1zX3N0Ijp7InN1YiI6InRlRk05X25YcXBZekprTHYxUThNMmtKWGM1cmtJZkVJQnQ2TURMelhSMGcifSwieG1zX3RjZHQiOjE2MjY0MjQzMzF9.ngDlAYkXXORJppj9J6cAYNhf_pXD2RA6I4DRZcUyh6LYP8kAeggXb-627uDlGLYUMT-xTt4OKJYHrAWY0_42l3Fc7tCNupEdTcirgjimvj-NUqKvBYXEpVHS1hD_Oj-IjlMQ0Bd8ULBSDRXKkf9IYAj8rAIipaS8ICiS70bWSJXEDriO9I_-V6EzUiCYu-Vl9YgM2T_XCdskGU-_Yz6tpNsSEuxDQEf3aKWBsxn07fqG_E5OEOlRQxhL-uQm60T5iVLUngH7IFWX7bZ-QaldKLCn6iTaSvkAC-lnsgSgISr4hzBnnAoAakZlgs4x0iAb2p9xzy4hSQCHJB1ggksNOA"
         
             # Power Platform HTTP Post Group Uri
             $PostGroups = 'https://graph.microsoft.com/v1.0/groups'
@@ -450,10 +450,7 @@ if ($PPCitizen -in "yes")
     }
     
     foreach ($environment in $environmentsToCreate) 
-    {               
-        $securityGroup = $environment.envRbac
-        Write-Output "Security Group ID for DEV: $securityGroup" 
-
+    {                       
         try {
             $envCreationHt = @{
                 Name               = $environment.envName
@@ -463,7 +460,7 @@ if ($PPCitizen -in "yes")
                 ManagedEnvironment = $PPCitizenManagedEnv -eq 'Yes'                
                 LanguageName       = $environment.envLanguage
                 Currency           = $environment.envCurrency
-                SecurityGroupId    = $environment.envRbac  
+                SecurityGroupId    = $environment.envRbac
                 EnvSku             = $environment.envSKu                                           
             }   
                        
@@ -511,8 +508,10 @@ if ($PPCitizen -in "yes")
                     "databaseType"   = "CommonDataService"
                     "displayName"    = "$($envCreationHt.Name)"
                     "description"    = "$($envCreationHt.Description)"
-                    "environmentSku" = "$($envCreationHt.EnvSku)"
-                    "securityGroupId"   = "$($environment.envRbac)"                       
+                    "environmentSku" = "$($envCreationHt.EnvSku)"                     
+                    "securityGroupMemberships" = @{                    
+                        "id" = "d4922936-d040-42da-8e2a-6b462fd35f58"
+                    }                    
                 }
                 "location"          = "$($environment.envRegion)"                
             }
