@@ -507,10 +507,10 @@ if ($PPCitizen -in "yes")
                     "databaseType"   = "CommonDataService"
                     "displayName"    = "$($envCreationHt.Name)"
                     "description"    = "$($envCreationHt.Description)"
-                    "environmentSku" = "$($envCreationHt.EnvSku)"                       
+                    "environmentSku" = "$($envCreationHt.EnvSku)"
+                    "securityGroup"   = "$($envCreationHt.SecurityGroupId)"                       
                 }
-                "location"          = "$($environment.envRegion)"
-                "securityGroup"   = "$($envCreationHt.SecurityGroupId)"
+                "location"          = "$($environment.envRegion)"                
             }
         
             $PostParameters = @{
