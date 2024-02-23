@@ -91,6 +91,7 @@ function New-EnvironmentCreationObject {
                 foreach ($envTier in $envTiers) { 
                     if($envTier -eq 'dev'){                        
                         $sgId = New-CreateSecurityGroup -EnvironmentType dev                        
+                        Write-Output "Security Dev ID: $sgId"
                         $securityGroupId = $sgId
                         $envSku = 'Sandbox'  
                         $envDescription = 'Environment used for development purposes'
