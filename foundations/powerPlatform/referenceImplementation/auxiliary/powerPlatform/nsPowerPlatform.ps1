@@ -512,7 +512,7 @@ if ($PPCitizen -in "yes")
                     "displayName"    = "$($envCreationHt.Name)"
                     "description"    = "$($envCreationHt.Description)"
                     "environmentSku" = "$($envCreationHt.EnvSku)"
-                    "securityGroupId"   = "$($envCreationHt.SecurityGroupId)"                       
+                    "securityGroupId"   = "$($environment.envRbac)"                       
                 }
                 "location"          = "$($environment.envRegion)"                
             }
