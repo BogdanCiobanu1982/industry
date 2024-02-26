@@ -59,8 +59,7 @@ function New-EnvironmentCreationObject {
     if ($true -eq $EnvALM) {                
         foreach ($envTier in $envTiers) {                 
             if($envTier -eq 'dev'){                                          
-                $createdSecurityGroup = New-CreateSecurityGroup -EnvironmentType dev    
-                $DeploymentScriptOutputs['sgId'] = $createdSecurityGroup
+                $createdSecurityGroup = New-CreateSecurityGroup -EnvironmentType dev                    
                 $DeploymentScriptOutputs['created security role id'] = $createdSecurityGroup.securityRoleId
 
                 $securityGroupId = $createdSecurityGroup
@@ -223,9 +222,7 @@ function New-CreateSecurityGroup {
             }
 
 
-
-
-            $DeploymentScriptOutputs['Security Group value'] = $Value
+            $DeploymentScriptOutputs['Security Group value'] = $Value.Replace("`"","")
             return $Value
 }
 
@@ -478,8 +475,7 @@ if ($PPCitizen -in "yes")
                        
             # Code Begins
             # Get token to authenticate to Power Platform
-            $Token = (Get-AzAccessToken).Token
-            Write-Output "Token: $Token"
+            $Token = (Get-AzAccessToken).Token            
             
             # Power Platform API base Uri
             $BaseUri = "https://api.bap.microsoft.com"            
@@ -496,7 +492,9 @@ if ($PPCitizen -in "yes")
                 "Authorization" = "Bearer $($Token)"
             }            
             
-            Write-Output "Creating Environment: $($envCreationHt.Name)"           
+            Write-Output "Creating Environment: $($envCreationHt.Name)"   
+            Write-Output "Security Group from environment: $($environment.envRbac)" 
+            Write-Output "Security Group from envCreationHt: $($envCreationHt.SecurityGroupId)"        
             
             # Form the request body to create new Environments in Power Platform           
             $templates = @()
