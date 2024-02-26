@@ -222,7 +222,7 @@ function New-CreateM365Groups {
     $makersM365Group = @{
         description="Microsoft 365 Group used for Power Platform Makers"
         displayName="entra_powerplatform_makers"
-        GroupTypes="Unified"
+        groupTypes=@{"Unified"}        
         mailEnabled=$true
         securityEnabled=$true
         mailNickname="Makers"
@@ -231,7 +231,7 @@ function New-CreateM365Groups {
     $usersM365Group = @{
         description="Microsoft 365 Group used for Power Platform Users"
         displayName="entra_powerplatform_users"
-        GroupTypes="Unified"
+        groupTypes=@{"Unified"}
         mailEnabled=$true
         securityEnabled=$true
         mailNickname="Users"
@@ -240,7 +240,7 @@ function New-CreateM365Groups {
     $adminsM365Group = @{
         description="Microsoft 365 Group used for Power Platform Admins"
         displayName="entra_powerplatform_admins"
-        GroupTypes="Unified"
+        groupTypes=@{"Unified"}
         mailEnabled=$true
         securityEnabled=$true
         mailNickname="Admins"
@@ -514,6 +514,7 @@ if ($defaultEnvironment.properties.governanceConfiguration.protectionLevel -ne '
 #region create M365 Groups 
 $createdM365Groups = New-CreateM365Groups
 #endregion create M365 Groups 
+
 #region create landing zones for citizen devs
 if ($PPCitizen -in "yes") 
 {   
