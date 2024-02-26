@@ -37,7 +37,7 @@ $DeploymentScriptOutputs = @{}
 Install-Module -Name PowerOps -AllowPrerelease -Force   
 
 #Default ALM environment tiers
-$envTiers = 'dev'
+$envTiers = 'dev', 'admin'
 
 $Global:envAdminName = ''
 
@@ -65,8 +65,8 @@ function New-EnvironmentCreationObject {
                 $envDescription = 'Environment used for development purposes'
             }
             if ( $envTier -eq 'test' ){
-                <# $sgId = New-CreateSecurityGroup -EnvironmentType test
-                $securityGroupId = $sgId #>
+                $createdSecurityGroup = New-CreateSecurityGroup -EnvironmentType test
+                $securityGroupId = $createdSecurityGroup
                 $envSku = 'Sandbox'  
                 $envDescription = 'Environment used for testing purposes'
             }
