@@ -59,9 +59,7 @@ function New-EnvironmentCreationObject {
     if ($true -eq $EnvALM) {                
         foreach ($envTier in $envTiers) {                 
             if($envTier -eq 'dev'){                                          
-                $createdSecurityGroup = New-CreateSecurityGroup -EnvironmentType dev                    
-                $DeploymentScriptOutputs['created security role id'] = $createdSecurityGroup.securityRoleId
-
+                $createdSecurityGroup = New-CreateSecurityGroup -EnvironmentType dev                                    
                 $securityGroupId = $createdSecurityGroup
                 $envSku = 'Sandbox'  
                 $envDescription = 'Environment used for development purposes'
@@ -214,15 +212,6 @@ function New-CreateSecurityGroup {
                 throw "REST API call failed drastically"
             }  
 
-
-
-
-            [PSCustomObject]@{
-                securityRoleId = $Value
-            }
-
-
-            $DeploymentScriptOutputs['Security Group value'] = $Value.Replace("`"","")
             return $Value
 }
 
@@ -490,11 +479,7 @@ if ($PPCitizen -in "yes")
             $Headers = @{
                 "Content-Type"  = "application/json"
                 "Authorization" = "Bearer $($Token)"
-            }            
-            
-            Write-Output "Creating Environment: $($envCreationHt.Name)"   
-            Write-Output "Security Group from environment: $($environment.envRbac)" 
-            Write-Output "Security Group from envCreationHt: $($envCreationHt.SecurityGroupId)"        
+            }                              
             
             # Form the request body to create new Environments in Power Platform           
             $templates = @()
