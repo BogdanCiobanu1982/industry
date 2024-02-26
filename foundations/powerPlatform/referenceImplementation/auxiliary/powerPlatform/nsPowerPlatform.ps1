@@ -512,7 +512,7 @@ if ($defaultEnvironment.properties.governanceConfiguration.protectionLevel -ne '
 #endregion default environment
 
 #region create M365 Groups 
-$createdM365Groups = New-CreateM365Groups
+#$createdM365Groups = New-CreateM365Groups
 #endregion create M365 Groups 
 
 #region create landing zones for citizen devs
