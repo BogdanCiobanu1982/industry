@@ -71,17 +71,17 @@ function New-EnvironmentCreationObject {
                 $envDescription = 'Environment used for testing purposes'
             }
             if ( $envTier -eq 'prod' ){
-                <# $sgId = New-CreateSecurityGroup -EnvironmentType prod
-                $securityGroupId = $sgId #>
+                $createdSecurityGroup = New-CreateSecurityGroup -EnvironmentType prod
+                $securityGroupId = $createdSecurityGroup
                 $envSku ='Production'      
                 $envDescription = 'Environment used for production purposes'               
             }
             if ( $envTier -eq 'admin' ){
-                <#$sgId = New-CreateSecurityGroup -EnvironmentType admin
-                $securityGroupId = $sgId #>
-                $Global:envAdminName =  "{0}-{1}" -f $environmentName, $envTier                   
+                $createdSecurityGroup = New-CreateSecurityGroup -EnvironmentType admin
+                $securityGroupId = $createdSecurityGroup                
                 $envSku ='Production'
                 $envDescription = 'Environment used for administration purposes'     
+                $Global:envAdminName =  "{0}-{1}" -f $environmentName, $envTier                   
             }
 
             [PSCustomObject]@{
@@ -461,6 +461,9 @@ if ($PPCitizen -in "yes")
                 SecurityGroupId    = $environment.envRbac
                 EnvSku             = $environment.envSKu                                           
             }   
+
+            Write-Output "DEBUG: Environment Name: $($environment.envName)"
+            Write-Output "DEBUG: Security Role: $($environment.envRbac)"
                        
             # Code Begins
             # Get token to authenticate to Power Platform
