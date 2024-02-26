@@ -134,33 +134,7 @@ function New-CreateSecurityGroup {
              securityEnabled=$true
              mailNickname="PowerPlatformAdminGroup"
             }
-        
-            $makersM365Group = @{
-             description="Microsoft 365 Group used for Power Platform Makers"
-             displayName="entra_powerplatform_makers"
-             GroupTypes="Unified"
-             mailEnabled=$true
-             securityEnabled=$true
-             mailNickname="Makers"
-            }
-        
-            $usersM365Group = @{
-             description="Microsoft 365 Group used for Power Platform Users"
-             displayName="entra_powerplatform_users"
-             GroupTypes="Unified"
-             mailEnabled=$true
-             securityEnabled=$true
-             mailNickname="Users"
-            }
-        
-           $adminsM365Group = @{
-             description="Microsoft 365 Group used for Power Platform Admins"
-             displayName="entra_powerplatform_admins"
-             GroupTypes="Unified"
-             mailEnabled=$true
-             securityEnabled=$true
-             mailNickname="Admins"
-            }
+                
             $Value =''
             # Code Begins
             # Get token to authenticate to Power Platform                       
@@ -213,89 +187,6 @@ function New-CreateSecurityGroup {
             }  
 
             return $Value
-}
-
-function New-CreateM365Groups {        
-    
-    $m365Tiers = 'makers','users','admins'
-
-    $makersM365Group = @{
-        description="Microsoft 365 Group used for Power Platform Makers"
-        displayName="entra_powerplatform_makers"
-        groupTypes=@{"Unified"}        
-        mailEnabled=$true
-        securityEnabled=$true
-        mailNickname="Makers"
-    }
-
-    $usersM365Group = @{
-        description="Microsoft 365 Group used for Power Platform Users"
-        displayName="entra_powerplatform_users"
-        groupTypes=@{"Unified"}
-        mailEnabled=$true
-        securityEnabled=$true
-        mailNickname="Users"
-    }
-
-    $adminsM365Group = @{
-        description="Microsoft 365 Group used for Power Platform Admins"
-        displayName="entra_powerplatform_admins"
-        groupTypes=@{"Unified"}
-        mailEnabled=$true
-        securityEnabled=$true
-        mailNickname="Admins"
-    }
-    
-    # Code Begins
-    # Get token to authenticate to Power Platform                       
-    #$Token = (Get-AzAccessToken -ResourceUrl " https://graph.microsoft.com/.default").Token            
-    
-    #Write-Output "Bearer $($tokeny)" #> 
-    #$Token = (Get-AzAccessToken -ResourceUrl "https://graph.microsoft.com/v1.0/groups").Token   
-
-    $Token = "eyJ0eXAiOiJKV1QiLCJub25jZSI6Il9obTJfS3NqQ0xPSWRvYVZwUVJEUTA0SjFNWlVmZENsZ2NXVnpsNGhjN2ciLCJhbGciOiJSUzI1NiIsIng1dCI6IlhSdmtvOFA3QTNVYVdTblU3Yk05blQwTWpoQSIsImtpZCI6IlhSdmtvOFA3QTNVYVdTblU3Yk05blQwTWpoQSJ9.eyJhdWQiOiJodHRwczovL2dyYXBoLm1pY3Jvc29mdC5jb20iLCJpc3MiOiJodHRwczovL3N0cy53aW5kb3dzLm5ldC84MjBmZjI0Mi1hNzU0LTRlN2EtOWJlOS1kZTdiNTM1MDI1MWYvIiwiaWF0IjoxNzA4OTQ4OTU2LCJuYmYiOjE3MDg5NDg5NTYsImV4cCI6MTcwODk1MzY4NywiYWNjdCI6MCwiYWNyIjoiMSIsImFpbyI6IkFWUUFxLzhXQUFBQVYvd1A0dnAyV0tJNDl1L1BJYWlKZW9CTVBOS2JkMXdnZ1JnK3J1TVVKakV6RUhFUG1hd3F5dFNUMXNlcHdYVXUvRUtWazBOYXdpWWNvNUFld1pkTWhMMExJZGZHL2R6Z0pudHFSVmMwK0xrPSIsImFtciI6WyJwd2QiLCJtZmEiXSwiYXBwX2Rpc3BsYXluYW1lIjoiUG9zdG1hbiIsImFwcGlkIjoiNjZkYzllZTktZTMyZi00ZWNlLTliMTktNjA4YjNhMGY0YjZkIiwiYXBwaWRhY3IiOiIxIiwiaWR0eXAiOiJ1c2VyIiwiaXBhZGRyIjoiODIuNS4xODEuMzUiLCJuYW1lIjoiQm9nZGFuIENpb2JhbnUiLCJvaWQiOiJhOTI2N2JmMS03ZDlhLTRmYjgtOTM5ZC01NWM2M2JiMmU5M2MiLCJwbGF0ZiI6IjMiLCJwdWlkIjoiMTAwMzIwMDMxRjE2MEE1QiIsInJoIjoiMC5BUXdBUXZJUGdsU25lazZiNmQ1N1UxQWxId01BQUFBQUFBQUF3QUFBQUFBQUFBQU1BTEEuIiwic2NwIjoiRGlyZWN0b3J5LkFjY2Vzc0FzVXNlci5BbGwgRGlyZWN0b3J5LlJlYWQuQWxsIERpcmVjdG9yeS5SZWFkV3JpdGUuQWxsIERpcmVjdG9yeS5Xcml0ZS5SZXN0cmljdGVkIEdyb3VwLlJlYWQuQWxsIEdyb3VwLlJlYWRXcml0ZS5BbGwgTWFpbC5SZWFkIE1haWwuUmVhZC5TaGFyZWQgTWFpbC5SZWFkQmFzaWMgTWFpbC5SZWFkQmFzaWMuU2hhcmVkIE1haWwuUmVhZFdyaXRlIE1haWwuUmVhZFdyaXRlLlNoYXJlZCBNYWlsLlNlbmQgTWFpbC5TZW5kLlNoYXJlZCBVc2VyLkVuYWJsZURpc2FibGVBY2NvdW50LkFsbCBVc2VyLkV4cG9ydC5BbGwgVXNlci5JbnZpdGUuQWxsIFVzZXIuTWFuYWdlSWRlbnRpdGllcy5BbGwgVXNlci5SZWFkIFVzZXIuUmVhZC5BbGwgVXNlci5SZWFkQmFzaWMuQWxsIFVzZXIuUmVhZFdyaXRlIFVzZXIuUmVhZFdyaXRlLkFsbCBwcm9maWxlIG9wZW5pZCBlbWFpbCIsInNpZ25pbl9zdGF0ZSI6WyJrbXNpIl0sInN1YiI6IjRkMW1qcEhlUkp1cXYxWVRqUk1sekdwQmdQWjRRbTBIS214bXB4YWFPdTQiLCJ0ZW5hbnRfcmVnaW9uX3Njb3BlIjoiRVUiLCJ0aWQiOiI4MjBmZjI0Mi1hNzU0LTRlN2EtOWJlOS1kZTdiNTM1MDI1MWYiLCJ1bmlxdWVfbmFtZSI6ImJvZ2Rhbi5jaW9iYW51QGFuc2NvZW91dGxvb2sub25taWNyb3NvZnQuY29tIiwidXBuIjoiYm9nZGFuLmNpb2JhbnVAYW5zY29lb3V0bG9vay5vbm1pY3Jvc29mdC5jb20iLCJ1dGkiOiJlb2Nyc21CckowQ241NkVHZVlsTkFBIiwidmVyIjoiMS4wIiwid2lkcyI6WyI2MmU5MDM5NC02OWY1LTQyMzctOTE5MC0wMTIxNzcxNDVlMTAiLCJiNzlmYmY0ZC0zZWY5LTQ2ODktODE0My03NmIxOTRlODU1MDkiXSwieG1zX3N0Ijp7InN1YiI6InRlRk05X25YcXBZekprTHYxUThNMmtKWGM1cmtJZkVJQnQ2TURMelhSMGcifSwieG1zX3RjZHQiOjE2MjY0MjQzMzF9.bc0moHMg9liHTzwjXCJB4Wlf-HQgg0nkACkmFRSI2KTG3k-TBKUD1oekuVkz-yu05Vk5jMAEeBevnJaeA4ajd8DukrKX619O2Qe4e9ferglz2uSCN-JZpxY4wI-9V6zntuYd7KRwuS5oqzTea1qV33TY3x9PHm0nX5eN9m_kwck1zBXN6jlUwHuOYiNjbpxbJ0hs4pfF2nTl5h8tU67s7ooyn7tOLEnzqe7zqDfmTY0dnrmnHSy2_3k6yNZl3V0yi-4OhmHy8-LBC8T5pmHrQuhfat_TYCWcZuN3rvl-MdeGFG9oK3J4tPVXW4_c3tBqplGzLoqm01g8Cn6GboON5w"
-
-    # Power Platform HTTP Post Group Uri
-    $PostGroups = 'https://graph.microsoft.com/v1.0/groups'
-    
-    # Declare Rest headers
-    $Headers = @{
-        "Content-Type"  = "application/json"
-        "Authorization" = "Bearer $($Token)"
-    }
-    
-    # Declaring the HTTP Post request    
-    foreach ($m365Tier in $m365Tiers) 
-    {                 
-        if($m365Tier -eq 'makers')
-        {
-            $PostBody = $makersM365Group
-        }        
-        elseif($m365Tier -eq 'users')
-        {
-            $PostBody = $usersM365Group
-        }
-        elseif($m365Tier -eq 'admins')
-        {
-            $PostBody = $adminsM365Group
-        }                           
-
-        $PostParameters = @{
-            "Uri"         = "$($PostGroups)"
-            "Method"      = "Post"
-            "Headers"     = $headers
-            "Body"        = $postBody | ConvertTo-json -Depth 100
-            "ContentType" = "application/json"
-        }        
-        
-        try {
-            $response = Invoke-RestMethod @PostParameters                                                      
-        }
-        catch {            
-            Write-Error "AccessToken- $($Token) failed`r`n$_"
-            throw "REST API call failed drastically"
-        }   
-    }           
 }
 
 function New-InstallPackaggeToEnvironment {
@@ -510,10 +401,6 @@ if ($defaultEnvironment.properties.governanceConfiguration.protectionLevel -ne '
     }
 }
 #endregion default environment
-
-#region create M365 Groups 
-#$createdM365Groups = New-CreateM365Groups
-#endregion create M365 Groups 
 
 #region create landing zones for citizen devs
 if ($PPCitizen -in "yes") 
