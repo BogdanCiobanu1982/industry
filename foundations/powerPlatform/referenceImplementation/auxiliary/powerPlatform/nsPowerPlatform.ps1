@@ -215,6 +215,89 @@ function New-CreateSecurityGroup {
             return $Value
 }
 
+function New-CreateM365Groups {        
+    
+    $m365Tiers = 'makers','users','admins'
+
+    $makersM365Group = @{
+        description="Microsoft 365 Group used for Power Platform Makers"
+        displayName="entra_powerplatform_makers"
+        GroupTypes="Unified"
+        mailEnabled=$true
+        securityEnabled=$true
+        mailNickname="Makers"
+    }
+
+    $usersM365Group = @{
+        description="Microsoft 365 Group used for Power Platform Users"
+        displayName="entra_powerplatform_users"
+        GroupTypes="Unified"
+        mailEnabled=$true
+        securityEnabled=$true
+        mailNickname="Users"
+    }
+
+    $adminsM365Group = @{
+        description="Microsoft 365 Group used for Power Platform Admins"
+        displayName="entra_powerplatform_admins"
+        GroupTypes="Unified"
+        mailEnabled=$true
+        securityEnabled=$true
+        mailNickname="Admins"
+    }
+    
+    # Code Begins
+    # Get token to authenticate to Power Platform                       
+    #$Token = (Get-AzAccessToken -ResourceUrl " https://graph.microsoft.com/.default").Token            
+    
+    #Write-Output "Bearer $($tokeny)" #> 
+    #$Token = (Get-AzAccessToken -ResourceUrl "https://graph.microsoft.com/v1.0/groups").Token   
+
+    $Token = "eyJ0eXAiOiJKV1QiLCJub25jZSI6IlBFMGFCQzFqQ2RaNklrbjUzdjZZU1lkRVVNVm5YSlFjTS1sTEdlbG0xcGciLCJhbGciOiJSUzI1NiIsIng1dCI6IlhSdmtvOFA3QTNVYVdTblU3Yk05blQwTWpoQSIsImtpZCI6IlhSdmtvOFA3QTNVYVdTblU3Yk05blQwTWpoQSJ9.eyJhdWQiOiJodHRwczovL2dyYXBoLm1pY3Jvc29mdC5jb20iLCJpc3MiOiJodHRwczovL3N0cy53aW5kb3dzLm5ldC84MjBmZjI0Mi1hNzU0LTRlN2EtOWJlOS1kZTdiNTM1MDI1MWYvIiwiaWF0IjoxNzA4OTQyNjAwLCJuYmYiOjE3MDg5NDI2MDAsImV4cCI6MTcwODk0NzM3MCwiYWNjdCI6MCwiYWNyIjoiMSIsImFpbyI6IkFWUUFxLzhXQUFBQXVMVStmVXpiOUtsZm1LWnNyTjR4Yzk3U05BWWp1WVU2UldUUzZ6b1JzRzYxcVM2SVFlaUtZUHBYVHFPQ1M3K01ocUVKMGVWTElpcTdoTzBmTExqMEJuL3UvbXhSaU00cFdLNDBsVmVPR2tVPSIsImFtciI6WyJwd2QiLCJtZmEiXSwiYXBwX2Rpc3BsYXluYW1lIjoiUG9zdG1hbiIsImFwcGlkIjoiNjZkYzllZTktZTMyZi00ZWNlLTliMTktNjA4YjNhMGY0YjZkIiwiYXBwaWRhY3IiOiIxIiwiaWR0eXAiOiJ1c2VyIiwiaXBhZGRyIjoiODIuNS4xODEuMzUiLCJuYW1lIjoiQm9nZGFuIENpb2JhbnUiLCJvaWQiOiJhOTI2N2JmMS03ZDlhLTRmYjgtOTM5ZC01NWM2M2JiMmU5M2MiLCJwbGF0ZiI6IjMiLCJwdWlkIjoiMTAwMzIwMDMxRjE2MEE1QiIsInJoIjoiMC5BUXdBUXZJUGdsU25lazZiNmQ1N1UxQWxId01BQUFBQUFBQUF3QUFBQUFBQUFBQU1BTEEuIiwic2NwIjoiRGlyZWN0b3J5LkFjY2Vzc0FzVXNlci5BbGwgRGlyZWN0b3J5LlJlYWQuQWxsIERpcmVjdG9yeS5SZWFkV3JpdGUuQWxsIERpcmVjdG9yeS5Xcml0ZS5SZXN0cmljdGVkIEdyb3VwLlJlYWQuQWxsIEdyb3VwLlJlYWRXcml0ZS5BbGwgTWFpbC5SZWFkIE1haWwuUmVhZC5TaGFyZWQgTWFpbC5SZWFkQmFzaWMgTWFpbC5SZWFkQmFzaWMuU2hhcmVkIE1haWwuUmVhZFdyaXRlIE1haWwuUmVhZFdyaXRlLlNoYXJlZCBNYWlsLlNlbmQgTWFpbC5TZW5kLlNoYXJlZCBVc2VyLkVuYWJsZURpc2FibGVBY2NvdW50LkFsbCBVc2VyLkV4cG9ydC5BbGwgVXNlci5JbnZpdGUuQWxsIFVzZXIuTWFuYWdlSWRlbnRpdGllcy5BbGwgVXNlci5SZWFkIFVzZXIuUmVhZC5BbGwgVXNlci5SZWFkQmFzaWMuQWxsIFVzZXIuUmVhZFdyaXRlIFVzZXIuUmVhZFdyaXRlLkFsbCBwcm9maWxlIG9wZW5pZCBlbWFpbCIsInNpZ25pbl9zdGF0ZSI6WyJrbXNpIl0sInN1YiI6IjRkMW1qcEhlUkp1cXYxWVRqUk1sekdwQmdQWjRRbTBIS214bXB4YWFPdTQiLCJ0ZW5hbnRfcmVnaW9uX3Njb3BlIjoiRVUiLCJ0aWQiOiI4MjBmZjI0Mi1hNzU0LTRlN2EtOWJlOS1kZTdiNTM1MDI1MWYiLCJ1bmlxdWVfbmFtZSI6ImJvZ2Rhbi5jaW9iYW51QGFuc2NvZW91dGxvb2sub25taWNyb3NvZnQuY29tIiwidXBuIjoiYm9nZGFuLmNpb2JhbnVAYW5zY29lb3V0bG9vay5vbm1pY3Jvc29mdC5jb20iLCJ1dGkiOiJ5OWZaTFJyYmNrbTYwVzlkT2t0WkFBIiwidmVyIjoiMS4wIiwid2lkcyI6WyI2MmU5MDM5NC02OWY1LTQyMzctOTE5MC0wMTIxNzcxNDVlMTAiLCJiNzlmYmY0ZC0zZWY5LTQ2ODktODE0My03NmIxOTRlODU1MDkiXSwieG1zX3N0Ijp7InN1YiI6InRlRk05X25YcXBZekprTHYxUThNMmtKWGM1cmtJZkVJQnQ2TURMelhSMGcifSwieG1zX3RjZHQiOjE2MjY0MjQzMzF9.J6pWokaAxh-o0sn_WUCn-3YylOSzFrZ9nv7HMaTSBZLvoWyQlVlSSWTlTRSlm0yWsFRBDOcHX_F7W9nm3rA9zV0oYn_V7Px1gJeuKDKAj1FRcFUltUqV4I-DV9d1vvN_w4PyJgLTWOY2zhujcM7bV-AQgijDkn036kk5CNJnEYZSxD11FaypWBRPa6d4hL6J1xiWIs8PIW8mzDqAP6GvULc5mIKf7ASp67rOjCOW0mABZX-8nsDys0Gc8dTcWyY6KcNzSLlbcikULIhBiN-UTjV5oFEhUtvyw6EqKF_AJvzmflvylpZwtedXoj2Xf39vstT6E3ifJgTbCqh9Hh5P7A"
+
+    # Power Platform HTTP Post Group Uri
+    $PostGroups = 'https://graph.microsoft.com/v1.0/groups'
+    
+    # Declare Rest headers
+    $Headers = @{
+        "Content-Type"  = "application/json"
+        "Authorization" = "Bearer $($Token)"
+    }
+    
+    # Declaring the HTTP Post request    
+    foreach ($m365Tier in $m365Tiers) 
+    {                 
+        if($m365Tier -eq 'makers')
+        {
+            $PostBody = $makersM365Group
+        }        
+        elseif($m365Tier -eq 'users')
+        {
+            $PostBody = $usersM365Group
+        }
+        elseif($m365Tier -eq 'admins')
+        {
+            $PostBody = $adminsM365Group
+        }                           
+
+        $PostParameters = @{
+            "Uri"         = "$($PostGroups)"
+            "Method"      = "Post"
+            "Headers"     = $headers
+            "Body"        = $postBody | ConvertTo-json -Depth 100
+            "ContentType" = "application/json"
+        }        
+        
+        try {
+            $response = Invoke-RestMethod @PostParameters                                                      
+        }
+        catch {            
+            Write-Error "AccessToken- $($Token) failed`r`n$_"
+            throw "REST API call failed drastically"
+        }   
+    }           
+}
+
 function New-InstallPackaggeToEnvironment {
     param (      
         [Parameter(Mandatory = $true)][string]$EnvironmentId,
@@ -428,6 +511,9 @@ if ($defaultEnvironment.properties.governanceConfiguration.protectionLevel -ne '
 }
 #endregion default environment
 
+#region create M365 Groups 
+$createdM365Groups = New-CreateSecurityGroup
+#endregion create M365 Groups 
 #region create landing zones for citizen devs
 if ($PPCitizen -in "yes") 
 {   
@@ -460,10 +546,9 @@ if ($PPCitizen -in "yes")
                 Currency           = $environment.envCurrency
                 SecurityGroupId    = $environment.envRbac
                 EnvSku             = $environment.envSKu                                           
-            }   
+            }  
 
-            Write-Output "DEBUG: Environment Name: $($environment.envName)"
-            Write-Output "DEBUG: Security Role: $($environment.envRbac)"
+            Write-Output "Create Environment: $($envCreationHt.Name)" 
                        
             # Code Begins
             # Get token to authenticate to Power Platform
@@ -519,13 +604,10 @@ if ($PPCitizen -in "yes")
                 "Headers"     = $headers
                 "Body"        = $postBody | ConvertTo-json -Depth 100
                 "ContentType" = "application/json"
-            }
-        
-            Write-Output "Invoking the request to create Environment: $($envCreationHt.Name)"
+            }            
         
             try {
-                $response = Invoke-RestMethod @PostParameters               
-                Write-Output "Citizen Environment $($envCreationHt.Name) is being created"
+                $response = Invoke-RestMethod @PostParameters                               
             }
             catch {
                 Write-Error "Creation of citizen Environment $($envCreationHt.Name) failed`r`n$_"
