@@ -37,7 +37,7 @@ $DeploymentScriptOutputs = @{}
 Install-Module -Name PowerOps -AllowPrerelease -Force   
 
 #Default ALM environment tiers
-$envTiers = 'dev','test','prod','admin'
+$envTiers = 'admin','dev','test','prod'
 
 $Global:envAdminName = ''
 
@@ -435,7 +435,8 @@ if ($PPCitizen -in "yes")
                                    
             # Get token to authenticate to Power Platform
             $Token = (Get-AzAccessToken).Token            
-            
+            Write-Output $Token
+
             # Power Platform API base Uri
             $BaseUri = "https://api.bap.microsoft.com"            
             
