@@ -37,7 +37,7 @@ $DeploymentScriptOutputs = @{}
 Install-Module -Name PowerOps -AllowPrerelease -Force   
 
 #Default ALM environment tiers
-$envTiers = 'admin','dev'
+$envTiers = 'admin','dev','test','prod'
 
 $Global:envAdminName = ''
 
@@ -507,7 +507,7 @@ if ($PPCitizen -in "yes")
     }
 
     #region Install Power Platform Pipeline App in Admin Envrionemnt        
-    Start-Sleep -Seconds 60           
+    Start-Sleep -Seconds 90           
     foreach ($envTier in $envTiers) 
     {
         if($envTier -eq 'dev')
