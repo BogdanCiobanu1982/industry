@@ -472,10 +472,7 @@ if ($PPCitizen -in "yes")
                         "domainName"   = "$($envCreationHt.Name)"
                         "templates"    =  $templates  
                         "securityGroupId" = "$($environment.envRbac)"
-                    }
-                    "governanceConfiguration" = @{
-                        "protectionLevel" = "Standard"
-                    }
+                    }                    
                     "databaseType"   = "CommonDataService"
                     "displayName"    = "$($envCreationHt.Name)"
                     "description"    = "$($envCreationHt.Description)"
