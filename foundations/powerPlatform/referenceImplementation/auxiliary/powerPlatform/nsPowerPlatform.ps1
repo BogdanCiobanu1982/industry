@@ -473,6 +473,7 @@ if ($PPCitizen -in "yes")
                         "domainName"   = "$($envCreationHt.Name)"
                         "templates"    =  $templates  
                         "securityGroupId" = "$($environment.envRbac)"
+                        "schemaType" = "Full"
                     }                    
                     "databaseType"   = "CommonDataService"
                     "displayName"    = "$($envCreationHt.Name)"
