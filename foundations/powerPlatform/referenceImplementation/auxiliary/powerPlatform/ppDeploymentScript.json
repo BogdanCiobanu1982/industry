@@ -243,23 +243,37 @@
             "type": "string",
             "defaultValue": "false",
             "metadata": {
-                "description": "Dynamics 365 for Sales."
+                "description": "Dynamics 365 Sales Enterprise"
+            }
+        },
+        "ppD365SalesProApp": {
+            "type": "string",
+            "defaultValue": "false",
+            "metadata": {
+                "description": "Dynamics 365 Sales Professional"
             }
         },
         "ppD365CustomerServiceApp": {
             "type": "string",
             "defaultValue": "false",
             "metadata": {
-                "description": "Dynamics 365 for Customer Service."
+                "description": "Dynamics 365 Customer Service"
             }
         },
         "ppD365FieldServiceApp": {
             "type": "string",
             "defaultValue": "false",
             "metadata": {
-                "description": "Dynamics 365 for Field Service."
+                "description": "Dynamics 365 Field Service"
             }
-        }        
+        },
+        "ppD365ProjectOppsApp": {
+            "type": "string",
+            "defaultValue": "",
+            "metadata": {
+                "description": "Dynamics 365 Project Operations"
+            }
+        }                       
     },
     "variables": {
         "deploymentName": "[take(concat(parameters('rgName'), '-initialize', '-', parameters('location')), 64)]"
@@ -324,8 +338,10 @@
                                                     '-PPCitizenManagedEnv', ' ', parameters('ppCitizenManagedEnv'), ' ',
                                                     '-PPCitizenAlm', ' ', parameters('ppCitizenAlm'), ' ',                                                    
                                                     '-ppD365SalesApp', ' ', parameters('ppD365SalesApp'), ' ',
+                                                    '-ppD365SalesProApp', ' ', parameters('ppD365SalesApp'), ' ',
                                                     '-ppD365CustomerServiceApp', ' ', parameters('ppD365CustomerServiceApp'), ' ',
-                                                    '-ppD365FieldServiceApp', ' ', parameters('ppD365FieldServiceApp'), ' '                                                     
+                                                    '-ppD365FieldServiceApp', ' ', parameters('ppD365FieldServiceApp'), ' ',
+                                                    '-ppD365ProjectOppsApp', ' ', parameters('ppD365ProjectOppsApp'), ' '                                                 
                                                     )]",
                                 "azPowerShellVersion": "7.2",
                                 "timeout": "PT120M",
