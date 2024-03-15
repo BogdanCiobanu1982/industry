@@ -459,19 +459,13 @@ if ($PPCitizen -in "yes")
             $templates = @()
             if ($ppD365SalesApp -eq 'true' -and $envCreationHt.Name -ne $Global:envAdminName ) {          
                 $templates += 'D365_Sales'   
-            }
-             if ($ppD365SalesProApp -eq 'true' -and $envCreationHt.Name -ne $Global:envAdminName ) {          
-                $templates += 'D365_SalesPro'   
-            }
+            }            
             if ($ppD365CustomerServiceApp -eq 'true' -and $envCreationHt.Name -ne $Global:envAdminName ) {          
                 $templates += 'D365_CustomerService'   
             }
             if ($ppD365FieldServiceApp -eq 'true' -and $envCreationHt.Name -ne $Global:envAdminName ) { 
                 $templates += 'D365_FieldService'   
-            }
-             if ($ppD365ProjectOppsApp -eq 'true' -and $envCreationHt.Name -ne $Global:envAdminName ) {          
-                $templates += 'D365_ProjectOperations'   
-            }           
+            }                  
             
         # Declaring the HTTP Post request
             $PostBody = @{
