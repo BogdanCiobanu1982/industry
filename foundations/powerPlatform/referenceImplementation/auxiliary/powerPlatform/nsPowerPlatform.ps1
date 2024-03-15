@@ -519,7 +519,7 @@ if ($PPCitizen -in "yes")
     Start-Sleep -Seconds 90           
     foreach ($envTier in $envTiers) 
     {
-        if($envTier -eq 'dev')
+        if($envTier -eq 'admin')
         {
             try {          
                     $adminEnvironment = Get-PowerOpsEnvironment | Where-Object { $_.Properties.displayName -eq $envAdminName }
