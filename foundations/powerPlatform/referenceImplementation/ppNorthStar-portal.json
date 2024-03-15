@@ -583,39 +583,60 @@
                         },  
 
                         
-
-
-
-
                         {
-                            "name": "customEnvironment",
+                            "name": "ppCitizenConfiguration",
                             "type": "Microsoft.Common.EditableGrid",
-                            "ariaLabel": "Enter custom environment details",
-                            "label": "Custom Environments",
+                            "ariaLabel": "Create and Configure Citizen Environment",
+                            "label": "Citizen Environment configuration",
+                            "visible": true,
                             "constraints": {
-                              "width": "Full",
-                              "rows": {
-                                "count": {
-                                  "min": 1,
-                                  "max": 10
-                                }
-                              },
-                              "columns": [
-                                {
-                                  "id": "environmentName",
-                                  "header": "Environment Name",
-                                  "width": "1fr",
-                                  "element": {
-                                    "type": "Microsoft.Common.TextBox",
-                                    "placeholder": "custom name",
-                                    "constraints": {
-                                      "required": true                                      
+                                "width": "Full",
+                                "rows": {
+                                    "count": {
+                                        "min": 1,
+                                        "max": 10
                                     }
-                                  }
-                                }                                
-                              ]
+                                },
+                                "columns": [
+                                    {
+                                        "id": "ppEnvName",
+                                        "header": "Environment Name",
+                                        "width": "1fr",
+                                        "element": {
+                                            "type": "Microsoft.Common.TextBox",
+                                            "placeholder": "",
+                                            "constraints": {
+                                                "required": true,
+                                                "validations": [
+                                                    {
+                                                        "regex": "^[a-z0-9A-Z]{1,30}$",
+                                                        "message": "Only alphanumeric characters are allowed, and the value must be 1-30 characters long."
+                                                    }
+                                                ]
+                                            }
+                                        }
+                                    },
+                                    {
+                                        "id": "ppEnvDescription",
+                                        "header": "Description",
+                                        "width": "1fr",
+                                        "element": {
+                                            "type": "Microsoft.Common.TextBox",
+                                            "placeholder": "",
+                                            "constraints": {
+                                                "required": true,
+                                                "validations": [
+                                                    {
+                                                        "regex": "^[a-z0-9A-Z]{1,30}$",
+                                                        "message": "Only alphanumeric characters are allowed, and the value must be 1-30 characters long."
+                                                    }
+                                                ]
+                                            }
+                                        }
+                                    }
+                                ]
                             }
-                          },
+                        },
 
 
 
