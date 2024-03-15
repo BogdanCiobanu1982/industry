@@ -1337,16 +1337,7 @@
                                 "required": false
                             },
                             "visible": true
-                        },
-                        {
-                            "name": "ppD365SalesProApp",
-                            "type": "Microsoft.Common.CheckBox",
-                            "label": "Dynamics 365 Sales Professional",                                                        
-                            "constraints": {
-                                "required": false
-                            },
-                            "visible": true
-                        },
+                        },                        
                         {
                             "name": "ppD365CustomerServiceApp",
                             "type": "Microsoft.Common.CheckBox",
@@ -1360,15 +1351,6 @@
                             "name": "ppD365FieldServiceApp",
                             "type": "Microsoft.Common.CheckBox",
                             "label": "Dynamics 365 Field Service",                                                        
-                            "constraints": {
-                                "required": false
-                            },
-                            "visible": true
-                        },                        
-                        {
-                            "name": "ppD365ProjectOppsApp",
-                            "type": "Microsoft.Common.CheckBox",
-                            "label": "Dynamics 365 Project Operations",                                                        
                             "constraints": {
                                 "required": false
                             },
@@ -1400,11 +1382,9 @@
                 "ppCitizenDlp": "[steps('landingZones').ppCitizenDlp]",
                 "ppCitizenManagedEnv": "[steps('landingZones').ppCitizenManagedEnv]",
                 "ppCitizenAlm": "[steps('landingZones').ppCitizenAlm]",                
-                "ppD365SalesApp": "[steps('landingZones').ppD365SalesApp]",  
-                "ppD365SalesProApp": "[steps('landingZones').ppD365SalesProApp]",
+                "ppD365SalesApp": "[steps('landingZones').ppD365SalesApp]",                  
                 "ppD365CustomerServiceApp": "[steps('landingZones').ppD365CustomerServiceApp]",   
-                "ppD365FieldServiceApp": "[steps('landingZones').ppD365FieldServiceApp]",
-                "ppD365ProjectOppsApp": "[steps('landingZones').ppD365ProjectOppsApp]"                                          
+                "ppD365FieldServiceApp": "[steps('landingZones').ppD365FieldServiceApp]"                                                       
             },
             "kind": "Subscription",
             "location": "[steps('powerp').locationName]",
