@@ -465,6 +465,31 @@
                                 }
                             }
                         },
+
+
+
+
+
+
+
+                        {
+                            "name": "devEnvironment",
+                            "type": "Microsoft.Common.CheckBox",
+                            "defaultValue": true,
+                            "label": "Development Environment (dev)",                                                        
+                            "constraints": {
+                                "required": false
+                            },
+                            "visible": true
+                        },              
+
+
+
+
+
+
+
+
                         {
                             "name": "ppCitizen",
                             "type": "Microsoft.Common.OptionsGroup",
