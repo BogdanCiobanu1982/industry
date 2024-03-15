@@ -583,10 +583,10 @@
                         },  
 
                         {
-                            "name": "ppCitizenConfiguration",
+                            "name": "customEnvironments",
                             "type": "Microsoft.Common.EditableGrid",
-                            "ariaLabel": "Create and Configure Citizen Environment",
-                            "label": "Citizen Environment configuration",
+                            "ariaLabel": "Create and Configure Custom Environments",
+                            "label": "Custom Environments",
                             "visible": true,
                             "constraints": {
                                 "width": "Full",
