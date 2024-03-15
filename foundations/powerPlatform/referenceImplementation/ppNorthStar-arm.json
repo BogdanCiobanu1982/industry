@@ -236,14 +236,7 @@
             "metadata": {
                 "description": "Dynamics 365 Sales Enterprise"
             }
-        },
-        "ppD365SalesProApp": {
-            "type": "bool",
-            "defaultValue": "",
-            "metadata": {
-                "description": "Dynamics 365 Sales Professional"
-            }
-        },
+        },       
         "ppD365CustomerServiceApp": {
             "type": "bool",
             "defaultValue": "",
@@ -257,14 +250,7 @@
             "metadata": {
                 "description": "Dynamics 365 Field Service"
             }
-        },
-        "ppD365ProjectOppsApp": {
-            "type": "bool",
-            "defaultValue": "",
-            "metadata": {
-                "description": "Dynamics 365 Project Operations"
-            }
-        }                                  
+        }                         
     },
     "variables": {
         "deploymentUris": {           
@@ -359,19 +345,13 @@
                     },                    
                     "ppD365SalesApp": {
                         "value": "[if(parameters('ppD365SalesApp'), 'True', 'False')]"
-                    },
-                    "ppD365SalesProApp": {
-                        "value": "[if(parameters('ppD365SalesProApp'), 'True', 'False')]"
-                    },
+                    },                   
                     "ppD365CustomerServiceApp": {
                         "value": "[if(parameters('ppD365CustomerServiceApp'), 'True', 'False')]"
                     },
                     "ppD365FieldServiceApp": {
                         "value": "[if(parameters('ppD365FieldServiceApp'), 'True', 'False')]"
-                    },
-                    "ppD365ProjectOppsApp": {
-                        "value": "[if(parameters('ppD365ProjectOppsApp'), 'True', 'False')]"
-                    }                    
+                    }                                 
                 }
             }
         }                         
