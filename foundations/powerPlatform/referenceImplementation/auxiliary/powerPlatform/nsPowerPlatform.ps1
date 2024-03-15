@@ -28,8 +28,10 @@ param (
     [Parameter(Mandatory = $false)][string][AllowEmptyString()][AllowNull()]$PPCitizenCurrency,
     [Parameter(Mandatory = $false)][string][AllowEmptyString()][AllowNull()]$PPCitizenLanguage,     
     [Parameter(Mandatory = $false)][string][AllowEmptyString()][AllowNull()]$ppD365SalesApp,
+    [Parameter(Mandatory = $false)][string][AllowEmptyString()][AllowNull()]$ppD365SalesProApp,
     [Parameter(Mandatory = $false)][string][AllowEmptyString()][AllowNull()]$ppD365CustomerServiceApp,
     [Parameter(Mandatory = $false)][string][AllowEmptyString()][AllowNull()]$ppD365FieldServiceApp        
+    [Parameter(Mandatory = $false)][string][AllowEmptyString()][AllowNull()]$ppD365ProjectOppsApp,
 )
 
 $DeploymentScriptOutputs = @{}
@@ -458,11 +460,17 @@ if ($PPCitizen -in "yes")
             if ($ppD365SalesApp -eq 'true' -and $envCreationHt.Name -ne $Global:envAdminName ) {          
                 $templates += 'D365_Sales'   
             }
+             if ($ppD365SalesProApp -eq 'true' -and $envCreationHt.Name -ne $Global:envAdminName ) {          
+                $templates += 'D365_SalesPro'   
+            }
             if ($ppD365CustomerServiceApp -eq 'true' -and $envCreationHt.Name -ne $Global:envAdminName ) {          
                 $templates += 'D365_CustomerService'   
             }
             if ($ppD365FieldServiceApp -eq 'true' -and $envCreationHt.Name -ne $Global:envAdminName ) { 
                 $templates += 'D365_FieldService'   
+            }
+             if ($ppD365ProjectOppsApp -eq 'true' -and $envCreationHt.Name -ne $Global:envAdminName ) {          
+                $templates += 'D365_ProjectOperations'   
             }           
             
         # Declaring the HTTP Post request
