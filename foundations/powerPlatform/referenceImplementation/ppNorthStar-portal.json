@@ -476,12 +476,113 @@
                             "name": "devEnvironment",
                             "type": "Microsoft.Common.CheckBox",
                             "defaultValue": true,
-                            "label": "Development Environment (dev)",                                                        
+                            "label": "Development Environment (dev)",
                             "constraints": {
                                 "required": false
                             },
                             "visible": true
-                        },              
+                        },           
+                        
+                        {
+                            "name": "testEnvironment",
+                            "type": "Microsoft.Common.CheckBox",
+                            "defaultValue": true,
+                            "label": "Test Environment (test)", 
+                            "constraints": {
+                                "required": false
+                            },
+                            "visible": true
+                        },   
+                        
+                        {
+                            "name": "prodEnvironment",
+                            "type": "Microsoft.Common.CheckBox",
+                            "defaultValue": true,
+                            "label": "Production Environment (prod)",   
+                            "constraints": {
+                                "required": false
+                            },
+                            "visible": true
+                        },  
+
+                        {
+                            "name": "adminEnvironment",
+                            "type": "Microsoft.Common.CheckBox",
+                            "defaultValue": true,
+                            "label": "Admin Environment (admin)",   
+                            "constraints": {
+                                "required": false
+                            },
+                            "visible": true
+                        },  
+
+                        {
+                            "name": "qaEnvironment",
+                            "type": "Microsoft.Common.CheckBox",
+                            "defaultValue": false,
+                            "label": "QA Environment (qa)",   
+                            "constraints": {
+                                "required": false
+                            },
+                            "visible": true
+                        },  
+
+                        {
+                            "name": "uatEnvironment",
+                            "type": "Microsoft.Common.CheckBox",
+                            "defaultValue": false,
+                            "label": "UAT Environment (uat)",   
+                            "constraints": {
+                                "required": false
+                            },
+                            "visible": true
+                        },  
+
+                        {
+                            "name": "stagingEnvironment",
+                            "type": "Microsoft.Common.CheckBox",
+                            "defaultValue": false,
+                            "label": "Staging Environment (staging)",   
+                            "constraints": {
+                                "required": false
+                            },
+                            "visible": true
+                        },  
+
+                        {
+                            "name": "trainingEnvironment",
+                            "type": "Microsoft.Common.CheckBox",
+                            "defaultValue": false,
+                            "label": "Training Environment (training)",   
+                            "constraints": {
+                                "required": false
+                            },
+                            "visible": true
+                        },  
+
+                        {
+                            "name": "dataMigrationEnvironment",
+                            "type": "Microsoft.Common.CheckBox",
+                            "defaultValue": false,
+                            "label": "Data Migration Environment (datamigration)",   
+                            "constraints": {
+                                "required": false
+                            },
+                            "visible": true
+                        },  
+
+                        {
+                            "name": "integrationEnvironment",
+                            "type": "Microsoft.Common.CheckBox",
+                            "defaultValue": false,
+                            "label": "Integration Environment (integration)",   
+                            "constraints": {
+                                "required": false
+                            },
+                            "visible": true
+                        },  
+
+                    
 
 
 
