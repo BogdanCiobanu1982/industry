@@ -464,183 +464,15 @@
                                     "uri": "https://learn.microsoft.com/en-us/power-platform/admin/environments-overview"
                                 }
                             }
-                        },                        
-
-                        {
-                            "name": "devEnvironment",
-                            "type": "Microsoft.Common.CheckBox",
-                            "defaultValue": true,
-                            "label": "Development Environment (dev)",
-                            "constraints": {
-                                "required": false
-                            },
-                            "visible": true
-                        },           
+                        },    
                         
-                        {
-                            "name": "testEnvironment",
-                            "type": "Microsoft.Common.CheckBox",
-                            "defaultValue": true,
-                            "label": "Test Environment (test)", 
-                            "constraints": {
-                                "required": false
-                            },
-                            "visible": true
-                        },   
-                        
-                        {
-                            "name": "prodEnvironment",
-                            "type": "Microsoft.Common.CheckBox",
-                            "defaultValue": true,
-                            "label": "Production Environment (prod)",   
-                            "constraints": {
-                                "required": false
-                            },
-                            "visible": true
-                        },  
-
-                        {
-                            "name": "adminEnvironment",
-                            "type": "Microsoft.Common.CheckBox",
-                            "defaultValue": true,
-                            "label": "Admin Environment (admin)",   
-                            "constraints": {
-                                "required": false
-                            },
-                            "visible": true
-                        },  
-
-                        {
-                            "name": "qaEnvironment",
-                            "type": "Microsoft.Common.CheckBox",
-                            "defaultValue": false,
-                            "label": "QA Environment (qa)",   
-                            "constraints": {
-                                "required": false
-                            },
-                            "visible": true
-                        },  
-
-                        {
-                            "name": "uatEnvironment",
-                            "type": "Microsoft.Common.CheckBox",
-                            "defaultValue": false,
-                            "label": "UAT Environment (uat)",   
-                            "constraints": {
-                                "required": false
-                            },
-                            "visible": true
-                        },  
-
-                        {
-                            "name": "stagingEnvironment",
-                            "type": "Microsoft.Common.CheckBox",
-                            "defaultValue": false,
-                            "label": "Staging Environment (staging)",   
-                            "constraints": {
-                                "required": false
-                            },
-                            "visible": true
-                        },  
-
-                        {
-                            "name": "trainingEnvironment",
-                            "type": "Microsoft.Common.CheckBox",
-                            "defaultValue": false,
-                            "label": "Training Environment (training)",   
-                            "constraints": {
-                                "required": false
-                            },
-                            "visible": true
-                        },  
-
-                        {
-                            "name": "dataEnvironment",
-                            "type": "Microsoft.Common.CheckBox",
-                            "defaultValue": false,
-                            "label": "Data Environment (data)",   
-                            "constraints": {
-                                "required": false
-                            },
-                            "visible": true
-                        },  
-
-                        {
-                            "name": "integrationEnvironment",
-                            "type": "Microsoft.Common.CheckBox",
-                            "defaultValue": false,
-                            "label": "Integration Environment (integration)",   
-                            "constraints": {
-                                "required": false
-                            },
-                            "visible": true
-                        },  
-
-                        {
-                        "name": "customEnvText",
-                            "type": "Microsoft.Common.TextBlock",
-                            "visible": true,
-                            "options": {
-                                "text": "Additional multiple custom environments could be defined, by specifying the name and the description for each environment"                                
-                                }                            
-                        },                 
-
-                        {
-                            "name": "customEnvironments",
-                            "type": "Microsoft.Common.EditableGrid",
-                            "ariaLabel": "Create and Configure Custom Environments",
-                            "label": "Custom Environments",
-                            "visible": true,
-                            "constraints": {
-                                "width": "Full",
-                                "rows": {
-                                    "count": {
-                                        "min": 1,
-                                        "max": 10
-                                    }
-                                },
-                                "columns": [
-                                    {
-                                        "id": "ppEnvName",
-                                        "header": "Environment Name",
-                                        "width": "1fr",
-                                        "element": {
-                                            "type": "Microsoft.Common.TextBox",
-                                            "placeholder": "",
-                                            "constraints": {
-                                                "required": true,
-                                                "validations": [
-                                                    {
-                                                        "regex": "^[a-z0-9A-Z]{1,30}$",
-                                                        "message": "Only alphanumeric characters are allowed, and the value must be 1-30 characters long."
-                                                    }
-                                                ]
-                                            }
-                                        }
-                                    },
-                                    {
-                                        "id": "ppEnvDescription",
-                                        "header": "Description",
-                                        "width": "1fr",
-                                        "element": {
-                                            "type": "Microsoft.Common.TextBox",
-                                            "placeholder": "",
-                                            "constraints": {
-                                                "required": true                                                
-                                            }
-                                        }
-                                    }
-                                ]
-                            }
-                        },
-                                                                                                               
                         {
                             "name": "ppCitizenNaming",
                             "type": "Microsoft.Common.TextBox",
                             "label": "Provide naming convention for the environments.",
                             "placeholder": "",
                             "defaultValue": "",
-                            "toolTip": "Use only allowed characters",
+                            "toolTip": "Only alphanumeric characters are allowed, and the value must be 1-30 characters long.",
                             "constraints": {
                                 "required": true,
                                 "regex": "^[a-z0-9A-Z]{1,30}$",
@@ -1394,6 +1226,175 @@
                             },
                             "visible": true
                         },
+
+                        {
+                            "name": "devEnvironment",
+                            "type": "Microsoft.Common.CheckBox",
+                            "defaultValue": true,
+                            "label": "Development Environment (dev)",
+                            "constraints": {
+                                "required": false
+                            },
+                            "visible": true
+                        },           
+                        
+                        {
+                            "name": "testEnvironment",
+                            "type": "Microsoft.Common.CheckBox",
+                            "defaultValue": true,
+                            "label": "Test Environment (test)", 
+                            "constraints": {
+                                "required": false
+                            },
+                            "visible": true
+                        },   
+                        
+                        {
+                            "name": "prodEnvironment",
+                            "type": "Microsoft.Common.CheckBox",
+                            "defaultValue": true,
+                            "label": "Production Environment (prod)",   
+                            "constraints": {
+                                "required": false
+                            },
+                            "visible": true
+                        },  
+
+                        {
+                            "name": "adminEnvironment",
+                            "type": "Microsoft.Common.CheckBox",
+                            "defaultValue": true,
+                            "label": "Admin Environment (admin)",   
+                            "constraints": {
+                                "required": false
+                            },
+                            "visible": true
+                        },  
+
+                        {
+                            "name": "qaEnvironment",
+                            "type": "Microsoft.Common.CheckBox",
+                            "defaultValue": false,
+                            "label": "QA Environment (qa)",   
+                            "constraints": {
+                                "required": false
+                            },
+                            "visible": true
+                        },  
+
+                        {
+                            "name": "uatEnvironment",
+                            "type": "Microsoft.Common.CheckBox",
+                            "defaultValue": false,
+                            "label": "UAT Environment (uat)",   
+                            "constraints": {
+                                "required": false
+                            },
+                            "visible": true
+                        },  
+
+                        {
+                            "name": "stagingEnvironment",
+                            "type": "Microsoft.Common.CheckBox",
+                            "defaultValue": false,
+                            "label": "Staging Environment (staging)",   
+                            "constraints": {
+                                "required": false
+                            },
+                            "visible": true
+                        },  
+
+                        {
+                            "name": "trainingEnvironment",
+                            "type": "Microsoft.Common.CheckBox",
+                            "defaultValue": false,
+                            "label": "Training Environment (training)",   
+                            "constraints": {
+                                "required": false
+                            },
+                            "visible": true
+                        },  
+
+                        {
+                            "name": "dataEnvironment",
+                            "type": "Microsoft.Common.CheckBox",
+                            "defaultValue": false,
+                            "label": "Data Environment (data)",   
+                            "constraints": {
+                                "required": false
+                            },
+                            "visible": true
+                        },  
+
+                        {
+                            "name": "integrationEnvironment",
+                            "type": "Microsoft.Common.CheckBox",
+                            "defaultValue": false,
+                            "label": "Integration Environment (integration)",   
+                            "constraints": {
+                                "required": false
+                            },
+                            "visible": true
+                        },  
+
+                        {
+                        "name": "customEnvText",
+                            "type": "Microsoft.Common.TextBlock",
+                            "visible": true,
+                            "options": {
+                                "text": "Additional multiple custom environments could be defined, by specifying the name and the description for each environment"                                
+                                }                            
+                        },                 
+
+                        {
+                            "name": "customEnvironments",
+                            "type": "Microsoft.Common.EditableGrid",
+                            "ariaLabel": "Create and Configure Custom Environments",
+                            "label": "Custom Environments",
+                            "visible": true,
+                            "constraints": {
+                                "width": "Full",
+                                "rows": {
+                                    "count": {
+                                        "min": 1,
+                                        "max": 10
+                                    }
+                                },
+                                "columns": [
+                                    {
+                                        "id": "ppEnvName",
+                                        "header": "Environment Name",
+                                        "width": "1fr",
+                                        "element": {
+                                            "type": "Microsoft.Common.TextBox",
+                                            "placeholder": "",
+                                            "constraints": {
+                                                "required": true,
+                                                "validations": [
+                                                    {
+                                                        "regex": "^[a-z0-9A-Z]{1,30}$",
+                                                        "message": "Only alphanumeric characters are allowed, and the value must be 1-30 characters long."
+                                                    }
+                                                ]
+                                            }
+                                        }
+                                    },
+                                    {
+                                        "id": "ppEnvDescription",
+                                        "header": "Description",
+                                        "width": "1fr",
+                                        "element": {
+                                            "type": "Microsoft.Common.TextBox",
+                                            "placeholder": "",
+                                            "constraints": {
+                                                "required": true                                                
+                                            }
+                                        }
+                                    }
+                                ]
+                            }
+                        },
+                                                                                                                                       
 						{
                             "name": "ppCitizenManagedText",
                             "type": "Microsoft.Common.TextBlock",
