@@ -221,7 +221,21 @@
             "metadata": {
                 "description": "Test Environment"
             }
-        },       
+        }, 
+        "prodEnvironment": {
+            "type": "bool",
+            "defaultValue": "",
+            "metadata": {
+                "description": "Production Environment"
+            }
+        },      
+        "adminEnvironment": {
+            "type": "bool",
+            "defaultValue": "",
+            "metadata": {
+                "description": "Admin Environment"
+            }
+        },            
 
         "ppD365SalesApp": {
             "type": "bool",
@@ -336,7 +350,13 @@
                     },  
                     "testEnvironment": {
                         "value": "[if(parameters('testEnvironment'), 'True', 'False')]"
-                    },             
+                    },  
+                    "prodEnvironment": {
+                        "value": "[if(parameters('prodEnvironment'), 'True', 'False')]"
+                    },              
+                    "adminEnvironment": {
+                        "value": "[if(parameters('adminEnvironment'), 'True', 'False')]"
+                    },   
                     
                     "ppD365SalesApp": {
                         "value": "[if(parameters('ppD365SalesApp'), 'True', 'False')]"
