@@ -18,17 +18,13 @@ param (
     [Parameter(Mandatory = $false)][string][AllowEmptyString()][AllowNull()]$PPDefaultRenameText,
     [Parameter(Mandatory = $false)][string][AllowEmptyString()][AllowNull()]$PPDefaultDLP,
     [Parameter(Mandatory = $false)][string][AllowEmptyString()][AllowNull()]$PPDefaultManagedEnv,
-    [Parameter(Mandatory = $false)][string][AllowEmptyString()][AllowNull()]$PPDefaultManagedSharing,      
+    [Parameter(Mandatory = $false)][string][AllowEmptyString()][AllowNull()]$PPDefaultManagedSharing,
     [Parameter(Mandatory = $false)][string][AllowEmptyString()][AllowNull()]$PPCitizenNaming,
     [Parameter(Mandatory = $false)][string][AllowEmptyString()][AllowNull()]$PPCitizenRegion,
     [Parameter(Mandatory = $false)][string][AllowEmptyString()][AllowNull()]$PPCitizenDlp,    
-    [Parameter(Mandatory = $false)][string][AllowEmptyString()][AllowNull()]$PPCitizenManagedEnv,     
+    [Parameter(Mandatory = $false)][string][AllowEmptyString()][AllowNull()]$PPCitizenManagedEnv, 
     [Parameter(Mandatory = $false)][string][AllowEmptyString()][AllowNull()]$PPCitizenCurrency,
     [Parameter(Mandatory = $false)][string][AllowEmptyString()][AllowNull()]$PPCitizenLanguage,     
-    
-    [Parameter(Mandatory = $false)][string][AllowEmptyString()][AllowNull()]$devEnvironment,
-    [Parameter(Mandatory = $false)][string][AllowEmptyString()][AllowNull()]$testEnvironment,
-
     [Parameter(Mandatory = $false)][string][AllowEmptyString()][AllowNull()]$ppD365SalesApp,
     [Parameter(Mandatory = $false)][string][AllowEmptyString()][AllowNull()]$ppD365CustomerServiceApp,
     [Parameter(Mandatory = $false)][string][AllowEmptyString()][AllowNull()]$ppD365FieldServiceApp        
@@ -40,39 +36,15 @@ Install-Module -Name PowerOps -AllowPrerelease -Force
 
 #Default ALM environment tiers
 #$envTiers = 'admin','dev','test','prod'
-$envTiers = 'dev'
-
-$environmentsTiers = ''
-
-if ($devEnvironment -eq 'true' -and $environmentsTiers -eq '')
-{
-    $environmentsTiers = 'dev'
-}
-if ($devEnvironment -eq 'true' -and $environmentsTiers -ne '')
-{
-    $environmentsTiers += 'dev'
-}
-
-if ($testEnvironment -eq 'true' -and $environmentsTiers -eq '')
-{
-    $environmentsTiers = 'test'
-}
-
-if ($testEnvironment -eq 'true' -and $environmentsTiers -ne '')
-{
-    $environmentsTiers += 'test'
-}
-
-Write-output "Environments: $environmentsTiers"
-
+$envTiers = 'admin'
 
 $Global:envAdminName = ''
 $Global:envTestName = ''
 $Global:envDevName = ''
 $Global:envProdName = ''
 
-$ppCitizenAlm = 'Yes'
-$ppCitizen = 'yes'
+$PPCitizen = 'yes'
+$PPCitizenAlm = 'yes'
 
 #region supporting functions
 function New-EnvironmentCreationObject {
@@ -220,6 +192,7 @@ function New-CreateSecurityGroup {
             return $Value
 }
 
+#Install a package or App to environment
 function New-InstallPackaggeToEnvironment {
     param (      
         [Parameter(Mandatory = $true)][string]$EnvironmentId,
@@ -261,6 +234,9 @@ function New-InstallPackaggeToEnvironment {
         }          
 }
 
+
+
+#Get the Installation Status of any package by EnvId and Operation Id
 function New-GetApplicationInstallStatus {
     param (      
         [Parameter(Mandatory = $true)][string]$OperationId,
@@ -305,14 +281,73 @@ function New-GetApplicationInstallStatus {
             } 
             if($packageSTatus.status -eq 'Succeeded'){
                 Write-Output "Application Status Succeeded" 
-               
-                Get-PowerOpsEnvironment | Where-Object {$_.properties.displayName -eq $Global:envAdminName -or $_.properties.displayName -eq $Global:envTestName -or $_.properties.displayName -eq $Global:envDevName -or $_.properties.displayName -eq $Global:envProdName} | ForEach-Object -Process {
+                Start-Sleep -Seconds 5
+
+
+
+                #Region Check the Dev Environment is Successfully created or not
+                 $getdevEnvAttempts =0
+                 do {
+                    $getdevEnvAttempts++
+                   $fetchDevEnv =  Get-PowerOpsEnvironment | Where-Object { $_.properties.displayName -eq $Global:envDevName} 
+                   if ($fetchDevEnv.properties.provisioningState -ne 'Succeeded' ) {
+                       Write-Output "Getting Dev environment - attempt $getdevEnvAttempts"
+                       Start-Sleep -Seconds 15
+                   }
+                   else {
+                    $envType = '200000000' #Development 
+                    New-CreateDeploymentEnvrionmentRecord -EnvironmentURL $EnvironmentURL -EnvironmentName $($fetchDevEnv.properties.displayName) -EnvironmentId $($fetchDevEnv.name) -EnvironmentType $envType 
+                   }
+                 } until ( $fetchDevEnv.properties.provisioningState -eq 'Succeeded' -or $getdevEnvAttempts -eq 20)
+                #End Region Check the Dev Environment is Successfully created or not
+
+                #Region Check the test Environment is Successfully created or not
+                  $getTestEnvAttempts =0
+                  do {
+                     $getTestEnvAttempts++
+                    $fetchTestEnv =  Get-PowerOpsEnvironment | Where-Object { $_.properties.displayName -eq $Global:envTestName} 
+                    if ($fetchTestEnv.properties.provisioningState -ne 'Succeeded' ) {
+                        Write-Output "Getting Test environment - attempt $getTestEnvAttempts"
+                        Start-Sleep -Seconds 15
+                    }
+                    else {
+                     $envType = '200000001' #Taregt 
+                     New-CreateDeploymentEnvrionmentRecord -EnvironmentURL $EnvironmentURL -EnvironmentName $($fetchTestEnv.properties.displayName) -EnvironmentId $($fetchTestEnv.name) -EnvironmentType $envType 
+                    }
+                  } until ( $fetchTestEnv.properties.provisioningState -eq 'Succeeded' -or $getTestEnvAttempts -eq 20)
+                 #End Region Check the test Environment is Successfully created or not
+ 
+
+                   #Region Check the Prod Environment is Successfully created or not
+                   $getProdEnvAttempts =0
+                   do {
+                      $getProdEnvAttempts++
+                     $fetchProdEnv =  Get-PowerOpsEnvironment | Where-Object { $_.properties.displayName -eq $Global:envProdName} 
+                     if ($fetchProdEnv.properties.provisioningState -ne 'Succeeded' ) {
+                         Write-Output "Getting Production environment - attempt $getProdEnvAttempts"
+                         Start-Sleep -Seconds 15
+                     }
+                     else {
+                      $envType = '200000001' #Taregt 
+                      New-CreateDeploymentEnvrionmentRecord -EnvironmentURL $EnvironmentURL -EnvironmentName $($fetchProdEnv.properties.displayName) -EnvironmentId $($fetchProdEnv.name) -EnvironmentType $envType 
+                     }
+                   } until ( $fetchProdEnv.properties.provisioningState -eq 'Succeeded' -or $getProdEnvAttempts -eq 20)
+                  #End Region Check the Prod Environment is Successfully created or not
+
+
+
+                #Create Deployment Environment Record for Admin
+                $adminEnvDetails = Get-PowerOpsEnvironment | Where-Object { $_.properties.displayName -eq $Global:envAdminName }     
+                $envType = '200000001' #Taregt 
+                New-CreateDeploymentEnvrionmentRecord -EnvironmentURL $EnvironmentURL -EnvironmentName $($adminEnvDetails.properties.displayName) -EnvironmentId $($adminEnvDetails.name) -EnvironmentType $envType 
+
+               <# Get-PowerOpsEnvironment | Where-Object {$_.properties.displayName -eq $Global:envAdminName -or $_.properties.displayName -eq $Global:envTestName -or $_.properties.displayName -eq $Global:envDevName -or $_.properties.displayName -eq $Global:envProdName} | ForEach-Object -Process {
                     $envType = '200000001' #Taregt
                     if($_.properties.displayName-eq $Global:envDevName){
                         $envType = '200000000' #Development 
                     }                    
-                    New-CreateDeploymentEnvrionmentRecord -EnvironmentURL $($_.properties.linkedEnvironmentMetadata.instanceApiUrl) -EnvironmentName $($_.properties.displayName) -EnvironmentId $($_.name) -EnvironmentType $envType 
-                } 
+                    New-CreateDeploymentEnvrionmentRecord -EnvironmentURL $EnvironmentURL -EnvironmentName $($_.properties.displayName) -EnvironmentId $($_.name) -EnvironmentType $envType 
+                } #>
                       
                 New-CreateDeploymentPipeline -Name "Power Platform Pipeline" -EnvironmentURL $EnvironmentURL 
                 Start-Sleep -Seconds 5
@@ -325,19 +360,26 @@ function New-GetApplicationInstallStatus {
                         New-AssociateDeploymentEnvironmentWithPipeline -DeploymentPipelineId $pipeline.deploymentpipelineid -DeploymentEnvrionmentId $_.deploymentenvironmentid -EnvironmentURL $EnvironmentURL  
                     }
                 }
+                
 
                 $testEnvrionmentName = $Global:envTestName
-                $listDeploymentEnvironments.value | Where-Object {$_.environmenttype -eq 200000001 -and $_.properties.displayName -eq $testEnvrionmentName} | ForEach-Object -Process {
+                foreach($pipeline in $listDeploymentPipelines.value){
+                $listDeploymentEnvironments.value | Where-Object {$_.environmenttype -eq 200000001 -and $_.name -eq $testEnvrionmentName} | ForEach-Object -Process {
+                    Write-Output "Deployment Statge data found"
                 New-CreateDeploymentStages -Name "Deploy to $($testEnvrionmentName)" -DeploymentPipeline $pipeline.deploymentpipelineid -PreviousStage 'Null' -TargetDeploymentEnvironment $_.deploymentenvironmentid  -EnvironmentURL $EnvironmentURL 
                 }
+            }
 
                 Start-Sleep -Seconds 5
+                foreach($pipeline in $listDeploymentPipelines.value){
                 $listDeploymentStages = New-GetDeploymentStageRecords -EnvironmentURL $EnvironmentURL 
                 $prodEnvrionmentName = $Global:envProdName
-                $listDeploymentEnvironments.value | Where-Object {$_.environmenttype -eq 200000001 -and $_.properties.displayName -eq $prodEnvrionmentName} | ForEach-Object -Process {
+                $listDeploymentEnvironments.value | Where-Object {$_.environmenttype -eq 200000001 -and $_.name -eq $prodEnvrionmentName} | ForEach-Object -Process {
+                    Write-Output "Deployment Statge prev found"
                     $previousStage = $listDeploymentStages.value[0].deploymentstageid 
                     New-CreateDeploymentStages -Name "Deploy to $($prodEnvrionmentName)" -DeploymentPipeline $pipeline.deploymentpipelineid -PreviousStage $previousStage -TargetDeploymentEnvironment $_.deploymentenvironmentid  -EnvironmentURL $EnvironmentURL 
-                }               
+                }  
+            }             
                
 
             }
@@ -350,6 +392,7 @@ function New-GetApplicationInstallStatus {
      } until ($packageSTatus.status -eq 'Succeeded' -or $packageSTatus.status -eq 'Canceled' -or $packageSTatus.status -eq 'Failed' -or $getApplicationAttempt -eq 20)
 }
 
+#Create a Deployment Environment Record
 function New-CreateDeploymentEnvrionmentRecord {
     param (      
         [Parameter(Mandatory = $true)][string]$EnvironmentURL,
@@ -364,7 +407,7 @@ function New-CreateDeploymentEnvrionmentRecord {
         # Power Platform HTTP Post Environment Uri
         $PostEnvironment = "$($EnvironmentURL)/api/data/v9.0/deploymentenvironments"           
         
-        Write-Output "Token $($Token)"
+        #Write-Output "Token $($Token)"
         Write-Output " Envrionment URL $($PostEnvironment)"
         # Declare Rest headers
         $PostBody = @{           
@@ -405,6 +448,8 @@ function New-CreateDeploymentEnvrionmentRecord {
         }          
 }
 
+
+#Create a Deployment Pipeline Record
 function New-CreateDeploymentPipeline {
     param (      
         [Parameter(Mandatory = $true)][string]$Name,       
@@ -442,6 +487,8 @@ function New-CreateDeploymentPipeline {
         }          
 }
 
+
+#Get the list of Deployment Environment Record
 function New-GetDeploymentEnvrionmentRecords {
     param (      
         [Parameter(Mandatory = $true)][string]$EnvironmentURL      
@@ -482,6 +529,8 @@ function New-GetDeploymentEnvrionmentRecords {
         }          
 }
 
+
+#Get the list of Deployment pipeline records
 function New-GetDeploymentPipelineRecords {
     param (      
         [Parameter(Mandatory = $true)][string]$EnvironmentURL
@@ -522,6 +571,8 @@ function New-GetDeploymentPipelineRecords {
         }          
 }
 
+
+#Get the Deployment Status Record
 function New-GetDeploymentStageRecords {
     param (      
         [Parameter(Mandatory = $true)][string]$EnvironmentURL
@@ -555,6 +606,8 @@ function New-GetDeploymentStageRecords {
         }          
 }
 
+#Associate Deployment Envrionment (Development Type) with the Pipeline Record
+#N:N Association
 function New-AssociateDeploymentEnvironmentWithPipeline {
     param (      
         [Parameter(Mandatory = $true)][string]$DeploymentPipelineId,
@@ -594,6 +647,7 @@ function New-AssociateDeploymentEnvironmentWithPipeline {
         }          
 }
 
+#Create Deployment Stage records
 function New-CreateDeploymentStages {
     param (      
         [Parameter(Mandatory = $true)][string]$Name,
@@ -643,9 +697,8 @@ function New-CreateDeploymentStages {
                 "Body"        = $postBody | ConvertTo-json -Depth 100
             }  
             try {
-                $outputDeploymentPipeline = Invoke-RestMethod @PostParameters  
+                Invoke-RestMethod @PostParameters  
                 Write-Output "Deployment Statge record created: $($Name)"
-                Write-Host ($outputDeploymentPipeline | Format-List | Out-String)
             }
             catch {            
                 Write-Error "Deployment Statge record creation: $($Name) failed`r`n$_"               
@@ -924,7 +977,7 @@ if ($PPCitizen -in "yes")
         
             try {
                 $response = Invoke-RestMethod @PostParameters   
-                Write-Host ($response | Format-List | Out-String)                            
+                #Write-Host ($response | Format-List | Out-String)                            
             }
             catch {
                 Write-Error "Creation of citizen Environment $($envCreationHt.Name) failed`r`n$_"
@@ -941,14 +994,34 @@ if ($PPCitizen -in "yes")
     }
 
     #region Install Power Platform Pipeline App in Admin Envrionemnt        
-    Start-Sleep -Seconds 90         
+    Start-Sleep -Seconds 10         
     
     If($PPCitizenAlm -eq 'Yes'){
-            try {             
-            
-                   $adminEnvironment = Get-PowerOpsEnvironment | Where-Object { $_.Properties.displayName -eq $Global:envAdminName }  
-                   Write-Output "Admin Name: $($adminEnvironment.properties.linkedEnvironmentMetadata.instanceApiUrl)"                  
-                   New-InstallPackaggeToEnvironment -EnvironmentId $($adminEnvironment.name) -PackageName 'msdyn_AppDeploymentAnchor' -EnvironmentURL $($adminEnvironment.properties.linkedEnvironmentMetadata.instanceApiUrl)
+            try {                
+                Write-Output "Admin: $envAdminName"  
+                $adminEnvAttempts = 0
+                do {
+                    $adminEnvAttempts++
+                    $adminEnvironment = Get-PowerOpsEnvironment | Where-Object { $_.Properties.displayName -eq $Global:envAdminName }                    
+                    if ($null -eq $adminEnvironment.properties.linkedEnvironmentMetadata.instanceApiUrl -or 
+                    $adminEnvironment.properties.linkedEnvironmentMetadata.instanceApiUrl -eq '' -or 
+                    $adminEnvironment.properties.provisioningState -ne 'Succeeded' ) {
+                        Write-Output "Getting Admin environment - attempt $adminEnvAttempts"
+                        Start-Sleep -Seconds 15
+                    }
+                    else {
+                        Write-Output "Admin Id: $($adminEnvironment.name)   attempt $($adminEnvAttempts)"  
+                    }
+                  } until ( ($null -ne $adminEnvironment.properties.linkedEnvironmentMetadata.instanceApiUrl -and $adminEnvironment.properties.provisioningState -eq 'Succeeded' ) -or $adminEnvAttempts -eq 20)
+                  # Write-Host ($adminEnvironment | Format-List | Out-String)  
+                   Write-Output "Admin Url: $($adminEnvironment.properties.linkedEnvironmentMetadata.instanceApiUrl)"   
+                   if ($null -ne $adminEnvironment.properties.linkedEnvironmentMetadata.instanceApiUrl) {
+                    New-InstallPackaggeToEnvironment -EnvironmentId $($adminEnvironment.name) -PackageName 'msdyn_AppDeploymentAnchor' -EnvironmentURL $($adminEnvironment.properties.linkedEnvironmentMetadata.instanceApiUrl)
+                   }  
+                   else {
+                    Write-Output "Admin Environment is not ready or URL is empty"   
+                   }             
+                
 
 
                   <#  try {
@@ -963,8 +1036,7 @@ if ($PPCitizen -in "yes")
             catch {
                 Write-Warning "Error installing App`r`n$_"
             }
-        }
-     
+        }     
     #endregion Install Power Platform Pipeline App in Admin Envrionemnt   
 }
 #endregion create landing zones for citizen devs
