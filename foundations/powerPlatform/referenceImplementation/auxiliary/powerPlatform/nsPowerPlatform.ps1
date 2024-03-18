@@ -48,7 +48,7 @@ if ($devEnvironment -eq 'true' -and $environments -eq '')
 {
     $environments = 'dev'
 }
-else if ($devEnvironment -eq 'true' -and $environments -ne '')
+if ($devEnvironment -eq 'true' -and $environments -ne '')
 {
     $environments += 'dev'
 }
@@ -57,7 +57,8 @@ if ($testEnvironment -eq 'true' -and $environments -eq '')
 {
     $environments = 'test'
 }
-else if ($testEnvironment -eq 'true' -and $environments -ne '')
+
+if ($testEnvironment -eq 'true' -and $environments -ne '')
 {
     $environments += 'test'
 }
