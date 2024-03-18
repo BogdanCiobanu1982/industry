@@ -194,18 +194,7 @@
             "metadata": {
                 "description": "Select to enable/disable this setting."
             }
-        },           
-        "ppCitizenAlm": {
-            "type": "string",
-            "allowedValues": [
-                "yes",
-                "no"
-            ],
-            "defaultValue": "no",
-            "metadata": {
-                "description": "Select if dedicated environments for Development, Test, and Production should be created for each landing zone"
-            }
-        },       
+        },                  
         "location": {
             "type": "string",
             "metadata": {
