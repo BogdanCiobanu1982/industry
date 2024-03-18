@@ -38,7 +38,7 @@ Install-Module -Name PowerOps -AllowPrerelease -Force
 
 #Default ALM environment tiers
 #$envTiers = 'admin','dev','test','prod'
-$envTiers = 'admin','dev','test','prod'
+$envTiers = 'admin'
 
 $Global:envAdminName = ''
 $Global:envTestName = ''
