@@ -206,7 +206,23 @@
             "metadata": {
                 "description": "Select the currency for the environments."
             }
+        },     
+        
+        "devEnvironment": {
+            "type": "bool",
+            "defaultValue": "",
+            "metadata": {
+                "description": "Development Environment"
+            }
+        },    
+        "testEnvironment": {
+            "type": "bool",
+            "defaultValue": "",
+            "metadata": {
+                "description": "Test Environment"
+            }
         },       
+
         "ppD365SalesApp": {
             "type": "bool",
             "defaultValue": "",
@@ -313,7 +329,15 @@
                     },
                     "ppCitizenCurrency": {
                         "value": "[if(empty(parameters('ppCitizenCurrency')), variables('emptyString'), parameters('ppCitizenCurrency'))]"
-                    },                    
+                    }, 
+                    
+                    "devEnvironment": {
+                        "value": "[if(parameters('devEnvironment'), 'True', 'False')]"
+                    },  
+                    "testEnvironment": {
+                        "value": "[if(parameters('testEnvironment'), 'True', 'False')]"
+                    },             
+                    
                     "ppD365SalesApp": {
                         "value": "[if(parameters('ppD365SalesApp'), 'True', 'False')]"
                     },                   
