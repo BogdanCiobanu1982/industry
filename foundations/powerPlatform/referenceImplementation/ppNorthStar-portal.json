@@ -650,18 +650,7 @@
                                 ]
                             }
                         },
-                                            
-                        {
-                            "name": "callGraph",
-                            "type": "Microsoft.Solutions.GraphApiControl",
-                            "request": {
-                                "method": "GET",
-                                "path": "/beta/groups?&select=displayName,id",
-                                "transforms": {
-                                    "list": "value|[*].{label:displayName, value:id}"
-                                }
-                            }
-                        },                                             
+                                                                                                               
                         {
                             "name": "ppCitizenNaming",
                             "type": "Microsoft.Common.TextBox",
