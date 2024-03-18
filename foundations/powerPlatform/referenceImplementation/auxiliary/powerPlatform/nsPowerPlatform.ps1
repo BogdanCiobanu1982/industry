@@ -42,28 +42,28 @@ Install-Module -Name PowerOps -AllowPrerelease -Force
 #$envTiers = 'admin','dev','test','prod'
 $envTiers = 'dev'
 
-$environments = ''
+$environmentsTiers = ''
 
-if ($devEnvironment -eq 'true' -and $environments -eq '')
+if ($devEnvironment -eq 'true' -and $environmentsTiers -eq '')
 {
-    $environments = 'dev'
+    $environmentsTiers = 'dev'
 }
-if ($devEnvironment -eq 'true' -and $environments -ne '')
+if ($devEnvironment -eq 'true' -and $environmentsTiers -ne '')
 {
-    $environments += 'dev'
-}
-
-if ($testEnvironment -eq 'true' -and $environments -eq '')
-{
-    $environments = 'test'
+    $environmentsTiers += 'dev'
 }
 
-if ($testEnvironment -eq 'true' -and $environments -ne '')
+if ($testEnvironment -eq 'true' -and $environmentsTiers -eq '')
 {
-    $environments += 'test'
+    $environmentsTiers = 'test'
 }
 
-Write-output "Environments: $environments"
+if ($testEnvironment -eq 'true' -and $environmentsTiers -ne '')
+{
+    $environmentsTiers += 'test'
+}
+
+Write-output "Environments: $environmentsTiers"
 
 
 $Global:envAdminName = ''
