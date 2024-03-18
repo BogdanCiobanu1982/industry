@@ -28,6 +28,8 @@ param (
 
     [Parameter(Mandatory = $false)][string][AllowEmptyString()][AllowNull()]$devEnvironment,
     [Parameter(Mandatory = $false)][string][AllowEmptyString()][AllowNull()]$testEnvironment,
+    [Parameter(Mandatory = $false)][string][AllowEmptyString()][AllowNull()]$prodEnvironment,
+    [Parameter(Mandatory = $false)][string][AllowEmptyString()][AllowNull()]$adminEnvironment,
 
     [Parameter(Mandatory = $false)][string][AllowEmptyString()][AllowNull()]$ppD365SalesApp,
     [Parameter(Mandatory = $false)][string][AllowEmptyString()][AllowNull()]$ppD365CustomerServiceApp,
@@ -39,7 +41,7 @@ $DeploymentScriptOutputs = @{}
 Install-Module -Name PowerOps -AllowPrerelease -Force   
 
 #Default ALM environment tiers
-$envTiers = 'admin','dev','test','prod'
+#$envTiers = 'admin','dev','test','prod'
 
 $Environment1 = $null,
 $Environment2 = $null,
@@ -47,14 +49,23 @@ $Environment3 = $null,
 $Environment4 = $null    
 
 
+if ($adminEnvironment -eq 'true')
+{
+    $Environment1 = 'admin'
+}         
 if ($devEnvironment -eq 'true')
 {
-    $Environment1 = 'dev'
+    $Environment2 = 'dev'
 }
 if ($testEnvironment -eq 'true')
 {
-    $Environment2 = 'test'
-}      
+    $Environment3 = 'test'
+}
+if ($prodEnvironment -eq 'true')
+{
+    $Environment4 = 'prod'
+}    
+
 
 # Create an array to hold the set environments
 $environmentsParameters = @($Environment1, $Environment2, $Environment3, $Environment4)
@@ -63,11 +74,7 @@ $environmentsParameters = @($Environment1, $Environment2, $Environment3, $Enviro
 $environmentsString = $environmentsParameters | Where-Object { $_ }
 
 # Join the set environments with a comma
-$environmentsTiers = $environmentsString -join ','
-
-Write-output "DEV Environment variable: $devEnvironment"
-Write-output "TEST Environment variable: $testEnvironment"
-Write-output "Environments: $environmentsTiers"
+$envTiers = $environmentsString -join ','
 
 
 $Global:envAdminName = ''
