@@ -39,30 +39,29 @@ $DeploymentScriptOutputs = @{}
 Install-Module -Name PowerOps -AllowPrerelease -Force   
 
 #Default ALM environment tiers
-#$envTiers = 'admin','dev','test','prod'
-$envTiers = 'admin'
+$envTiers = 'admin','dev','test','prod'
 
-$environmentsTiers = ''
 
-if ($devEnvironment -eq 'true' -and $environmentsTiers -eq '')
-{
-    $environmentsTiers = 'dev'
-}
-if ($devEnvironment -eq 'true' -and $environmentsTiers -ne '')
-{
-    $environmentsTiers += 'dev'
-}
+param(
+    [string]$Environment1 = $devEnvironment,
+    [string]$Environment2 = $testEnvironment,
 
-if ($testEnvironment -eq 'true' -and $environmentsTiers -eq '')
-{
-    $environmentsTiers = 'test'
-}
+    # Add more parameters as needed
+    [string]$Environment3 = $null,
+    [string]$Environment4 = $null    
+)
 
-if ($testEnvironment -eq 'true' -and $environmentsTiers -ne '')
-{
-    $environmentsTiers += 'test'
-}
+# Create an array to hold the set environments
+$environmentsParameters = @($Environment1, $Environment2, $Environment3, $Environment4)
 
+# Filter out any null or empty values
+$environmentsString = $environmentsParameters | Where-Object { $_ }
+
+# Join the set environments with a comma
+$environmentsTiers = $environmentsString -join ','
+
+Write-output "DEV Environment variable: $devEnvironment"
+Write-output "TEST Environment variable: $testEnvironment"
 Write-output "Environments: $environmentsTiers"
 
 
