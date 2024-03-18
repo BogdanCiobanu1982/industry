@@ -458,11 +458,7 @@
                             "type": "Microsoft.Common.TextBlock",
                             "visible": true,
                             "options": {
-                                "text": "Select one or multiple predefined Landing Zones (Environments) from the list below that will be created automatically. Dev/Test/Prod/Admin are selected by default. Any combination of environments could be selected, based on the specific environment strategy of each project.",
-                                "link": {
-                                    "label": "Learn more",
-                                    "uri": "https://learn.microsoft.com/en-us/power-platform/admin/environments-overview"
-                                }
+                                "text": "Specify the common settings for all Landing Zones (Environments) that will be created."                                
                             }
                         },    
                         
@@ -1226,6 +1222,19 @@
                             },
                             "visible": true
                         },
+
+                        {
+                            "name": "predefinedEnvText",
+                            "type": "Microsoft.Common.TextBlock",
+                            "visible": true,
+                            "options": {
+                                "text": "Select one or multiple predefined Landing Zones (Environments) from the list below that will be created automatically. Dev/Test/Prod/Admin are selected by default. Any combination of environments could be selected, based on the specific environment strategy of each project.",
+                                "link": {
+                                    "label": "Learn more",
+                                    "uri": "https://learn.microsoft.com/en-us/power-platform/admin/environments-overview"
+                                }
+                            }
+                        },   
 
                         {
                             "name": "devEnvironment",
