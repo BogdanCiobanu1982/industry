@@ -44,20 +44,20 @@ $envTiers = 'dev'
 
 $environments = ''
 
-if ($devEnvironment eq 'true' and $environments eq '')
+if ($devEnvironment -eq 'true' and $environments -eq '')
 {
     $environments = 'dev'
 }
-else if ($devEnvironment eq 'true' and $environments ne '')
+else if ($devEnvironment -eq 'true' and $environments -ne '')
 {
     $environments += 'dev'
 }
 
-if ($testEnvironment eq 'true' and $environments eq '')
+if ($testEnvironment -eq 'true' and $environments -eq '')
 {
     $environments = 'test'
 }
-else if ($testEnvironment eq 'true' and $environments ne '')
+else if ($testEnvironment -eq 'true' and $environments -ne '')
 {
     $environments += 'test'
 }
