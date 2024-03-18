@@ -214,7 +214,23 @@
             "metadata": {
                 "description": "Select the currency for the environments."
             }
-        },       
+        },
+        
+        "devEnvironment": {
+            "type": "string",
+            "defaultValue": "false",
+            "metadata": {
+                "description": "Development Environment"
+            }
+        },    
+        "testEnvironment": {
+            "type": "string",
+            "defaultValue": "false",
+            "metadata": {
+                "description": "Test Environment"
+            }
+        },   
+
         "ppD365SalesApp": {
             "type": "string",
             "defaultValue": "false",
@@ -298,6 +314,10 @@
                                                     '-PPCitizenDlp', ' ', parameters('ppCitizenDlp'), ' ',
                                                     '-PPCitizenManagedEnv', ' ', parameters('ppCitizenManagedEnv'), ' ',
                                                     '-PPCitizenAlm', ' ', parameters('ppCitizenAlm'), ' ',                                                    
+                                                    
+                                                    '-devEnvironment', ' ', parameters('devEnvironment'), ' ',
+                                                    '-testEnvironment', ' ', parameters('testEnvironment'), ' ',
+
                                                     '-ppD365SalesApp', ' ', parameters('ppD365SalesApp'), ' ',                                                    
                                                     '-ppD365CustomerServiceApp', ' ', parameters('ppD365CustomerServiceApp'), ' ',
                                                     '-ppD365FieldServiceApp', ' ', parameters('ppD365FieldServiceApp'), ' '                                                                                                
