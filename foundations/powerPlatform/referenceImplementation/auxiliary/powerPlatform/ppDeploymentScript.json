@@ -130,20 +130,7 @@
             "metadata": {
                 "description": "Select to enable/disable this setting."
             }
-        },
-        "ppCitizen": {
-            "type": "string",
-            "allowedValues": [
-                "yes",
-                "half",
-                "no",
-                "custom"
-            ],
-            "defaultValue": "no",
-            "metadata": {
-                "description": "Select environment type. Yes will enable with Dataverse, Half will create without Dataverse."
-            }            
-        },
+        },       
         "ppCitizenNaming": {
             "type": "string",
             "defaultValue": "''",
@@ -303,8 +290,7 @@
                                                     '-PPDefaultRenameText', ' ', parameters('ppDefaultRenameText'), ' ',
                                                     '-PPDefaultDLP', ' ', parameters('ppDefaultDlp'), ' ',
                                                     '-PPDefaultManagedEnv', ' ', parameters('ppDefaultManagedEnv'), ' ',
-                                                    '-PPDefaultManagedSharing', ' ', parameters('ppDefaultManagedSharing'), ' ',
-                                                    '-PPCitizen', ' ', parameters('ppCitizen'), ' ',                                                                                            
+                                                    '-PPDefaultManagedSharing', ' ', parameters('ppDefaultManagedSharing'), ' ',                                                                                                                                               
                                                     '-PPCitizenNaming', ' ', parameters('ppCitizenNaming'), ' ',                                                    
                                                     '-PPCitizenLanguage', ' ', parameters('ppCitizenLanguage'), ' ',
                                                     '-PPCitizenCurrency', ' ', parameters('ppCitizenCurrency'), ' ',
