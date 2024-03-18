@@ -134,19 +134,7 @@
                 "description": "Select to enable/disable this setting."
             }
         },
-        "ppCitizen": {
-            "type": "string",
-            "allowedValues": [
-                "yes",
-                "half",
-                "no",
-                "custom"
-            ],
-            "defaultValue": "no",
-            "metadata": {
-                "description": "Select environment type. Yes will enable with Dataverse, Half will create without Dataverse."
-            }
-        },      
+       
         "ppCitizenNaming": {
             "type": "string",
             "defaultValue": "",
@@ -204,18 +192,7 @@
             "metadata": {
                 "description": "Provide the Azure location for the deployments"
             }
-        },        
-        "ppCitizenAlm": {
-            "type": "string",
-            "allowedValues": [
-                "yes",
-                "no"
-            ],
-            "defaultValue": "no",
-            "metadata": {
-                "description": "Select if dedicated environments for Development, Test, and Production should be created for each landing zone"
-            }
-        },                         
+        },                 
         "ppCitizenLanguage": {
             "type": "string",
             "defaultValue": "",
@@ -229,7 +206,23 @@
             "metadata": {
                 "description": "Select the currency for the environments."
             }
+        },     
+        
+        "devEnvironment": {
+            "type": "bool",
+            "defaultValue": "",
+            "metadata": {
+                "description": "Development Environment"
+            }
+        },    
+        "testEnvironment": {
+            "type": "bool",
+            "defaultValue": "",
+            "metadata": {
+                "description": "Test Environment"
+            }
         },       
+
         "ppD365SalesApp": {
             "type": "bool",
             "defaultValue": "",
@@ -297,10 +290,7 @@
                     },
                     "ppTenantIsolationSetting": {
                         "value": "[parameters('ppTenantIsolationSetting')]"
-                    },                      
-                    "ppCitizenAlm": {
-                        "value": "[parameters('ppCitizenAlm')]"
-                    },                                                          
+                    },                                                                                                
                     "ppEnvCapacitySetting": {
                         "value": "[parameters('ppEnvCapacitySetting')]"
                     },                    
@@ -315,10 +305,7 @@
                     },
                     "ppDefaultManagedSharing": {
                         "value": "[parameters('ppDefaultManagedSharing')]"
-                    },
-                    "ppCitizen": {
-                        "value": "[parameters('ppCitizen')]"
-                    },                   
+                    },                        
                     "ppCitizenNaming": {
                         "value": "[if(empty(parameters('ppCitizenNaming')), variables('emptyString'), parameters('ppCitizenNaming'))]"
                     },
@@ -342,7 +329,15 @@
                     },
                     "ppCitizenCurrency": {
                         "value": "[if(empty(parameters('ppCitizenCurrency')), variables('emptyString'), parameters('ppCitizenCurrency'))]"
-                    },                    
+                    }, 
+                    
+                    "devEnvironment": {
+                        "value": "[if(parameters('devEnvironment'), 'True', 'False')]"
+                    },  
+                    "testEnvironment": {
+                        "value": "[if(parameters('testEnvironment'), 'True', 'False')]"
+                    },             
+                    
                     "ppD365SalesApp": {
                         "value": "[if(parameters('ppD365SalesApp'), 'True', 'False')]"
                     },                   
