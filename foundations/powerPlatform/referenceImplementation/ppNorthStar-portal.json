@@ -458,39 +458,13 @@
                             "type": "Microsoft.Common.TextBlock",
                             "visible": true,
                             "options": {
-                                "text": "The Landing Zones (Environments) will be created and provide them with the required agility and simplicity to rapidly build modern business applications. You can grant business units or indivuduals access to the Environments post creation.",
+                                "text": "Select one or multiple predefined Landing Zones (Environments) from the list below that will be created automatically. Dev/Test/Prod/Admin are selected by default. Any combination of environments could be selected, based on the specific environment strategy of each project.",
                                 "link": {
                                     "label": "Learn more",
                                     "uri": "https://learn.microsoft.com/en-us/power-platform/admin/environments-overview"
                                 }
                             }
-                        },
-
-
-                        {
-                            "name": "ppCitizen",
-                            "type": "Microsoft.Common.OptionsGroup",
-                            "label": "Create Environments for citizen developer scenarios",
-                            "defaultValue": "Yes",
-                            "multiSelect": true,
-                            "toolTip": "If 'Yes' is selected, the setup will create new environments",
-                            "constraints": {
-                                "allowedValues": [
-                                    {
-                                        "label": "Yes",
-                                        "value": "yes"
-                                    },                                    
-                                    {
-                                        "label": "No",
-                                        "value": "no"
-                                    }
-                                ]
-                            },
-                            "visible": true
-                        },
-
-
-
+                        },                        
 
                         {
                             "name": "devEnvironment",
@@ -601,6 +575,15 @@
                             },
                             "visible": true
                         },  
+
+                        {
+                        "name": "customEnvText",
+                            "type": "Microsoft.Common.TextBlock",
+                            "visible": true,
+                            "options": {
+                                "text": "Additional multiple custom environments could be defined, by specifying the name and the description for each environment"                                
+                                }                            
+                        },                 
 
                         {
                             "name": "customEnvironments",
