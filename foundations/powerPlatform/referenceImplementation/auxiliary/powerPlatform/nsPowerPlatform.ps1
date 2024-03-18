@@ -18,15 +18,17 @@ param (
     [Parameter(Mandatory = $false)][string][AllowEmptyString()][AllowNull()]$PPDefaultRenameText,
     [Parameter(Mandatory = $false)][string][AllowEmptyString()][AllowNull()]$PPDefaultDLP,
     [Parameter(Mandatory = $false)][string][AllowEmptyString()][AllowNull()]$PPDefaultManagedEnv,
-    [Parameter(Mandatory = $false)][string][AllowEmptyString()][AllowNull()]$PPDefaultManagedSharing,
-    [Parameter(Mandatory = $false)][string][AllowEmptyString()][AllowNull()]$PPCitizen,    
+    [Parameter(Mandatory = $false)][string][AllowEmptyString()][AllowNull()]$PPDefaultManagedSharing,    
     [Parameter(Mandatory = $false)][string][AllowEmptyString()][AllowNull()]$PPCitizenNaming,
     [Parameter(Mandatory = $false)][string][AllowEmptyString()][AllowNull()]$PPCitizenRegion,
     [Parameter(Mandatory = $false)][string][AllowEmptyString()][AllowNull()]$PPCitizenDlp,    
-    [Parameter(Mandatory = $false)][string][AllowEmptyString()][AllowNull()]$PPCitizenManagedEnv,
-    [Parameter(Mandatory = $false)][string][AllowEmptyString()][AllowNull()]$PPCitizenAlm,    
+    [Parameter(Mandatory = $false)][string][AllowEmptyString()][AllowNull()]$PPCitizenManagedEnv,      
     [Parameter(Mandatory = $false)][string][AllowEmptyString()][AllowNull()]$PPCitizenCurrency,
-    [Parameter(Mandatory = $false)][string][AllowEmptyString()][AllowNull()]$PPCitizenLanguage,     
+    [Parameter(Mandatory = $false)][string][AllowEmptyString()][AllowNull()]$PPCitizenLanguage,  
+
+    [Parameter(Mandatory = $false)][string][AllowEmptyString()][AllowNull()]$devEnvironment,
+    [Parameter(Mandatory = $false)][string][AllowEmptyString()][AllowNull()]$testEnvironment,
+
     [Parameter(Mandatory = $false)][string][AllowEmptyString()][AllowNull()]$ppD365SalesApp,
     [Parameter(Mandatory = $false)][string][AllowEmptyString()][AllowNull()]$ppD365CustomerServiceApp,
     [Parameter(Mandatory = $false)][string][AllowEmptyString()][AllowNull()]$ppD365FieldServiceApp        
@@ -40,10 +42,37 @@ Install-Module -Name PowerOps -AllowPrerelease -Force
 #$envTiers = 'admin','dev','test','prod'
 $envTiers = 'admin'
 
+$environmentsTiers = ''
+
+if ($devEnvironment -eq 'true' -and $environmentsTiers -eq '')
+{
+    $environmentsTiers = 'dev'
+}
+if ($devEnvironment -eq 'true' -and $environmentsTiers -ne '')
+{
+    $environmentsTiers += 'dev'
+}
+
+if ($testEnvironment -eq 'true' -and $environmentsTiers -eq '')
+{
+    $environmentsTiers = 'test'
+}
+
+if ($testEnvironment -eq 'true' -and $environmentsTiers -ne '')
+{
+    $environmentsTiers += 'test'
+}
+
+Write-output "Environments: $environmentsTiers"
+
+
 $Global:envAdminName = ''
 $Global:envTestName = ''
 $Global:envDevName = ''
 $Global:envProdName = ''
+
+$ppCitizenAlm = 'Yes'
+$ppCitizen = 'yes'
 
 #region supporting functions
 function New-EnvironmentCreationObject {
