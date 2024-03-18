@@ -76,6 +76,8 @@ $environmentsString = $environmentsParameters | Where-Object { $_ }
 # Join the set environments with a comma
 $envTiers = $environmentsString -join ','
 
+Write-Output "Environments Variable: $envTiers"
+
 
 $Global:envAdminName = ''
 $Global:envTestName = ''
