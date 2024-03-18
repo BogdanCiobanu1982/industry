@@ -229,7 +229,21 @@
             "metadata": {
                 "description": "Test Environment"
             }
+        },  
+        "prodEnvironment": {
+            "type": "string",
+            "defaultValue": "false",
+            "metadata": {
+                "description": "Production Environment"
+            }
         },   
+        "adminEnvironment": {
+            "type": "string",
+            "defaultValue": "false",
+            "metadata": {
+                "description": "Admin Environment"
+            }
+        },    
 
         "ppD365SalesApp": {
             "type": "string",
@@ -316,6 +330,8 @@
                                                     
                                                     '-devEnvironment', ' ', parameters('devEnvironment'), ' ',
                                                     '-testEnvironment', ' ', parameters('testEnvironment'), ' ',
+                                                    '-prodEnvironment', ' ', parameters('prodEnvironment'), ' ',
+                                                    '-adminEnvironment', ' ', parameters('adminEnvironment'), ' ',
 
                                                     '-ppD365SalesApp', ' ', parameters('ppD365SalesApp'), ' ',                                                    
                                                     '-ppD365CustomerServiceApp', ' ', parameters('ppD365CustomerServiceApp'), ' ',
