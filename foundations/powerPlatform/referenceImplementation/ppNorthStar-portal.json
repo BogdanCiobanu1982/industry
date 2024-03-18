@@ -467,7 +467,27 @@
                         },
 
 
-
+                        {
+                            "name": "ppCitizen",
+                            "type": "Microsoft.Common.OptionsGroup",
+                            "label": "Create Environments for citizen developer scenarios",
+                            "defaultValue": "Yes",
+                            "multiSelect": true,
+                            "toolTip": "If 'Yes' is selected, the setup will create new environments",
+                            "constraints": {
+                                "allowedValues": [
+                                    {
+                                        "label": "Yes",
+                                        "value": "yes"
+                                    },                                    
+                                    {
+                                        "label": "No",
+                                        "value": "no"
+                                    }
+                                ]
+                            },
+                            "visible": true
+                        },
 
 
 
@@ -623,43 +643,14 @@
                                             "type": "Microsoft.Common.TextBox",
                                             "placeholder": "",
                                             "constraints": {
-                                                "required": true,
-                                                "validations": [
-                                                    {
-                                                        "regex": "^[a-z0-9A-Z]{1,30}$",
-                                                        "message": "Only alphanumeric characters are allowed, and the value must be 1-30 characters long."
-                                                    }
-                                                ]
+                                                "required": true                                                
                                             }
                                         }
                                     }
                                 ]
                             }
                         },
-                    
-
-
-                        {
-                            "name": "ppCitizen",
-                            "type": "Microsoft.Common.OptionsGroup",
-                            "label": "Create Environments for citizen developer scenarios",
-                            "defaultValue": "Yes",
-                            "multiSelect": true,
-                            "toolTip": "If 'Yes' is selected, the setup will create new environments",
-                            "constraints": {
-                                "allowedValues": [
-                                    {
-                                        "label": "Yes",
-                                        "value": "yes"
-                                    },                                    
-                                    {
-                                        "label": "No",
-                                        "value": "no"
-                                    }
-                                ]
-                            },
-                            "visible": true
-                        },
+                                            
                         {
                             "name": "callGraph",
                             "type": "Microsoft.Solutions.GraphApiControl",
@@ -1464,26 +1455,7 @@
                             },
                             "visible": "[not(equals(steps('landingZones').ppCitizen, 'no'))]"
                         },
-                        {
-                            "name": "ppCitizenAlm",
-                            "type": "Microsoft.Common.OptionsGroup",
-                            "label": "Create Development, Test, Production and Admin environments",
-                            "defaultValue": "Yes (recommended)",
-                            "toolTip": "If 'Yes' is selected, the setup adhere to best practices and create dedicated environments for sustainable application life-cycle management. The setup also installs the Power Platform Pipelines App on the Admin environment",
-                            "constraints": {
-                                "allowedValues": [
-                                    {
-                                        "label": "Yes (recommended)",
-                                        "value": "yes"
-                                    },
-                                    {
-                                        "label": "No",
-                                        "value": "no"
-                                    }
-                                ]
-                            },
-                            "visible": "[not(equals(steps('landingZones').ppCitizen, 'no'))]"
-                        },                                                                                          
+                                                
                         {
                             "name": "D365Section",
                             "type": "Microsoft.Common.Section",
@@ -1554,8 +1526,7 @@
                 "ppCitizenCurrency": "[steps('landingZones').ppCitizenCurrency]",
                 "ppCitizenRegion": "[steps('landingZones').ppCitizenRegion]",
                 "ppCitizenDlp": "[steps('landingZones').ppCitizenDlp]",
-                "ppCitizenManagedEnv": "[steps('landingZones').ppCitizenManagedEnv]",
-                "ppCitizenAlm": "[steps('landingZones').ppCitizenAlm]",                
+                "ppCitizenManagedEnv": "[steps('landingZones').ppCitizenManagedEnv]",                           
                 "ppD365SalesApp": "[steps('landingZones').ppD365SalesApp]",                  
                 "ppD365CustomerServiceApp": "[steps('landingZones').ppD365CustomerServiceApp]",   
                 "ppD365FieldServiceApp": "[steps('landingZones').ppD365FieldServiceApp]"                                                       
