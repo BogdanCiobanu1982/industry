@@ -1510,7 +1510,9 @@
                 "ppCitizenManagedEnv": "[steps('landingZones').ppCitizenManagedEnv]",    
                 
                 "devEnvironment": "[steps('landingZones').devEnvironment]", 
-                "testEnvironment": "[steps('landingZones').testEnvironment]",    
+                "testEnvironment": "[steps('landingZones').testEnvironment]",   
+                "prodEnvironment": "[steps('landingZones').prodEnvironment]", 
+                "adminEnvironment": "[steps('landingZones').adminEnvironment]",    
 
                 "ppD365SalesApp": "[steps('landingZones').ppD365SalesApp]",                  
                 "ppD365CustomerServiceApp": "[steps('landingZones').ppD365CustomerServiceApp]",   
