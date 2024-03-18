@@ -312,8 +312,7 @@
                                                     '-PPCitizenCurrency', ' ', parameters('ppCitizenCurrency'), ' ',
                                                     '-PPCitizenRegion', ' ', parameters('ppCitizenRegion'), ' ',
                                                     '-PPCitizenDlp', ' ', parameters('ppCitizenDlp'), ' ',
-                                                    '-PPCitizenManagedEnv', ' ', parameters('ppCitizenManagedEnv'), ' ',
-                                                    '-PPCitizenAlm', ' ', parameters('ppCitizenAlm'), ' ',                                                    
+                                                    '-PPCitizenManagedEnv', ' ', parameters('ppCitizenManagedEnv'), ' ',                                                                                                    
                                                     
                                                     '-devEnvironment', ' ', parameters('devEnvironment'), ' ',
                                                     '-testEnvironment', ' ', parameters('testEnvironment'), ' ',
