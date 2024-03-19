@@ -1043,7 +1043,7 @@ if ($PPCitizen -in "yes")
                     else {
                         Write-Output "Admin Id: $($adminEnvironment.name)   attempt $($adminEnvAttempts)"  
                     }
-                  } until ( ($null -ne $adminEnvironment.properties.linkedEnvironmentMetadata.instanceApiUrl -and $adminEnvironment.properties.provisioningState -eq 'Succeeded' ) -or $adminEnvAttempts -eq 20)
+                  } until ( ($null -ne $adminEnvironment.properties.linkedEnvironmentMetadata.instanceApiUrl -and $adminEnvironment.properties.provisioningState -eq 'Succeeded' ) -or $adminEnvAttempts -eq 25)
                   # Write-Host ($adminEnvironment | Format-List | Out-String)  
                    Write-Output "Admin Url: $($adminEnvironment.properties.linkedEnvironmentMetadata.instanceApiUrl)"   
                    if ($null -ne $adminEnvironment.properties.linkedEnvironmentMetadata.instanceApiUrl) {
