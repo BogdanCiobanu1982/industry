@@ -70,6 +70,8 @@ if ($prodEnvironment -eq 'true')
 $environmentsParameters = @($Environment1, $Environment2, $Environment3, $Environment4, $Environment5)
 $environmentsParameters1 = "$Environment1, $Environment2, $Environment3, $Environment4, $Environment5"
 
+$environmentsArray = @($Environment1, $Environment2, $Environment3, $Environment4, $Environment5) | Where-Object { $_ -ne $null }
+
 # Filter out any null or empty values
 $environmentsString = $environmentsParameters | Where-Object { $_ }
 
@@ -78,6 +80,7 @@ $envTiers = $environmentsString -join ','
 
 Write-Output "Environments Parameter: $environmentsParameters"
 Write-Output "Environments Parameter 1: $environmentsParameters1"
+Write-Output "Environments Array: $environmentsArray"
 Write-Output "Environments Variable: $envTiers"
 
 
