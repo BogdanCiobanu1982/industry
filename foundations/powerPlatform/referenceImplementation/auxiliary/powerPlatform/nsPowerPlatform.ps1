@@ -51,35 +51,27 @@ $Environment5 = $null
 
 if ($adminEnvironment -eq 'true')
 {
-    $Environment1 = "'admin'"
+    $Environment1 = 'admin'
 }         
 if ($devEnvironment -eq 'true')
 {
-    $Environment2 = "'dev'"
+    $Environment2 = 'dev'
 }
 if ($testEnvironment -eq 'true')
 {
-    $Environment3 = "'test'"
+    $Environment3 = 'test'
 }
 if ($prodEnvironment -eq 'true')
 {
-    $Environment4 = "'prod'"
+    $Environment4 = 'prod'
 }
 
 # Create an array to hold the set environments
-$environmentsParameters = @($Environment1, $Environment2, $Environment3, $Environment4, $Environment5)
-$environmentsParameters1 = "$Environment1, $Environment2, $Environment3, $Environment4, $Environment5"
-
 $environmentsArray = @($Environment1, $Environment2, $Environment3, $Environment4, $Environment5) | Where-Object { $_ -ne $null }
 
-# Filter out any null or empty values
-$environmentsString = $environmentsParameters | Where-Object { $_ }
-
 # Join the set environments with a comma
-$envTiers = $environmentsString -join ','
+$envTiers = $environmentsArray -join ','
 
-Write-Output "Environments Parameter: $environmentsParameters"
-Write-Output "Environments Parameter 1: $environmentsParameters1"
 Write-Output "Environments Array: $environmentsArray"
 Write-Output "Environments Variable: $envTiers"
 
