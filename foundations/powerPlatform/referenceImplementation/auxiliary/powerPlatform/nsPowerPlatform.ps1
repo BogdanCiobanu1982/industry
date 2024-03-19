@@ -41,7 +41,7 @@ $DeploymentScriptOutputs = @{}
 Install-Module -Name PowerOps -AllowPrerelease -Force   
 
 #Default ALM environment tiers
-#$envTiers = 'admin','dev','test','prod'
+$envTiers = 'admin','dev','test','prod'
 
 $Environment1 = $null,
 $Environment2 = $null,
@@ -67,7 +67,7 @@ if ($prodEnvironment -eq 'true')
 }
 
 # Create an array to hold the set environments
-$envTiers = @($Environment1, $Environment2, $Environment3, $Environment4, $Environment5) | Where-Object { $_ -ne $null }
+#$envTiers = @($Environment1, $Environment2, $Environment3, $Environment4, $Environment5) | Where-Object { $_ -ne $null }
 
 $Global:envAdminName = ''
 $Global:envTestName = ''
