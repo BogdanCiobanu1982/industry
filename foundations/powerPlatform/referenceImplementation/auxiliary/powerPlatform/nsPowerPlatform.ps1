@@ -69,12 +69,6 @@ if ($prodEnvironment -eq 'true')
 # Create an array to hold the set environments
 $envTiers = @($Environment1, $Environment2, $Environment3, $Environment4, $Environment5) | Where-Object { $_ -ne $null }
 
-# Join the set environments with a comma
-#$envTiers = $environmentsArray -join ','
-
-Write-Output "Environments Tiers: $envTiers"
-
-
 $Global:envAdminName = ''
 $Global:envTestName = ''
 $Global:envDevName = ''
@@ -99,10 +93,7 @@ function New-EnvironmentCreationObject {
     $securityGroupId = ''      
     $envSku = 'Sandbox'                 
     if ($true -eq $EnvALM) {                
-        foreach ($envTier in $envTiers) {  
-            Write-Output "Environments Variable: $envTiers"
-            Write-Output "Environments Variable: $envTier"
-
+        foreach ($envTier in $envTiers) {              
             if($envTier -eq 'dev'){                                          
                 $createdSecurityGroup = New-CreateSecurityGroup -EnvironmentType dev                                    
                 $securityGroupId = $createdSecurityGroup
@@ -958,7 +949,7 @@ if ($PPCitizen -in "yes")
                 EnvSku             = $environment.envSKu                                           
             }  
 
-            Write-Output "Create Environment: $($envCreationHt.Name)" 
+            #Write-Output "Create Environment: $($envCreationHt.Name)" 
                                    
             # Get token to authenticate to Power Platform
             $Token = (Get-AzAccessToken).Token   
