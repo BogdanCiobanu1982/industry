@@ -67,13 +67,12 @@ if ($prodEnvironment -eq 'true')
 }
 
 # Create an array to hold the set environments
-$environmentsArray = @($Environment1, $Environment2, $Environment3, $Environment4, $Environment5) | Where-Object { $_ -ne $null }
+$envTiers = @($Environment1, $Environment2, $Environment3, $Environment4, $Environment5) | Where-Object { $_ -ne $null }
 
 # Join the set environments with a comma
-$envTiers = $environmentsArray -join ','
+#$envTiers = $environmentsArray -join ','
 
-Write-Output "Environments Array: $environmentsArray"
-Write-Output "Environments Variable: $envTiers"
+Write-Output "Environments Tiers: $envTiers"
 
 
 $Global:envAdminName = ''
