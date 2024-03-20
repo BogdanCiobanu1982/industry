@@ -43,7 +43,7 @@ $DeploymentScriptOutputs = @{}
 Install-Module -Name PowerOps -AllowPrerelease -Force   
 
 #Default ALM environment tiers
-$envTiers = 'admin','dev','test','prod'
+$envTiers = 'dev'
 
 $Environment1 = $null,
 $Environment2 = $null,
@@ -79,11 +79,15 @@ $Global:envProdName = ''
 $ppCitizenAlm = 'Yes'
 $ppCitizen = 'yes'
 
+Write-Output "Custom Environments: $customEnvironments"
+Write-Output "Dev Environment: $devEnvironment"
+Write-Output "Test Environment: $testEnvironment"
+Write-Output "Prod Environment: $prodEnvironment"
+Write-Output "Admin Environment: $adminEnvironment"
+
 #region supporting functions
-function New-EnvironmentCreationObject 
-{
+function New-EnvironmentCreationObject {
     param (             
-        [Parameter(Mandatory = $true, ParameterSetName = 'ARMInputString')]$ARMInputString,
         [Parameter(Mandatory = $true, ParameterSetName = 'EnvCount')]$EnvNaming,
         [Parameter(Mandatory = $true, ParameterSetName = 'EnvCount')]$EnvRegion,
         [Parameter(Mandatory = $true, ParameterSetName = 'EnvCount')]$EnvLanguage,
@@ -96,8 +100,7 @@ function New-EnvironmentCreationObject
     $environmentName = $EnvNaming
     $securityGroupId = ''      
     $envSku = 'Sandbox'                 
-    if ([string]::IsNullOrEmpty($ARMInputString)) 
-    {                
+    if ($true -eq $EnvALM) {                
         foreach ($envTier in $envTiers) {                 
             if($envTier -eq 'dev'){                                          
                 $createdSecurityGroup = New-CreateSecurityGroup -EnvironmentType dev                                    
@@ -139,26 +142,7 @@ function New-EnvironmentCreationObject
                 envSku         = $envSku
             }
         }
-    }
-    else    
-    {
-         foreach ($env in ($ARMInputString -split 'ppEnvName:')) 
-         {
-            if ($env -match ".") 
-            {
-                $environment = $env.TrimEnd(',')
-                
-                 [PSCustomObject]@{
-                        envRegion      = $EnvRegion
-                        envLanguage    = $envLanguage
-                        envCurrency    = $envCurrency
-                        envDescription = ($environment -split (','))[1].Split(':')[1]
-                        envRbac        = ($environment -split (','))[5].Split(':')[1]
-                        envName        = '{0}-{1}' -f ($environment -split (','))[0], $envTier
-                    }
-            }
-         }                                               
-    }
+    }   
 }
 
 function New-CreateSecurityGroup {
