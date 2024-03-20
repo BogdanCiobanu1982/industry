@@ -76,7 +76,6 @@ $Global:envTestName = ''
 $Global:envDevName = ''
 $Global:envProdName = ''
 
-$ppCitizenAlm = 'Yes'
 $ppCitizen = 'yes'
 
 Write-Output "Custom Environments: $customEnvironments"
@@ -92,57 +91,56 @@ function New-EnvironmentCreationObject {
         [Parameter(Mandatory = $true, ParameterSetName = 'EnvCount')]$EnvRegion,
         [Parameter(Mandatory = $true, ParameterSetName = 'EnvCount')]$EnvLanguage,
         [Parameter(Mandatory = $true, ParameterSetName = 'EnvCount')]$EnvCurrency,
-        [Parameter(Mandatory = $true, ParameterSetName = 'EnvCount')]$EnvDescription,
-        [Parameter(Mandatory = $false)][switch]$EnvALM,
+        [Parameter(Mandatory = $true, ParameterSetName = 'EnvCount')]$EnvDescription,        
         [Parameter(Mandatory = $false, ParameterSetName = 'EnvCount')][switch]$EnvDataverse
     )
                 
     $environmentName = $EnvNaming
     $securityGroupId = ''      
     $envSku = 'Sandbox'                 
-    if ($true -eq $EnvALM) {                
-        foreach ($envTier in $envTiers) {                 
-            if($envTier -eq 'dev'){                                          
-                $createdSecurityGroup = New-CreateSecurityGroup -EnvironmentType dev                                    
-                $securityGroupId = $createdSecurityGroup
-                $envSku = 'Sandbox'  
-                $envDescription = 'Environment used for development purposes'
-                $Global:envDevName =  "{0}-{1}" -f $environmentName, $envTier    
-            }
-            if ( $envTier -eq 'test' ){
-                $createdSecurityGroup = New-CreateSecurityGroup -EnvironmentType test
-                $securityGroupId = $createdSecurityGroup
-                $envSku = 'Sandbox'  
-                $envDescription = 'Environment used for testing purposes'
-                $Global:envTestName =  "{0}-{1}" -f $environmentName, $envTier      
-            }
-            if ( $envTier -eq 'prod' ){
-                $createdSecurityGroup = New-CreateSecurityGroup -EnvironmentType prod
-                $securityGroupId = $createdSecurityGroup
-                $envSku ='Production'      
-                $envDescription = 'Environment used for production purposes' 
-                $Global:envProdName =  "{0}-{1}" -f $environmentName, $envTier                  
-            }
-            if ( $envTier -eq 'admin' ){
-                $createdSecurityGroup = New-CreateSecurityGroup -EnvironmentType admin
-                $securityGroupId = $createdSecurityGroup                
-                $envSku ='Production'
-                $envDescription = 'Environment used for administration purposes'     
-                $Global:envAdminName =  "{0}-{1}" -f $environmentName, $envTier                   
-            }
-
-            [PSCustomObject]@{
-                envName        = "{0}-{1}" -f $environmentName, $envTier                        
-                envRegion      = $EnvRegion
-                envDataverse   = $EnvDataverse
-                envLanguage    = $envLanguage
-                envCurrency    = $envCurrency
-                envDescription = $envDescription
-                envRbac        = $securityGroupId
-                envSku         = $envSku
-            }
+                    
+    foreach ($envTier in $envTiers) 
+    {                 
+        if($envTier -eq 'dev'){                                          
+            $createdSecurityGroup = New-CreateSecurityGroup -EnvironmentType dev                                    
+            $securityGroupId = $createdSecurityGroup
+            $envSku = 'Sandbox'  
+            $envDescription = 'Environment used for development purposes'
+            $Global:envDevName =  "{0}-{1}" -f $environmentName, $envTier    
         }
-    }   
+        if ( $envTier -eq 'test' ){
+            $createdSecurityGroup = New-CreateSecurityGroup -EnvironmentType test
+            $securityGroupId = $createdSecurityGroup
+            $envSku = 'Sandbox'  
+            $envDescription = 'Environment used for testing purposes'
+            $Global:envTestName =  "{0}-{1}" -f $environmentName, $envTier      
+        }
+        if ( $envTier -eq 'prod' ){
+            $createdSecurityGroup = New-CreateSecurityGroup -EnvironmentType prod
+            $securityGroupId = $createdSecurityGroup
+            $envSku ='Production'      
+            $envDescription = 'Environment used for production purposes' 
+            $Global:envProdName =  "{0}-{1}" -f $environmentName, $envTier                  
+        }
+        if ( $envTier -eq 'admin' ){
+            $createdSecurityGroup = New-CreateSecurityGroup -EnvironmentType admin
+            $securityGroupId = $createdSecurityGroup                
+            $envSku ='Production'
+            $envDescription = 'Environment used for administration purposes'     
+            $Global:envAdminName =  "{0}-{1}" -f $environmentName, $envTier                   
+        }
+
+        [PSCustomObject]@{
+            envName        = "{0}-{1}" -f $environmentName, $envTier                        
+            envRegion      = $EnvRegion
+            envDataverse   = $EnvDataverse
+            envLanguage    = $envLanguage
+            envCurrency    = $envCurrency
+            envDescription = $envDescription
+            envRbac        = $securityGroupId
+            envSku         = $envSku
+        }
+    }     
 }
 
 function New-CreateSecurityGroup {
@@ -904,7 +902,7 @@ if ($PPCitizen -in "yes")
 {  
      if ($customEnvironments -ne 'null') {
         try {
-            $environmentsToCreate = New-EnvironmentCreationObject -ARMInputString ($customEnvironments -join ',') -EnvALM:($PPCitizenAlm -eq 'Yes')
+            $environmentsToCreate = New-EnvironmentCreationObject -ARMInputString ($customEnvironments -join ',')
         }
         catch {
             throw "Failed to create environment object. Input data is malformed. '`r`n$_'"
@@ -917,8 +915,7 @@ if ($PPCitizen -in "yes")
                 EnvRegion       = $PPCitizenRegion
                 envLanguage     = $PPCitizenLanguage
                 envCurrency     = $PPCitizenCurrency
-                envDescription  = ''
-                EnvALM          = $PPCitizenAlm -eq 'Yes'
+                envDescription  = ''                
                 EnvDataverse    = $PPCitizen -eq 'Yes'            
             }
             $environmentsToCreate = New-EnvironmentCreationObject @envHt
