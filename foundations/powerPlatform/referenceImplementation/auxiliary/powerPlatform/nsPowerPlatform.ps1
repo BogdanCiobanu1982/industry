@@ -87,6 +87,7 @@ Write-Output "Admin Environment: $adminEnvironment"
 #region supporting functions
 function New-EnvironmentCreationObject {
     param (             
+        [Parameter(Mandatory = $true, ParameterSetName = 'ARMInputString')]$ARMInputString,
         [Parameter(Mandatory = $true, ParameterSetName = 'EnvCount')]$EnvNaming,
         [Parameter(Mandatory = $true, ParameterSetName = 'EnvCount')]$EnvRegion,
         [Parameter(Mandatory = $true, ParameterSetName = 'EnvCount')]$EnvLanguage,
