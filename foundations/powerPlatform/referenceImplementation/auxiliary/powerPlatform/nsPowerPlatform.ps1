@@ -93,7 +93,7 @@ function New-EnvironmentCreationObject {
     $securityGroupId = ''      
     $envSku = 'Sandbox'                 
     if ($true -eq $EnvALM) {                
-        foreach ($envTier in $envTiers) {              
+        foreach ($envTier in $envTiers) {                 
             if($envTier -eq 'dev'){                                          
                 $createdSecurityGroup = New-CreateSecurityGroup -EnvironmentType dev                                    
                 $securityGroupId = $createdSecurityGroup
@@ -255,10 +255,7 @@ function New-InstallPackaggeToEnvironment {
             Write-Output "Application Installation $($PackageName) in progress"  
             Start-Sleep -Seconds 15   
             New-GetApplicationInstallStatus -OperationId $operationId -EnvironmentId $EnvironmentId -EnvironmentURL $EnvironmentURL -EnvironmentName $Global:envAdminName -EnvironmentType '200000000'         
-            #Write-Host ($outputPackage | Format-List | Out-String)
-            #New-GetApplicationInstallStatus -OperationId $operationId -EnvironmentId $EnvironmentId
-            #Write-Output "Application Installation $($PackageName) in progress"    
-            #return $operationId
+           
         }
         catch {            
             Write-Error "$($PackageName) Installation EnvironmentId $($EnvironmentId) failed`r`n$_"               
@@ -306,16 +303,11 @@ function New-GetApplicationInstallStatus {
         }   
         try {
             $packageSTatus = Invoke-RestMethod @GetParameters 
-            if ($packageSTatus.status -ne 'Succeeded' -or $packageSTatus.status -ne 'Canceled' -or $packageSTatus.status -ne 'Failed') {  
-                Write-Output "Application Status $($packageSTatus.status)"           
+            if ($packageSTatus.status -ne 'Succeeded' -or $packageSTatus.status -ne 'Canceled' -or $packageSTatus.status -ne 'Failed') {                      
                 Start-Sleep -Seconds 15
             } 
-            if($packageSTatus.status -eq 'Succeeded'){
-                Write-Output "Application Status Succeeded" 
+            if($packageSTatus.status -eq 'Succeeded'){            
                 Start-Sleep -Seconds 5
-
-
-
                 #Region Check the Dev Environment is Successfully created or not
                  $getdevEnvAttempts =0
                  do {
@@ -368,10 +360,10 @@ function New-GetApplicationInstallStatus {
 
 
                 #Create Deployment Environment Record for Admin
-                $adminEnvDetails = Get-PowerOpsEnvironment | Where-Object { $_.properties.displayName -eq $Global:envAdminName }     
+               <# $adminEnvDetails = Get-PowerOpsEnvironment | Where-Object { $_.properties.displayName -eq $Global:envAdminName }     
                 $envType = '200000001' #Taregt 
                 New-CreateDeploymentEnvrionmentRecord -EnvironmentURL $EnvironmentURL -EnvironmentName $($adminEnvDetails.properties.displayName) -EnvironmentId $($adminEnvDetails.name) -EnvironmentType $envType 
-
+                #>
                <# Get-PowerOpsEnvironment | Where-Object {$_.properties.displayName -eq $Global:envAdminName -or $_.properties.displayName -eq $Global:envTestName -or $_.properties.displayName -eq $Global:envDevName -or $_.properties.displayName -eq $Global:envProdName} | ForEach-Object -Process {
                     $envType = '200000001' #Taregt
                     if($_.properties.displayName-eq $Global:envDevName){
@@ -395,8 +387,7 @@ function New-GetApplicationInstallStatus {
 
                 $testEnvrionmentName = $Global:envTestName
                 foreach($pipeline in $listDeploymentPipelines.value){
-                $listDeploymentEnvironments.value | Where-Object {$_.environmenttype -eq 200000001 -and $_.name -eq $testEnvrionmentName} | ForEach-Object -Process {
-                    Write-Output "Deployment Statge data found"
+                $listDeploymentEnvironments.value | Where-Object {$_.environmenttype -eq 200000001 -and $_.name -eq $testEnvrionmentName} | ForEach-Object -Process {                    
                 New-CreateDeploymentStages -Name "Deploy to $($testEnvrionmentName)" -DeploymentPipeline $pipeline.deploymentpipelineid -PreviousStage 'Null' -TargetDeploymentEnvironment $_.deploymentenvironmentid  -EnvironmentURL $EnvironmentURL 
                 }
             }
@@ -405,8 +396,7 @@ function New-GetApplicationInstallStatus {
                 foreach($pipeline in $listDeploymentPipelines.value){
                 $listDeploymentStages = New-GetDeploymentStageRecords -EnvironmentURL $EnvironmentURL 
                 $prodEnvrionmentName = $Global:envProdName
-                $listDeploymentEnvironments.value | Where-Object {$_.environmenttype -eq 200000001 -and $_.name -eq $prodEnvrionmentName} | ForEach-Object -Process {
-                    Write-Output "Deployment Statge prev found"
+                $listDeploymentEnvironments.value | Where-Object {$_.environmenttype -eq 200000001 -and $_.name -eq $prodEnvrionmentName} | ForEach-Object -Process {                
                     $previousStage = $listDeploymentStages.value[0].deploymentstageid 
                     New-CreateDeploymentStages -Name "Deploy to $($prodEnvrionmentName)" -DeploymentPipeline $pipeline.deploymentpipelineid -PreviousStage $previousStage -TargetDeploymentEnvironment $_.deploymentenvironmentid  -EnvironmentURL $EnvironmentURL 
                 }  
@@ -452,14 +442,7 @@ function New-CreateDeploymentEnvrionmentRecord {
             "Content-Type"  = "application/json"
             "Authorization" = "Bearer $($Token)"
         }
-       <# $Headers = @{            
-            "Authorization" = "Bearer $($Token)"
-            "OData-MaxVersion" = 4.0
-            "OData-Version" = 4.0
-            "Accept" = "application/json"
-            "Content-Type" = "application/json; charset=utf-8"
-            "Prefer" = "odata.include-annotations='*',return=representation"
-        } #>
+     
         # Declaring the HTTP Post request
         $PostParameters = @{
             "Uri"         = "$($PostEnvironment)"
@@ -535,14 +518,7 @@ function New-GetDeploymentEnvrionmentRecords {
             "Content-Type"  = "application/json"
             "Authorization" = "Bearer $($Token)"
         }
-       <# $Headers = @{            
-            "Authorization" = "Bearer $($Token)"
-            "OData-MaxVersion" = 4.0
-            "OData-Version" = 4.0
-            "Accept" = "application/json"
-            "Content-Type" = "application/json; charset=utf-8"
-            "Prefer" = "odata.include-annotations='*',return=representation"
-        } #>
+      
         # Declaring the HTTP Post request
         $GetParameters = @{
             "Uri"         = "$($GetEnvironment)"
@@ -743,7 +719,7 @@ function New-DLPAssignmentFromEnv {
     )
     #DLP Template references
     $dlpPolicies = @{
-        baseUri          = 'https://raw.githubusercontent.com/BogdanCiobanu1982/industry/main/foundations/powerPlatform/referenceImplementation/auxiliary/powerPlatform/'
+        baseUri          = 'https://raw.githubusercontent.com/HemantKumar10/landingzones/main/foundations/powerPlatform/referenceImplementation/auxiliary/powerPlatform/'
         tenant           = @{
             low    = 'lowTenantDlpPolicy.json'
             medium = 'mediumTenantDlpPolicy.json'
@@ -949,7 +925,7 @@ if ($PPCitizen -in "yes")
                 EnvSku             = $environment.envSKu                                           
             }  
 
-            #Write-Output "Create Environment: $($envCreationHt.Name)" 
+            Write-Output "Create Environment: $($envCreationHt.Name)" 
                                    
             # Get token to authenticate to Power Platform
             $Token = (Get-AzAccessToken).Token   
@@ -1036,32 +1012,20 @@ if ($PPCitizen -in "yes")
                     $adminEnvironment = Get-PowerOpsEnvironment | Where-Object { $_.Properties.displayName -eq $Global:envAdminName }                    
                     if ($null -eq $adminEnvironment.properties.linkedEnvironmentMetadata.instanceApiUrl -or 
                     $adminEnvironment.properties.linkedEnvironmentMetadata.instanceApiUrl -eq '' -or 
-                    $adminEnvironment.properties.provisioningState -ne 'Succeeded' ) {
-                        Write-Output "Getting Admin environment - attempt $adminEnvAttempts"
+                    $adminEnvironment.properties.provisioningState -ne 'Succeeded' ) {                 
                         Start-Sleep -Seconds 15
                     }
                     else {
                         Write-Output "Admin Id: $($adminEnvironment.name)   attempt $($adminEnvAttempts)"  
                     }
-                  } until ( ($null -ne $adminEnvironment.properties.linkedEnvironmentMetadata.instanceApiUrl -and $adminEnvironment.properties.provisioningState -eq 'Succeeded' ) -or $adminEnvAttempts -eq 25)
-                  # Write-Host ($adminEnvironment | Format-List | Out-String)  
-                   Write-Output "Admin Url: $($adminEnvironment.properties.linkedEnvironmentMetadata.instanceApiUrl)"   
+                  } until ( ($null -ne $adminEnvironment.properties.linkedEnvironmentMetadata.instanceApiUrl -and $adminEnvironment.properties.provisioningState -eq 'Succeeded' ) -or $adminEnvAttempts -eq 20)
+                  
                    if ($null -ne $adminEnvironment.properties.linkedEnvironmentMetadata.instanceApiUrl) {
                     New-InstallPackaggeToEnvironment -EnvironmentId $($adminEnvironment.name) -PackageName 'msdyn_AppDeploymentAnchor' -EnvironmentURL $($adminEnvironment.properties.linkedEnvironmentMetadata.instanceApiUrl)
                    }  
                    else {
                     Write-Output "Admin Environment is not ready or URL is empty"   
-                   }             
-                
-
-
-                  <#  try {
-                        Write-Output "Enabling managed environment for the Admin environment"
-                        Enable-PowerOpsManagedEnvironment -EnvironmentName $adminEnvironment.name -GroupSharingDisabled $true
-                    }
-                    catch {
-                        Write-Warning "Failed to enable managed environment for Admin environment"
-                    } #>  
+                   } 
                     
             }
             catch {
