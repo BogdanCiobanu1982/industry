@@ -1269,27 +1269,7 @@
                                 "required": true
                             },
                             "visible": true
-                        },
-                        {
-                            "name": "ppCitizenAlm",
-                            "type": "Microsoft.Common.OptionsGroup",
-                            "label": "Create Development, Test, Production and Admin environments",
-                            "defaultValue": "Yes (recommended)",
-                            "toolTip": "If 'Yes' is selected, the setup adhere to best practices and create dedicated environments for sustainable application life-cycle management. The setup also installs the Power Platform Pipelines App on the Admin environment",
-                            "constraints": {
-                                "allowedValues": [
-                                    {
-                                        "label": "Yes (recommended)",
-                                        "value": "yes"
-                                    },
-                                    {
-                                        "label": "No",
-                                        "value": "no"
-                                    }
-                                ]
-                            },
-                            "visible": true
-                        },                                                                                          
+                        },                                                                                                                
                         {
                             "name": "D365Section",
                             "type": "Microsoft.Common.Section",
@@ -1359,8 +1339,7 @@
                 "ppCitizenCurrency": "[steps('landingZones').ppCitizenCurrency]",
                 "ppCitizenRegion": "[steps('landingZones').ppCitizenRegion]",
                 "ppCitizenDlp": "[steps('landingZones').ppCitizenDlp]",
-                "ppCitizenManagedEnv": "[steps('landingZones').ppCitizenManagedEnv]",
-                "ppCitizenAlm": "[steps('landingZones').ppCitizenAlm]",                
+                "ppCitizenManagedEnv": "[steps('landingZones').ppCitizenManagedEnv]",                              
                 "ppD365SalesApp": "[steps('landingZones').ppD365SalesApp]",                  
                 "ppD365CustomerServiceApp": "[steps('landingZones').ppD365CustomerServiceApp]",   
                 "ppD365FieldServiceApp": "[steps('landingZones').ppD365FieldServiceApp]"                                                       
