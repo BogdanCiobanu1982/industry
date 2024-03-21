@@ -465,27 +465,7 @@
                                 }
                             }
                         },
-                        {
-                            "name": "ppCitizen",
-                            "type": "Microsoft.Common.OptionsGroup",
-                            "label": "Create Environments for citizen developer scenarios",
-                            "defaultValue": "Yes",
-                            "multiSelect": true,
-                            "toolTip": "If 'Yes' is selected, the setup will create new environments",
-                            "constraints": {
-                                "allowedValues": [
-                                    {
-                                        "label": "Yes",
-                                        "value": "yes"
-                                    },                                    
-                                    {
-                                        "label": "No",
-                                        "value": "no"
-                                    }
-                                ]
-                            },
-                            "visible": true
-                        },
+                        
                         {
                             "name": "callGraph",
                             "type": "Microsoft.Solutions.GraphApiControl",
@@ -1255,7 +1235,7 @@
                                     }
                                 ]
                             },
-                            "visible": "[not(equals(steps('landingZones').ppCitizen, 'no'))]"
+                            "visible": true
                         },
 						{
                             "name": "ppCitizenManagedText",
@@ -1288,7 +1268,7 @@
                                 ],
                                 "required": true
                             },
-                            "visible": "[not(equals(steps('landingZones').ppCitizen, 'no'))]"
+                            "visible": true
                         },
                         {
                             "name": "ppCitizenAlm",
@@ -1308,7 +1288,7 @@
                                     }
                                 ]
                             },
-                            "visible": "[not(equals(steps('landingZones').ppCitizen, 'no'))]"
+                            "visible": true
                         },                                                                                          
                         {
                             "name": "D365Section",
@@ -1373,8 +1353,7 @@
                 "ppDefaultRenameText": "[steps('landingZones').ppDefaultRenameText]",
                 "ppDefaultDlp": "[steps('landingZones').ppDefaultDlp]",
                 "ppDefaultManagedEnv": "[steps('landingZones').ppDefaultManagedEnv]",
-                "ppDefaultManagedSharing": "[steps('landingZones').ppDefaultManagedSharing]",
-                "ppCitizen": "[steps('landingZones').ppCitizen]",                
+                "ppDefaultManagedSharing": "[steps('landingZones').ppDefaultManagedSharing]",                              
                 "ppCitizenNaming": "[steps('landingZones').ppCitizenNaming]",                
                 "ppCitizenLanguage": "[steps('landingZones').ppCitizenLanguage]",
                 "ppCitizenCurrency": "[steps('landingZones').ppCitizenCurrency]",
