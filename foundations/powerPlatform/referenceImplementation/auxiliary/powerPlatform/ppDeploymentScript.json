@@ -130,7 +130,20 @@
             "metadata": {
                 "description": "Select to enable/disable this setting."
             }
-        },       
+        },
+        "ppCitizen": {
+            "type": "string",
+            "allowedValues": [
+                "yes",
+                "half",
+                "no",
+                "custom"
+            ],
+            "defaultValue": "no",
+            "metadata": {
+                "description": "Select environment type. Yes will enable with Dataverse, Half will create without Dataverse."
+            }            
+        },
         "ppCitizenNaming": {
             "type": "string",
             "defaultValue": "''",
@@ -181,7 +194,18 @@
             "metadata": {
                 "description": "Select to enable/disable this setting."
             }
-        },                  
+        },           
+        "ppCitizenAlm": {
+            "type": "string",
+            "allowedValues": [
+                "yes",
+                "no"
+            ],
+            "defaultValue": "no",
+            "metadata": {
+                "description": "Select if dedicated environments for Development, Test, and Production should be created for each landing zone"
+            }
+        },       
         "location": {
             "type": "string",
             "metadata": {
@@ -214,37 +238,7 @@
             "metadata": {
                 "description": "Select the currency for the environments."
             }
-        },
-        
-        "devEnvironment": {
-            "type": "string",
-            "defaultValue": "false",
-            "metadata": {
-                "description": "Development Environment"
-            }
-        },    
-        "testEnvironment": {
-            "type": "string",
-            "defaultValue": "false",
-            "metadata": {
-                "description": "Test Environment"
-            }
-        },  
-        "prodEnvironment": {
-            "type": "string",
-            "defaultValue": "false",
-            "metadata": {
-                "description": "Production Environment"
-            }
-        },   
-        "adminEnvironment": {
-            "type": "string",
-            "defaultValue": "false",
-            "metadata": {
-                "description": "Admin Environment"
-            }
-        },    
-
+        },       
         "ppD365SalesApp": {
             "type": "string",
             "defaultValue": "false",
@@ -320,19 +314,15 @@
                                                     '-PPDefaultRenameText', ' ', parameters('ppDefaultRenameText'), ' ',
                                                     '-PPDefaultDLP', ' ', parameters('ppDefaultDlp'), ' ',
                                                     '-PPDefaultManagedEnv', ' ', parameters('ppDefaultManagedEnv'), ' ',
-                                                    '-PPDefaultManagedSharing', ' ', parameters('ppDefaultManagedSharing'), ' ',                                                                                                                                               
+                                                    '-PPDefaultManagedSharing', ' ', parameters('ppDefaultManagedSharing'), ' ',
+                                                    '-PPCitizen', ' ', parameters('ppCitizen'), ' ',                                                                                            
                                                     '-PPCitizenNaming', ' ', parameters('ppCitizenNaming'), ' ',                                                    
                                                     '-PPCitizenLanguage', ' ', parameters('ppCitizenLanguage'), ' ',
                                                     '-PPCitizenCurrency', ' ', parameters('ppCitizenCurrency'), ' ',
                                                     '-PPCitizenRegion', ' ', parameters('ppCitizenRegion'), ' ',
                                                     '-PPCitizenDlp', ' ', parameters('ppCitizenDlp'), ' ',
-                                                    '-PPCitizenManagedEnv', ' ', parameters('ppCitizenManagedEnv'), ' ',                                                                                                    
-                                                    
-                                                    '-devEnvironment', ' ', parameters('devEnvironment'), ' ',
-                                                    '-testEnvironment', ' ', parameters('testEnvironment'), ' ',
-                                                    '-prodEnvironment', ' ', parameters('prodEnvironment'), ' ',
-                                                    '-adminEnvironment', ' ', parameters('adminEnvironment'), ' ',
-
+                                                    '-PPCitizenManagedEnv', ' ', parameters('ppCitizenManagedEnv'), ' ',
+                                                    '-PPCitizenAlm', ' ', parameters('ppCitizenAlm'), ' ',                                                    
                                                     '-ppD365SalesApp', ' ', parameters('ppD365SalesApp'), ' ',                                                    
                                                     '-ppD365CustomerServiceApp', ' ', parameters('ppD365CustomerServiceApp'), ' ',
                                                     '-ppD365FieldServiceApp', ' ', parameters('ppD365FieldServiceApp'), ' '                                                                                                
