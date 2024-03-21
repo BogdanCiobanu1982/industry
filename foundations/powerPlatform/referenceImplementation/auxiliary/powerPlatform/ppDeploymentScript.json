@@ -181,18 +181,7 @@
             "metadata": {
                 "description": "Select to enable/disable this setting."
             }
-        },           
-        "ppCitizenAlm": {
-            "type": "string",
-            "allowedValues": [
-                "yes",
-                "no"
-            ],
-            "defaultValue": "no",
-            "metadata": {
-                "description": "Select if dedicated environments for Development, Test, and Production should be created for each landing zone"
-            }
-        },       
+        },                  
         "location": {
             "type": "string",
             "metadata": {
@@ -307,8 +296,7 @@
                                                     '-PPCitizenCurrency', ' ', parameters('ppCitizenCurrency'), ' ',
                                                     '-PPCitizenRegion', ' ', parameters('ppCitizenRegion'), ' ',
                                                     '-PPCitizenDlp', ' ', parameters('ppCitizenDlp'), ' ',
-                                                    '-PPCitizenManagedEnv', ' ', parameters('ppCitizenManagedEnv'), ' ',
-                                                    '-PPCitizenAlm', ' ', parameters('ppCitizenAlm'), ' ',                                                    
+                                                    '-PPCitizenManagedEnv', ' ', parameters('ppCitizenManagedEnv'), ' ',                                                                                                   
                                                     '-ppD365SalesApp', ' ', parameters('ppD365SalesApp'), ' ',                                                    
                                                     '-ppD365CustomerServiceApp', ' ', parameters('ppD365CustomerServiceApp'), ' ',
                                                     '-ppD365FieldServiceApp', ' ', parameters('ppD365FieldServiceApp'), ' '                                                                                                
