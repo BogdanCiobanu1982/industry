@@ -191,18 +191,7 @@
             "metadata": {
                 "description": "Provide the Azure location for the deployments"
             }
-        },        
-        "ppCitizenAlm": {
-            "type": "string",
-            "allowedValues": [
-                "yes",
-                "no"
-            ],
-            "defaultValue": "no",
-            "metadata": {
-                "description": "Select if dedicated environments for Development, Test, and Production should be created for each landing zone"
-            }
-        },                         
+        },                     
         "ppCitizenLanguage": {
             "type": "string",
             "defaultValue": "",
@@ -284,10 +273,7 @@
                     },
                     "ppTenantIsolationSetting": {
                         "value": "[parameters('ppTenantIsolationSetting')]"
-                    },                      
-                    "ppCitizenAlm": {
-                        "value": "[parameters('ppCitizenAlm')]"
-                    },                                                          
+                    },                                                                                        
                     "ppEnvCapacitySetting": {
                         "value": "[parameters('ppEnvCapacitySetting')]"
                     },                    
