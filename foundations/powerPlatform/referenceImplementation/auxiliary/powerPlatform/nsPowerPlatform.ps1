@@ -18,24 +18,18 @@ param (
     [Parameter(Mandatory = $false)][string][AllowEmptyString()][AllowNull()]$PPDefaultRenameText,
     [Parameter(Mandatory = $false)][string][AllowEmptyString()][AllowNull()]$PPDefaultDLP,
     [Parameter(Mandatory = $false)][string][AllowEmptyString()][AllowNull()]$PPDefaultManagedEnv,
-    [Parameter(Mandatory = $false)][string][AllowEmptyString()][AllowNull()]$PPDefaultManagedSharing,    
+    [Parameter(Mandatory = $false)][string][AllowEmptyString()][AllowNull()]$PPDefaultManagedSharing,
+    [Parameter(Mandatory = $false)][string][AllowEmptyString()][AllowNull()]$PPCitizen,    
     [Parameter(Mandatory = $false)][string][AllowEmptyString()][AllowNull()]$PPCitizenNaming,
     [Parameter(Mandatory = $false)][string][AllowEmptyString()][AllowNull()]$PPCitizenRegion,
     [Parameter(Mandatory = $false)][string][AllowEmptyString()][AllowNull()]$PPCitizenDlp,    
-    [Parameter(Mandatory = $false)][string][AllowEmptyString()][AllowNull()]$PPCitizenManagedEnv,      
+    [Parameter(Mandatory = $false)][string][AllowEmptyString()][AllowNull()]$PPCitizenManagedEnv,
+    [Parameter(Mandatory = $false)][string][AllowEmptyString()][AllowNull()]$PPCitizenAlm,    
     [Parameter(Mandatory = $false)][string][AllowEmptyString()][AllowNull()]$PPCitizenCurrency,
-    [Parameter(Mandatory = $false)][string][AllowEmptyString()][AllowNull()]$PPCitizenLanguage,  
-
-    [Parameter(Mandatory = $false)][string][AllowEmptyString()][AllowNull()]$devEnvironment,
-    [Parameter(Mandatory = $false)][string][AllowEmptyString()][AllowNull()]$testEnvironment,
-    [Parameter(Mandatory = $false)][string][AllowEmptyString()][AllowNull()]$prodEnvironment,
-    [Parameter(Mandatory = $false)][string][AllowEmptyString()][AllowNull()]$adminEnvironment,
-
+    [Parameter(Mandatory = $false)][string][AllowEmptyString()][AllowNull()]$PPCitizenLanguage,     
     [Parameter(Mandatory = $false)][string][AllowEmptyString()][AllowNull()]$ppD365SalesApp,
     [Parameter(Mandatory = $false)][string][AllowEmptyString()][AllowNull()]$ppD365CustomerServiceApp,
-    [Parameter(Mandatory = $false)][string][AllowEmptyString()][AllowNull()]$ppD365FieldServiceApp,
-
-    [Parameter(Mandatory = $false)]$customEnvironments
+    [Parameter(Mandatory = $false)][string][AllowEmptyString()][AllowNull()]$ppD365FieldServiceApp        
 )
 
 $DeploymentScriptOutputs = @{}
@@ -43,105 +37,72 @@ $DeploymentScriptOutputs = @{}
 Install-Module -Name PowerOps -AllowPrerelease -Force   
 
 #Default ALM environment tiers
-$envTiers = 'dev'
-
-$Environment1 = $null,
-$Environment2 = $null,
-$Environment3 = $null,
-$Environment4 = $null,    
-$Environment5 = $null
-
-if ($adminEnvironment -eq 'true')
-{
-    $Environment1 = 'admin'
-}         
-if ($devEnvironment -eq 'true')
-{
-    $Environment2 = 'dev'
-}
-if ($testEnvironment -eq 'true')
-{
-    $Environment3 = 'test'
-}
-if ($prodEnvironment -eq 'true')
-{
-    $Environment4 = 'prod'
-}
-
-# Create an array to hold the set environments
-#$envTiers = @($Environment1, $Environment2, $Environment3, $Environment4, $Environment5) | Where-Object { $_ -ne $null }
+#$envTiers = 'admin','dev','test','prod'
+$envTiers = 'admin','dev','test','prod'
 
 $Global:envAdminName = ''
 $Global:envTestName = ''
 $Global:envDevName = ''
 $Global:envProdName = ''
 
-$ppCitizen = 'yes'
-
-Write-Output "Custom Environments: $customEnvironments"
-Write-Output "Dev Environment: $devEnvironment"
-Write-Output "Test Environment: $testEnvironment"
-Write-Output "Prod Environment: $prodEnvironment"
-Write-Output "Admin Environment: $adminEnvironment"
-
 #region supporting functions
 function New-EnvironmentCreationObject {
     param (             
-        [Parameter(Mandatory = $true, ParameterSetName = 'ARMInputString')]$ARMInputString,
         [Parameter(Mandatory = $true, ParameterSetName = 'EnvCount')]$EnvNaming,
         [Parameter(Mandatory = $true, ParameterSetName = 'EnvCount')]$EnvRegion,
         [Parameter(Mandatory = $true, ParameterSetName = 'EnvCount')]$EnvLanguage,
         [Parameter(Mandatory = $true, ParameterSetName = 'EnvCount')]$EnvCurrency,
-        [Parameter(Mandatory = $true, ParameterSetName = 'EnvCount')]$EnvDescription,        
+        [Parameter(Mandatory = $true, ParameterSetName = 'EnvCount')]$EnvDescription,
+        [Parameter(Mandatory = $false)][switch]$EnvALM,
         [Parameter(Mandatory = $false, ParameterSetName = 'EnvCount')][switch]$EnvDataverse
     )
                 
     $environmentName = $EnvNaming
     $securityGroupId = ''      
     $envSku = 'Sandbox'                 
-                    
-    foreach ($envTier in $envTiers) 
-    {                 
-        if($envTier -eq 'dev'){                                          
-            $createdSecurityGroup = New-CreateSecurityGroup -EnvironmentType dev                                    
-            $securityGroupId = $createdSecurityGroup
-            $envSku = 'Sandbox'  
-            $envDescription = 'Environment used for development purposes'
-            $Global:envDevName =  "{0}-{1}" -f $environmentName, $envTier    
-        }
-        if ( $envTier -eq 'test' ){
-            $createdSecurityGroup = New-CreateSecurityGroup -EnvironmentType test
-            $securityGroupId = $createdSecurityGroup
-            $envSku = 'Sandbox'  
-            $envDescription = 'Environment used for testing purposes'
-            $Global:envTestName =  "{0}-{1}" -f $environmentName, $envTier      
-        }
-        if ( $envTier -eq 'prod' ){
-            $createdSecurityGroup = New-CreateSecurityGroup -EnvironmentType prod
-            $securityGroupId = $createdSecurityGroup
-            $envSku ='Production'      
-            $envDescription = 'Environment used for production purposes' 
-            $Global:envProdName =  "{0}-{1}" -f $environmentName, $envTier                  
-        }
-        if ( $envTier -eq 'admin' ){
-            $createdSecurityGroup = New-CreateSecurityGroup -EnvironmentType admin
-            $securityGroupId = $createdSecurityGroup                
-            $envSku ='Production'
-            $envDescription = 'Environment used for administration purposes'     
-            $Global:envAdminName =  "{0}-{1}" -f $environmentName, $envTier                   
-        }
+    if ($true -eq $EnvALM) {                
+        foreach ($envTier in $envTiers) {                 
+            if($envTier -eq 'dev'){                                          
+                $createdSecurityGroup = New-CreateSecurityGroup -EnvironmentType dev                                    
+                $securityGroupId = $createdSecurityGroup
+                $envSku = 'Sandbox'  
+                $envDescription = 'Environment used for development purposes'
+                $Global:envDevName =  "{0}-{1}" -f $environmentName, $envTier    
+            }
+            if ( $envTier -eq 'test' ){
+                $createdSecurityGroup = New-CreateSecurityGroup -EnvironmentType test
+                $securityGroupId = $createdSecurityGroup
+                $envSku = 'Sandbox'  
+                $envDescription = 'Environment used for testing purposes'
+                $Global:envTestName =  "{0}-{1}" -f $environmentName, $envTier      
+            }
+            if ( $envTier -eq 'prod' ){
+                $createdSecurityGroup = New-CreateSecurityGroup -EnvironmentType prod
+                $securityGroupId = $createdSecurityGroup
+                $envSku ='Production'      
+                $envDescription = 'Environment used for production purposes' 
+                $Global:envProdName =  "{0}-{1}" -f $environmentName, $envTier                  
+            }
+            if ( $envTier -eq 'admin' ){
+                $createdSecurityGroup = New-CreateSecurityGroup -EnvironmentType admin
+                $securityGroupId = $createdSecurityGroup                
+                $envSku ='Production'
+                $envDescription = 'Environment used for administration purposes'     
+                $Global:envAdminName =  "{0}-{1}" -f $environmentName, $envTier                   
+            }
 
-        [PSCustomObject]@{
-            envName        = "{0}-{1}" -f $environmentName, $envTier                        
-            envRegion      = $EnvRegion
-            envDataverse   = $EnvDataverse
-            envLanguage    = $envLanguage
-            envCurrency    = $envCurrency
-            envDescription = $envDescription
-            envRbac        = $securityGroupId
-            envSku         = $envSku
+            [PSCustomObject]@{
+                envName        = "{0}-{1}" -f $environmentName, $envTier                        
+                envRegion      = $EnvRegion
+                envDataverse   = $EnvDataverse
+                envLanguage    = $envLanguage
+                envCurrency    = $envCurrency
+                envDescription = $envDescription
+                envRbac        = $securityGroupId
+                envSku         = $envSku
+            }
         }
-    }     
+    }   
 }
 
 function New-CreateSecurityGroup {
@@ -726,7 +687,7 @@ function New-DLPAssignmentFromEnv {
     )
     #DLP Template references
     $dlpPolicies = @{
-        baseUri          = 'https://raw.githubusercontent.com/HemantKumar10/landingzones/main/foundations/powerPlatform/referenceImplementation/auxiliary/powerPlatform/'
+        baseUri          = 'https://raw.githubusercontent.com/BogdanCiobanu1982/landingzones/main/foundations/powerPlatform/referenceImplementation/auxiliary/powerPlatform/'
         tenant           = @{
             low    = 'lowTenantDlpPolicy.json'
             medium = 'mediumTenantDlpPolicy.json'
@@ -900,30 +861,21 @@ if ($defaultEnvironment.properties.governanceConfiguration.protectionLevel -ne '
 
 #region create landing zones for citizen devs
 if ($PPCitizen -in "yes") 
-{  
-     if ($customEnvironments -ne 'null') {
-        try {
-            $environmentsToCreate = New-EnvironmentCreationObject -ARMInputString ($customEnvironments -join ',')
+{   
+    try {
+        $envHt = @{            
+            EnvNaming       = $PPCitizenNaming
+            EnvRegion       = $PPCitizenRegion
+            envLanguage     = $PPCitizenLanguage
+            envCurrency     = $PPCitizenCurrency
+            envDescription  = ''
+            EnvALM          = $PPCitizenAlm -eq 'Yes'
+            EnvDataverse    = $PPCitizen -eq 'Yes'            
         }
-        catch {
-            throw "Failed to create environment object. Input data is malformed. '`r`n$_'"
-        }
+        $environmentsToCreate = New-EnvironmentCreationObject @envHt
     }
-    else { 
-        try {
-            $envHt = @{            
-                EnvNaming       = $PPCitizenNaming
-                EnvRegion       = $PPCitizenRegion
-                envLanguage     = $PPCitizenLanguage
-                envCurrency     = $PPCitizenCurrency
-                envDescription  = ''                
-                EnvDataverse    = $PPCitizen -eq 'Yes'            
-            }
-            $environmentsToCreate = New-EnvironmentCreationObject @envHt
-        }
-        catch {
-            throw "Failed to create environment object. Input data is malformed. '`r`n$_'"
-        }
+    catch {
+        throw "Failed to create environment object. Input data is malformed. '`r`n$_'"
     }
     
     foreach ($environment in $environmentsToCreate) 
@@ -1018,35 +970,36 @@ if ($PPCitizen -in "yes")
 
     #region Install Power Platform Pipeline App in Admin Envrionemnt        
     Start-Sleep -Seconds 10         
-        
-    try {                
-        Write-Output "Admin: $envAdminName"  
-        $adminEnvAttempts = 0
-        do {
-            $adminEnvAttempts++
-            $adminEnvironment = Get-PowerOpsEnvironment | Where-Object { $_.Properties.displayName -eq $Global:envAdminName }                    
-            if ($null -eq $adminEnvironment.properties.linkedEnvironmentMetadata.instanceApiUrl -or 
-            $adminEnvironment.properties.linkedEnvironmentMetadata.instanceApiUrl -eq '' -or 
-            $adminEnvironment.properties.provisioningState -ne 'Succeeded' ) {                 
-                Start-Sleep -Seconds 15
+    
+    If($PPCitizenAlm -eq 'Yes'){
+            try {                
+                Write-Output "Admin: $envAdminName"  
+                $adminEnvAttempts = 0
+                do {
+                    $adminEnvAttempts++
+                    $adminEnvironment = Get-PowerOpsEnvironment | Where-Object { $_.Properties.displayName -eq $Global:envAdminName }                    
+                    if ($null -eq $adminEnvironment.properties.linkedEnvironmentMetadata.instanceApiUrl -or 
+                    $adminEnvironment.properties.linkedEnvironmentMetadata.instanceApiUrl -eq '' -or 
+                    $adminEnvironment.properties.provisioningState -ne 'Succeeded' ) {                 
+                        Start-Sleep -Seconds 15
+                    }
+                    else {
+                        Write-Output "Admin Id: $($adminEnvironment.name)   attempt $($adminEnvAttempts)"  
+                    }
+                  } until ( ($null -ne $adminEnvironment.properties.linkedEnvironmentMetadata.instanceApiUrl -and $adminEnvironment.properties.provisioningState -eq 'Succeeded' ) -or $adminEnvAttempts -eq 20)
+                  
+                   if ($null -ne $adminEnvironment.properties.linkedEnvironmentMetadata.instanceApiUrl) {
+                    New-InstallPackaggeToEnvironment -EnvironmentId $($adminEnvironment.name) -PackageName 'msdyn_AppDeploymentAnchor' -EnvironmentURL $($adminEnvironment.properties.linkedEnvironmentMetadata.instanceApiUrl)
+                   }  
+                   else {
+                    Write-Output "Admin Environment is not ready or URL is empty"   
+                   } 
+                    
             }
-            else {
-                Write-Output "Admin Id: $($adminEnvironment.name)   attempt $($adminEnvAttempts)"  
+            catch {
+                Write-Warning "Error installing App`r`n$_"
             }
-            } until ( ($null -ne $adminEnvironment.properties.linkedEnvironmentMetadata.instanceApiUrl -and $adminEnvironment.properties.provisioningState -eq 'Succeeded' ) -or $adminEnvAttempts -eq 20)
-            
-            if ($null -ne $adminEnvironment.properties.linkedEnvironmentMetadata.instanceApiUrl) {
-            New-InstallPackaggeToEnvironment -EnvironmentId $($adminEnvironment.name) -PackageName 'msdyn_AppDeploymentAnchor' -EnvironmentURL $($adminEnvironment.properties.linkedEnvironmentMetadata.instanceApiUrl)
-            }  
-            else {
-            Write-Output "Admin Environment is not ready or URL is empty"   
-            } 
-            
-    }
-    catch {
-        Write-Warning "Error installing App`r`n$_"
-    }
-             
+        }     
     #endregion Install Power Platform Pipeline App in Admin Envrionemnt   
 }
 #endregion create landing zones for citizen devs
