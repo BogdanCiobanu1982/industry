@@ -458,32 +458,17 @@
                             "type": "Microsoft.Common.TextBlock",
                             "visible": true,
                             "options": {
-                                "text": "The Landing Zones (Environments) will be created and provide them with the required agility and simplicity to rapidly build modern business applications. You can grant business units or indivuduals access to the Environments post creation.",
-                                "link": {
-                                    "label": "Learn more",
-                                    "uri": "https://learn.microsoft.com/en-us/power-platform/admin/environments-overview"
-                                }
+                                "text": "Specify the common settings for all Landing Zones (Environments) that will be created."                                
                             }
-                        },
+                        },    
                         
-                        {
-                            "name": "callGraph",
-                            "type": "Microsoft.Solutions.GraphApiControl",
-                            "request": {
-                                "method": "GET",
-                                "path": "/beta/groups?&select=displayName,id",
-                                "transforms": {
-                                    "list": "value|[*].{label:displayName, value:id}"
-                                }
-                            }
-                        },                                             
                         {
                             "name": "ppCitizenNaming",
                             "type": "Microsoft.Common.TextBox",
                             "label": "Provide naming convention for the environments.",
                             "placeholder": "",
                             "defaultValue": "",
-                            "toolTip": "Use only allowed characters",
+                            "toolTip": "Only alphanumeric characters are allowed, and the value must be 1-30 characters long.",
                             "constraints": {
                                 "required": true,
                                 "regex": "^[a-z0-9A-Z]{1,30}$",
@@ -1237,7 +1222,8 @@
                             },
                             "visible": true
                         },
-						{
+
+                        {
                             "name": "ppCitizenManagedText",
                             "type": "Microsoft.Common.TextBlock",
                             "visible": true,
@@ -1269,7 +1255,189 @@
                                 "required": true
                             },
                             "visible": true
-                        },                                                                                                                
+                        },
+
+                        {
+                            "name": "predefinedEnvText",
+                            "type": "Microsoft.Common.TextBlock",
+                            "visible": true,
+                            "options": {
+                                "text": "Select one or multiple predefined Landing Zones (Environments) from the list below that will be created automatically. Dev/Test/Prod/Admin are selected by default. Any combination of environments could be selected, based on the specific environment strategy of each project.",
+                                "link": {
+                                    "label": "Learn more",
+                                    "uri": "https://learn.microsoft.com/en-us/power-platform/admin/environments-overview"
+                                }
+                            }
+                        },   
+
+                        {
+                            "name": "devEnvironment",
+                            "type": "Microsoft.Common.CheckBox",
+                            "defaultValue": true,
+                            "label": "Development Environment (dev)",
+                            "constraints": {
+                                "required": false
+                            },
+                            "visible": true
+                        },           
+                        
+                        {
+                            "name": "testEnvironment",
+                            "type": "Microsoft.Common.CheckBox",
+                            "defaultValue": true,
+                            "label": "Test Environment (test)", 
+                            "constraints": {
+                                "required": false
+                            },
+                            "visible": true
+                        },   
+                        
+                        {
+                            "name": "prodEnvironment",
+                            "type": "Microsoft.Common.CheckBox",
+                            "defaultValue": true,
+                            "label": "Production Environment (prod)",   
+                            "constraints": {
+                                "required": false
+                            },
+                            "visible": true
+                        },  
+
+                        {
+                            "name": "adminEnvironment",
+                            "type": "Microsoft.Common.CheckBox",
+                            "defaultValue": true,
+                            "label": "Admin Environment (admin)",   
+                            "constraints": {
+                                "required": false
+                            },
+                            "visible": true
+                        },  
+
+                        {
+                            "name": "qaEnvironment",
+                            "type": "Microsoft.Common.CheckBox",
+                            "defaultValue": false,
+                            "label": "QA Environment (qa)",   
+                            "constraints": {
+                                "required": false
+                            },
+                            "visible": true
+                        },  
+
+                        {
+                            "name": "uatEnvironment",
+                            "type": "Microsoft.Common.CheckBox",
+                            "defaultValue": false,
+                            "label": "UAT Environment (uat)",   
+                            "constraints": {
+                                "required": false
+                            },
+                            "visible": true
+                        },  
+
+                        {
+                            "name": "stagingEnvironment",
+                            "type": "Microsoft.Common.CheckBox",
+                            "defaultValue": false,
+                            "label": "Staging Environment (staging)",   
+                            "constraints": {
+                                "required": false
+                            },
+                            "visible": true
+                        },  
+
+                        {
+                            "name": "trainingEnvironment",
+                            "type": "Microsoft.Common.CheckBox",
+                            "defaultValue": false,
+                            "label": "Training Environment (training)",   
+                            "constraints": {
+                                "required": false
+                            },
+                            "visible": true
+                        },  
+
+                        {
+                            "name": "dataEnvironment",
+                            "type": "Microsoft.Common.CheckBox",
+                            "defaultValue": false,
+                            "label": "Data Environment (data)",   
+                            "constraints": {
+                                "required": false
+                            },
+                            "visible": true
+                        },  
+
+                        {
+                            "name": "integrationEnvironment",
+                            "type": "Microsoft.Common.CheckBox",
+                            "defaultValue": false,
+                            "label": "Integration Environment (integration)",   
+                            "constraints": {
+                                "required": false
+                            },
+                            "visible": true
+                        },  
+
+                        {
+                        "name": "customEnvText",
+                            "type": "Microsoft.Common.TextBlock",
+                            "visible": true,
+                            "options": {
+                                "text": "Additional multiple custom environments could be defined, by specifying the name and the description for each environment."                                
+                                }                            
+                        },                 
+
+                        {
+                            "name": "customEnvironments",
+                            "type": "Microsoft.Common.EditableGrid",
+                            "ariaLabel": "Create and Configure Custom Environments",
+                            "label": "Custom Environments",
+                            "visible": true,
+                            "constraints": {
+                                "width": "Full",
+                                "rows": {
+                                    "count": {
+                                        "min": 0,
+                                        "max": 3
+                                    }
+                                },
+                                "columns": [
+                                    {
+                                        "id": "ppEnvName",
+                                        "header": "Environment Name",
+                                        "width": "1fr",
+                                        "element": {
+                                            "type": "Microsoft.Common.TextBox",
+                                            "placeholder": "",
+                                            "constraints": {
+                                                "required": true,
+                                                "validations": [
+                                                    {
+                                                        "regex": "^[a-z0-9A-Z]{1,30}$",
+                                                        "message": "Only alphanumeric characters are allowed, and the value must be 1-30 characters long."
+                                                    }
+                                                ]
+                                            }
+                                        }
+                                    },
+                                    {
+                                        "id": "ppEnvDescription",
+                                        "header": "Description",
+                                        "width": "1fr",
+                                        "element": {
+                                            "type": "Microsoft.Common.TextBox",
+                                            "placeholder": "",
+                                            "constraints": {
+                                                "required": true                                                
+                                            }
+                                        }
+                                    }
+                                ]
+                            }
+                        },                                                                                                                                       						
+                                                
                         {
                             "name": "D365Section",
                             "type": "Microsoft.Common.Section",
@@ -1339,10 +1507,11 @@
                 "ppCitizenCurrency": "[steps('landingZones').ppCitizenCurrency]",
                 "ppCitizenRegion": "[steps('landingZones').ppCitizenRegion]",
                 "ppCitizenDlp": "[steps('landingZones').ppCitizenDlp]",
-                "ppCitizenManagedEnv": "[steps('landingZones').ppCitizenManagedEnv]",                              
+                "ppCitizenManagedEnv": "[steps('landingZones').ppCitizenManagedEnv]",                                    
                 "ppD365SalesApp": "[steps('landingZones').ppD365SalesApp]",                  
                 "ppD365CustomerServiceApp": "[steps('landingZones').ppD365CustomerServiceApp]",   
-                "ppD365FieldServiceApp": "[steps('landingZones').ppD365FieldServiceApp]"                                                       
+                "ppD365FieldServiceApp": "[steps('landingZones').ppD365FieldServiceApp]",   
+                                
             },
             "kind": "Subscription",
             "location": "[steps('powerp').locationName]",
