@@ -1510,7 +1510,7 @@
                 "ppCitizenManagedEnv": "[steps('landingZones').ppCitizenManagedEnv]",                                    
                 "ppD365SalesApp": "[steps('landingZones').ppD365SalesApp]",                  
                 "ppD365CustomerServiceApp": "[steps('landingZones').ppD365CustomerServiceApp]",   
-                "ppD365FieldServiceApp": "[steps('landingZones').ppD365FieldServiceApp]",   
+                "ppD365FieldServiceApp": "[steps('landingZones').ppD365FieldServiceApp]"
                                 
             },
             "kind": "Subscription",
