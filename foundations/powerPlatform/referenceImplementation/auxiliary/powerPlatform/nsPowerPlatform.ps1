@@ -857,7 +857,7 @@ function New-DLPAssignmentFromEnv {
     )
     #DLP Template references
     $dlpPolicies = @{
-        baseUri          = 	'https://raw.githubusercontent.com/BogdanCiobanu1982/industry/main/foundations/powerPlatform/referenceImplementation/auxiliary/powerPlatform'
+        baseUri          = 	'https://github.com/BogdanCiobanu1982/industry/blob/main/foundations/powerPlatform/referenceImplementation/auxiliary/powerPlatform'
         tenant           = @{
             low    = 'lowTenantDlpPolicy.json'
             medium = 'mediumTenantDlpPolicy.json'
