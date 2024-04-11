@@ -1430,7 +1430,13 @@
                                             "type": "Microsoft.Common.TextBox",
                                             "placeholder": "",
                                             "constraints": {
-                                                "required": true                                                
+                                                "required": true,
+                                                "validations": [
+                                                    {
+                                                        "regex": "^[a-z0-9A-Z]{1,30}$",
+                                                        "message": "Only alphanumeric characters are allowed, and the value must be 1-30 characters long."
+                                                    }
+                                                ]                                               
                                             }
                                         }
                                     }
@@ -1507,7 +1513,21 @@
                 "ppCitizenCurrency": "[steps('landingZones').ppCitizenCurrency]",
                 "ppCitizenRegion": "[steps('landingZones').ppCitizenRegion]",
                 "ppCitizenDlp": "[steps('landingZones').ppCitizenDlp]",
-                "ppCitizenManagedEnv": "[steps('landingZones').ppCitizenManagedEnv]",                                    
+                "ppCitizenManagedEnv": "[steps('landingZones').ppCitizenManagedEnv]",    
+                
+                "devEnvironment": "[steps('landingZones').devEnvironment]",
+
+                "testEnvironment": "[steps('landingZones').testEnvironment]",
+                "prodEnvironment": "[steps('landingZones').prodEnvironment]",
+                "adminEnvironment": "[steps('landingZones').adminEnvironment]",
+                "qaEnvironment": "[steps('landingZones').qaEnvironment]",
+                "uatEnvironment": "[steps('landingZones').uatEnvironment]",
+                "stagingEnvironment": "[steps('landingZones').stagingEnvironment]",
+                "trainingEnvironment": "[steps('landingZones').trainingEnvironment]",
+                "dataEnvironment": "[steps('landingZones').dataEnvironment]",
+                "integrationEnvironment": "[steps('landingZones').integrationEnvironment]",
+                "customEnvironments": "[replace(replace(replace(replace(replace(string(steps('landingZones').customEnvironments), '{', ''), '}', ''), '\"', ''), '[', ''), ']', '')]",
+
                 "ppD365SalesApp": "[steps('landingZones').ppD365SalesApp]",                  
                 "ppD365CustomerServiceApp": "[steps('landingZones').ppD365CustomerServiceApp]",   
                 "ppD365FieldServiceApp": "[steps('landingZones').ppD365FieldServiceApp]"
