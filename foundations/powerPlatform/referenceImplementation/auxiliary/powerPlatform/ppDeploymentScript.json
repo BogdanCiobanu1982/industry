@@ -195,8 +195,8 @@
             }
         },
         "scriptUri": {
-            "type": "string",
-            "defaultValue": "https://raw.githubusercontent.com/BogdanCiobanu1982/industry/main/foundations/powerPlatform/referenceImplementation/auxiliary/powerPlatform/nsPowerPlatform.ps1",
+            "type": "string",          
+            "defaultValue": "https://raw.githubusercontent.com/HemantKumar10/landingzones/main/foundations/powerPlatform/referenceImplementation/auxiliary/powerPlatform/nsPowerPlatform.ps1",
             "metadata": {
                 "description": "The uri pointing to the PowerShell script used in the deploymentScript"
             }
@@ -214,7 +214,87 @@
             "metadata": {
                 "description": "Select the currency for the environments."
             }
+        },   
+ "devEnvironment": {
+            "type": "string",
+            "defaultValue": "false",
+            "metadata": {
+                "description":"Provide naming convention for the citizen dev environments."
+            }
+        },
+
+"testEnvironment": {
+              "type": "string",
+            "defaultValue": "false",
+            "metadata": {
+                "description":"Provide naming convention for the citizen test environments."
+            }
+        },
+        "prodEnvironment": {
+             "type": "string",
+            "defaultValue": "false",
+            "metadata": {
+                "description": "Provide naming convention for the citizen prod environments."
+            }
+        },
+         "adminEnvironment": {
+              "type": "string",
+            "defaultValue": "false",
+            "metadata": {
+                "description": "Provide naming convention for the citizen admin environments."
+            }
         },       
+        "qaEnvironment": {
+            "type": "string",
+            "defaultValue": "false",
+            "metadata": {
+                "description": "Provide naming convention for the citizen qa environments."
+            }
+        },
+        "uatEnvironment": {
+             "type": "string",
+            "defaultValue": "false",
+            "metadata": {
+                "description": "Provide naming convention for the citizen uat environments."
+            }
+        },        
+        "stagingEnvironment": {
+             "type": "string",
+            "defaultValue": "false",
+            "metadata": {
+                "description": "Provide naming convention for the citizen staging environments."
+            }
+        },
+        "trainingEnvironment": {
+             "type": "string",
+            "defaultValue": "false",
+            "metadata": {
+                "description": "Provide naming convention for the citizen training environments."
+            }
+        },
+        "dataEnvironment": {
+              "type": "string",
+            "defaultValue": "false",
+            "metadata": {
+                "description": "Provide naming convention for the citizen data environments."
+            }
+        },
+         "integrationEnvironment": {
+          "type": "string",
+            "defaultValue": "false",
+            "metadata": {
+                "description": "Provide naming convention for the citizen integration environments."
+            }
+        },
+        
+          "customEnvironments": {
+            "type": "string",
+            "defaultValue": "",
+            "metadata": {
+                "description": "Provide strings for custom citizen Environment creation."
+            }
+        }  ,
+		
         "ppD365SalesApp": {
             "type": "string",
             "defaultValue": "false",
@@ -296,8 +376,19 @@
                                                     '-PPCitizenCurrency', ' ', parameters('ppCitizenCurrency'), ' ',
                                                     '-PPCitizenRegion', ' ', parameters('ppCitizenRegion'), ' ',
                                                     '-PPCitizenDlp', ' ', parameters('ppCitizenDlp'), ' ',
-                                                    '-PPCitizenManagedEnv', ' ', parameters('ppCitizenManagedEnv'), ' ',                                                                                                   
-                                                    '-ppD365SalesApp', ' ', parameters('ppD365SalesApp'), ' ',                                                    
+                                                    '-PPCitizenManagedEnv', ' ', parameters('ppCitizenManagedEnv'), ' ', 
+                                                    '-devEnvironment', ' ', parameters('devEnvironment'), ' ',     
+                                                    '-testEnvironment', ' ', parameters('testEnvironment'), ' ',  
+                                                    '-prodEnvironment', ' ', parameters('prodEnvironment'), ' ',   
+                                                    '-adminEnvironment', ' ', parameters('adminEnvironment'), ' ',   
+                                                    '-qaEnvironment', ' ', parameters('qaEnvironment'), ' ',   
+                                                    '-uatEnvironment', ' ', parameters('uatEnvironment'), ' ',   
+                                                    '-stagingEnvironment', ' ', parameters('stagingEnvironment'), ' ',   
+                                                    '-trainingEnvironment', ' ', parameters('trainingEnvironment'), ' ',   
+                                                    '-dataEnvironment', ' ', parameters('dataEnvironment'), ' ',   
+                                                    '-integrationEnvironment', ' ', parameters('integrationEnvironment'), ' ',   
+                                                    '-customEnvironments', ' ', parameters('customEnvironments'), ' ', 
+                                                     '-ppD365SalesApp', ' ',  parameters('ppD365SalesApp'), ' ', 
                                                     '-ppD365CustomerServiceApp', ' ', parameters('ppD365CustomerServiceApp'), ' ',
                                                     '-ppD365FieldServiceApp', ' ', parameters('ppD365FieldServiceApp'), ' '                                                                                                
                                                     )]",
