@@ -24,10 +24,29 @@ param (
     [Parameter(Mandatory = $false)][string][AllowEmptyString()][AllowNull()]$PPCitizenDlp,    
     [Parameter(Mandatory = $false)][string][AllowEmptyString()][AllowNull()]$PPCitizenManagedEnv,        
     [Parameter(Mandatory = $false)][string][AllowEmptyString()][AllowNull()]$PPCitizenCurrency,
-    [Parameter(Mandatory = $false)][string][AllowEmptyString()][AllowNull()]$PPCitizenLanguage,     
+    [Parameter(Mandatory = $false)][string][AllowEmptyString()][AllowNull()]$PPCitizenLanguage,  
+
+    [Parameter(Mandatory = $false)][string][AllowEmptyString()][AllowNull()]$devEnvironment,    
+    [Parameter(Mandatory = $false)][string][AllowEmptyString()][AllowNull()]$testEnvironment,
+    [Parameter(Mandatory = $false)][string][AllowEmptyString()][AllowNull()]$prodEnvironment  ,
+    [Parameter(Mandatory = $false)][string][AllowEmptyString()][AllowNull()]$adminEnvironment,
+    [Parameter(Mandatory = $false)][string][AllowEmptyString()][AllowNull()]$qaEnvironment,
+    [Parameter(Mandatory = $false)][string][AllowEmptyString()][AllowNull()]$uatEnvironment ,
+    [Parameter(Mandatory = $false)][string][AllowEmptyString()][AllowNull()]$stagingEnvironment,
+    [Parameter(Mandatory = $false)][string][AllowEmptyString()][AllowNull()]$trainingEnvironment,
+    [Parameter(Mandatory = $false)][string][AllowEmptyString()][AllowNull()]$dataEnvironment ,
+    [Parameter(Mandatory = $false)][string][AllowEmptyString()][AllowNull()]$integrationEnvironment,  
+    [Parameter(Mandatory = $false)]$customEnvironments,
+
     [Parameter(Mandatory = $false)][string][AllowEmptyString()][AllowNull()]$ppD365SalesApp,
     [Parameter(Mandatory = $false)][string][AllowEmptyString()][AllowNull()]$ppD365CustomerServiceApp,
-    [Parameter(Mandatory = $false)][string][AllowEmptyString()][AllowNull()]$ppD365FieldServiceApp        
+    [Parameter(Mandatory = $false)][string][AllowEmptyString()][AllowNull()]$ppD365FieldServiceApp
+
+    
+    
+    
+
+
 )
 
 $DeploymentScriptOutputs = @{}
@@ -35,7 +54,46 @@ $DeploymentScriptOutputs = @{}
 Install-Module -Name PowerOps -AllowPrerelease -Force   
 
 #Default ALM environment tiers
-$envTiers = 'admin','dev','test','prod'
+#$envTiers = 'admin','dev','test','prod'
+
+
+
+#Starts here: Defining Custom EnvTiers
+$envTiers = @()
+if ($devEnvironment -eq 'true'  ) {          
+    $envTiers += 'dev'   
+}
+if ($testEnvironment -eq 'true'  ) {          
+    $envTiers += 'test'   
+}
+if ($prodEnvironment -eq 'true'  ) {          
+    $envTiers += 'prod'   
+}
+if ($adminEnvironment -eq 'true'  ) {          
+    $envTiers += 'admin'   
+}
+if ($qaEnvironment -eq 'true'  ) {          
+    $envTiers += 'qa'   
+}
+if ($uatEnvironment -eq 'true'  ) {          
+    $envTiers += 'uat'   
+}
+if ($stagingEnvironment -eq 'true'  ) {          
+    $envTiers += 'staging'   
+}
+if ($trainingEnvironment -eq 'true'  ) {          
+    $envTiers += 'training'   
+}
+if ($dataEnvironment -eq 'true'  ) {          
+    $envTiers += 'data'   
+}
+if ($integrationEnvironment -eq 'true'  ) {          
+    $envTiers += 'integration'   
+}
+
+
+
+#Ends Here
 
 $Global:envAdminName = ''
 $Global:envTestName = ''
@@ -62,34 +120,82 @@ function New-EnvironmentCreationObject {
     $envSku = 'Sandbox'                 
     if ($true -eq $EnvALM) {                
         foreach ($envTier in $envTiers) {                 
-            if($envTier -eq 'dev'){                                          
-                $createdSecurityGroup = New-CreateSecurityGroup -EnvironmentType dev                                    
+            if($envTier -eq 'dev' -and $devEnvironment -eq 'true'){      
+                $Global:envDevName =  "{0}-{1}" -f $environmentName, $envTier 
+                $createdSecurityGroup = New-CreateSecurityGroup -EnvironmentName 'Development' -SecurityGroupName "entra_powerplatform_development" -SecurityGroupNickName "PowerPlatformDevelopmentGroup"                                
                 $securityGroupId = $createdSecurityGroup
                 $envSku = 'Sandbox'  
                 $envDescription = 'Environment used for development purposes'
-                $Global:envDevName =  "{0}-{1}" -f $environmentName, $envTier    
+                   
             }
-            if ( $envTier -eq 'test' ){
-                $createdSecurityGroup = New-CreateSecurityGroup -EnvironmentType test
+            if ( $envTier -eq 'test' -and $testEnvironment -eq 'true' ){
+                $Global:envTestName =  "{0}-{1}" -f $environmentName, $envTier  
+                $createdSecurityGroup = New-CreateSecurityGroup -EnvironmentName 'Test' -SecurityGroupName "entra_powerplatform_test" -SecurityGroupNickName "PowerPlatformTestGroup"    
                 $securityGroupId = $createdSecurityGroup
                 $envSku = 'Sandbox'  
                 $envDescription = 'Environment used for testing purposes'
-                $Global:envTestName =  "{0}-{1}" -f $environmentName, $envTier      
+                
             }
-            if ( $envTier -eq 'prod' ){
-                $createdSecurityGroup = New-CreateSecurityGroup -EnvironmentType prod
+            if ( $envTier -eq 'prod'  -and $prodEnvironment -eq 'true' ){
+                $Global:envProdName =  "{0}-{1}" -f $environmentName, $envTier  
+                $createdSecurityGroup = New-CreateSecurityGroup -EnvironmentName 'Production' -SecurityGroupName "entra_powerplatform_production" -SecurityGroupNickName "PowerPlatformProductionGroup" 
                 $securityGroupId = $createdSecurityGroup
                 $envSku ='Production'      
                 $envDescription = 'Environment used for production purposes' 
-                $Global:envProdName =  "{0}-{1}" -f $environmentName, $envTier                  
+                             
             }
-            if ( $envTier -eq 'admin' ){
-                $createdSecurityGroup = New-CreateSecurityGroup -EnvironmentType admin
+            if ( $envTier -eq 'admin'  -and $adminEnvironment -eq 'true' ){
+                $createdSecurityGroup = New-CreateSecurityGroup -EnvironmentName 'Admin' -SecurityGroupName "entra_powerplatform_admin" -SecurityGroupNickName "PowerPlatformAdminGroup" 
                 $securityGroupId = $createdSecurityGroup                
                 $envSku ='Production'
                 $envDescription = 'Environment used for administration purposes'     
                 $Global:envAdminName =  "{0}-{1}" -f $environmentName, $envTier                   
             }
+
+            #Adding conditions for new environment types
+            if ( $envTier -eq 'qa'  -and $qaEnvironment -eq 'true' ){
+                $createdSecurityGroup = New-CreateSecurityGroup -EnvironmentName 'QA' -SecurityGroupName "entra_powerplatform_qa" -SecurityGroupNickName "PowerPlatformQAGroup" 
+                $securityGroupId = $createdSecurityGroup                
+                $envSku ='Sandbox'
+                $envDescription = 'Environment used for qa purposes'     
+                           
+            }
+            if ( $envTier -eq 'uat'  -and $uatEnvironment -eq 'true' ){
+                $createdSecurityGroup = New-CreateSecurityGroup -EnvironmentName 'UAT' -SecurityGroupName "entra_powerplatform_uat" -SecurityGroupNickName "PowerPlatformUATGroup" 
+                $securityGroupId = $createdSecurityGroup                
+                $envSku ='Sandbox'
+                $envDescription = 'Environment used for uat purposes'     
+                         
+            }
+            if ( $envTier -eq 'staging'  -and $stagingEnvironment -eq 'true' ){
+                $createdSecurityGroup = New-CreateSecurityGroup -EnvironmentName 'Staging' -SecurityGroupName "entra_powerplatform_staging" -SecurityGroupNickName "PowerPlatformStagingGroup" 
+                $securityGroupId = $createdSecurityGroup                
+                $envSku ='Sandbox'
+                $envDescription = 'Environment used for staging purposes'     
+                           
+            }
+            if ( $envTier -eq 'training'  -and $trainingEnvironment -eq 'true' ){
+                $createdSecurityGroup = New-CreateSecurityGroup -EnvironmentName 'Training' -SecurityGroupName "entra_powerplatform_training" -SecurityGroupNickName "PowerPlatformTrainingGroup" 
+                $securityGroupId = $createdSecurityGroup                
+                $envSku ='Sandbox'
+                $envDescription = 'Environment used for training purposes'     
+                          
+            }
+            if ( $envTier -eq 'data' -and $dataEnvironment -eq 'true' ){
+                $createdSecurityGroup = New-CreateSecurityGroup -EnvironmentName 'Data' -SecurityGroupName "entra_powerplatform_data" -SecurityGroupNickName "PowerPlatformDataGroup" 
+                $securityGroupId = $createdSecurityGroup                
+                $envSku ='Sandbox'
+                $envDescription = 'Environment used for data purposes'     
+                  
+            }
+            if ( $envTier -eq 'integration' -and $integrationEnvironment -eq 'true' ){
+                $createdSecurityGroup = New-CreateSecurityGroup -EnvironmentName 'Integration' -SecurityGroupName "entra_powerplatform_integration" -SecurityGroupNickName "PowerPlatformIntegrationGroup" 
+                $securityGroupId = $createdSecurityGroup                
+                $envSku ='Sandbox'
+                $envDescription = 'Environment used for integration purposes'     
+                  
+            }
+          
 
             [PSCustomObject]@{
                 envName        = "{0}-{1}" -f $environmentName, $envTier                        
@@ -105,12 +211,59 @@ function New-EnvironmentCreationObject {
     }   
 }
 
+
+#New Custom Environment Creation Object
+function New-CustomEnvironmentCreationObject {
+    if (-not [string]::IsNullOrEmpty($customEnvironments)) 
+    {
+         try {
+            $customEnv = ($customEnvironments -join ',') 
+            #Write-Output "Custom Env: $($customEnv)"
+            foreach ($env in ($customEnv -split 'ppEnvName:')) {
+                $environment = $env.TrimEnd(',')
+                $envNameTemp = ($environment -split (','))[0]
+                if(-not [string]::IsNullOrEmpty($envNameTemp)){
+                $createdSecurityGroup = New-CreateSecurityGroup -EnvironmentName $($envNameTemp) -SecurityGroupName "entra_powerplatform_$($envNameTemp.ToLower())" -SecurityGroupNickName "PowerPlatform$($envNameTemp)Group"
+                $securityGroupId = $createdSecurityGroup 
+                [PSCustomObject]@{
+                    envName        = ($environment -split (','))[0]
+                    envRegion      = $PPCitizenRegion
+                    envDataverse   = $true
+                    envLanguage    = $PPCitizenLanguage
+                    envCurrency    = $PPCitizenCurrency
+                    envDescription = $(($environment -split (','))[1].Split(':')[1])
+                    envRbac        = $securityGroupId
+                    envSku         = 'Sandbox'
+                }
+             }
+              
+            }
+         }
+         catch {
+            Write-Output "Custom Env $($customEnvironments) failed`r`n$_" 
+         }
+       
+    }
+}
+
 function New-CreateSecurityGroup {
     param (      
-        [Parameter(Mandatory = $true)][string]$EnvironmentType
+        [Parameter(Mandatory = $true)][string]$EnvironmentName,
+        [Parameter(Mandatory = $true)][string]$SecurityGroupName,
+        [Parameter(Mandatory = $true)][string]$SecurityGroupNickName
     )
 
-        $devSecurityGroup = @{
+
+      
+    $createSecurityGroup = @{
+        description="Security Group used for Power Platform - $($EnvironmentName) environment"
+        displayName= $SecurityGroupName
+        mailEnabled=$false
+        securityEnabled=$true
+        mailNickname= $SecurityGroupNickName
+       }
+
+       <# $devSecurityGroup = @{
             description="Security Group used for Power Platform - Development environment"
             displayName="entra_powerplatform_development"
             mailEnabled=$false
@@ -140,7 +293,7 @@ function New-CreateSecurityGroup {
              mailEnabled=$false
              securityEnabled=$true
              mailNickname="PowerPlatformAdminGroup"
-            }
+            }#>
                 
             $Value =''
             # Code Begins
@@ -156,7 +309,7 @@ function New-CreateSecurityGroup {
                 "Authorization" = "Bearer $($Token)"
             }
            # Declaring the HTTP Post request
-            $PostBody = @{             
+           <# $PostBody = @{             
             }
             if ($EnvironmentType -eq "dev") {          
                 $PostBody = $devSecurityGroup   
@@ -169,8 +322,11 @@ function New-CreateSecurityGroup {
             }
             elseif ($EnvironmentType -eq "admin") {          
                 $PostBody = $adminSecurityGroup   
-            }           
-        
+            }   
+            #>
+            
+
+            $PostBody = $createSecurityGroup   
             $PostParameters = @{
                 "Uri"         = "$($PostGroups)"
                 "Method"      = "Post"
@@ -221,8 +377,22 @@ function New-InstallPackaggeToEnvironment {
             $outputPackage = Invoke-RestMethod @PostParameters 
             $operationId =  $outputPackage.lastOperation.operationId  
             Write-Output "Application Installation $($PackageName) in progress"  
-            Start-Sleep -Seconds 15   
-            New-GetApplicationInstallStatus -OperationId $operationId -EnvironmentId $EnvironmentId -EnvironmentURL $EnvironmentURL -EnvironmentName $Global:envAdminName -EnvironmentType '200000000'         
+
+            if ($devEnvironment -eq 'true' -and 
+            $testEnvironment -eq 'true' -and 
+            $prodEnvironment -eq 'true' -and 
+            $adminEnvironment -eq 'true' -and
+            $envTiers.contains('qa') -eq $false -and
+            $envTiers.contains('uat') -eq $false -and
+            $envTiers.contains('staging') -eq $false -and
+            $envTiers.contains('training') -eq $false -and
+            $envTiers.contains('data') -eq $false -and
+            $envTiers.contains('integration') -eq $false -and
+            ([string]::IsNullOrEmpty($PPCitizenConfiguration))
+            ) {    
+                  Start-Sleep -Seconds 15   
+                  New-GetApplicationInstallStatus -OperationId $operationId -EnvironmentId $EnvironmentId -EnvironmentURL $EnvironmentURL -EnvironmentName $Global:envAdminName -EnvironmentType '200000000'    
+            }     
            
         }
         catch {            
@@ -687,7 +857,7 @@ function New-DLPAssignmentFromEnv {
     )
     #DLP Template references
     $dlpPolicies = @{
-        baseUri          = 'https://raw.githubusercontent.com/BogdanCiobanu1982/industry/main/foundations/powerPlatform/referenceImplementation/auxiliary/powerPlatform/'
+        baseUri          = 	'https://raw.githubusercontent.com/BogdanCiobanu1982/industry/main/foundations/powerPlatform/referenceImplementation/auxiliary/powerPlatform'
         tenant           = @{
             low    = 'lowTenantDlpPolicy.json'
             medium = 'mediumTenantDlpPolicy.json'
@@ -873,11 +1043,19 @@ if ($PPCitizen -in "yes")
             EnvDataverse    = $PPCitizen -eq 'Yes'            
         }
         $environmentsToCreate = New-EnvironmentCreationObject @envHt
+        if (-not [string]::IsNullOrEmpty($customEnvironments)) 
+        {
+            $customEnvironmentsToCreate = New-CustomEnvironmentCreationObject 
+           if ($customEnvironmentsToCreate) {
+            [array] $environmentsToCreate += $customEnvironmentsToCreate 
+          }  
+    
+        }
+
     }
     catch {
         throw "Failed to create environment object. Input data is malformed. '`r`n$_'"
-    }
-    
+    }  
     foreach ($environment in $environmentsToCreate) 
     {             
         try {
@@ -893,7 +1071,7 @@ if ($PPCitizen -in "yes")
                 EnvSku             = $environment.envSKu                                           
             }  
 
-            Write-Output "Create Environment: $($envCreationHt.Name)" 
+            Write-Output "Create Environment: $($envCreationHt.Name) Started.." 
                                    
             # Get token to authenticate to Power Platform
             $Token = (Get-AzAccessToken).Token   
@@ -952,6 +1130,7 @@ if ($PPCitizen -in "yes")
         
             try {
                 $response = Invoke-RestMethod @PostParameters   
+                Write-Output "Create Environment: $($envCreationHt.Name) Completed" 
                 #Write-Host ($response | Format-List | Out-String)                            
             }
             catch {
@@ -971,25 +1150,25 @@ if ($PPCitizen -in "yes")
     #region Install Power Platform Pipeline App in Admin Envrionemnt        
     Start-Sleep -Seconds 10         
     
-    If($PPCitizenAlm -eq 'Yes'){
+    If($PPCitizenAlm -eq 'Yes' -and $adminEnvironment -eq 'true'){
             try {                
                 Write-Output "Admin: $envAdminName"  
                 $adminEnvAttempts = 0
                 do {
                     $adminEnvAttempts++
-                    $adminEnvironment = Get-PowerOpsEnvironment | Where-Object { $_.Properties.displayName -eq $Global:envAdminName }                    
-                    if ($null -eq $adminEnvironment.properties.linkedEnvironmentMetadata.instanceApiUrl -or 
-                    $adminEnvironment.properties.linkedEnvironmentMetadata.instanceApiUrl -eq '' -or 
-                    $adminEnvironment.properties.provisioningState -ne 'Succeeded' ) {                 
+                    $getAdminEnvironment = Get-PowerOpsEnvironment | Where-Object { $_.Properties.displayName -eq $Global:envAdminName }                    
+                    if ($null -eq $getAdminEnvironment.properties.linkedEnvironmentMetadata.instanceApiUrl -or 
+                    $getAdminEnvironment.properties.linkedEnvironmentMetadata.instanceApiUrl -eq '' -or 
+                    $getAdminEnvironment.properties.provisioningState -ne 'Succeeded' ) {                 
                         Start-Sleep -Seconds 15
                     }
                     else {
-                        Write-Output "Admin Id: $($adminEnvironment.name)   attempt $($adminEnvAttempts)"  
+                        Write-Output "Admin Id: $($getAdminEnvironment.name) attempt $($adminEnvAttempts)"  
                     }
-                  } until ( ($null -ne $adminEnvironment.properties.linkedEnvironmentMetadata.instanceApiUrl -and $adminEnvironment.properties.provisioningState -eq 'Succeeded' ) -or $adminEnvAttempts -eq 20)
+                  } until ( ($null -ne $getAdminEnvironment.properties.linkedEnvironmentMetadata.instanceApiUrl -and $getAdminEnvironment.properties.provisioningState -eq 'Succeeded' ) -or $adminEnvAttempts -eq 20)
                   
-                   if ($null -ne $adminEnvironment.properties.linkedEnvironmentMetadata.instanceApiUrl) {
-                    New-InstallPackaggeToEnvironment -EnvironmentId $($adminEnvironment.name) -PackageName 'msdyn_AppDeploymentAnchor' -EnvironmentURL $($adminEnvironment.properties.linkedEnvironmentMetadata.instanceApiUrl)
+                   if ($null -ne $getAdminEnvironment.properties.linkedEnvironmentMetadata.instanceApiUrl) {
+                    New-InstallPackaggeToEnvironment -EnvironmentId $($getAdminEnvironment.name) -PackageName 'msdyn_AppDeploymentAnchor' -EnvironmentURL $($getAdminEnvironment.properties.linkedEnvironmentMetadata.instanceApiUrl)
                    }  
                    else {
                     Write-Output "Admin Environment is not ready or URL is empty"   
